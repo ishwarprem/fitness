@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Training Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 87, 34, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: #ff5722;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.3);
+            border-bottom: 3px solid #ff5722;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff5722, transparent);
+            animation: shine 2s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.8),
+                         0 0 40px rgba(255, 87, 34, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 87, 34, 0.8), 0 0 40px rgba(255, 87, 34, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 87, 34, 1), 0 0 60px rgba(255, 87, 34, 0.7); }
+        }
+
+        header p {
+            font-size: 1.3rem;
+            color: #ccc;
+            letter-spacing: 2px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .muscle-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .muscle-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8),
+                        inset 0 0 30px rgba(255, 87, 34, 0.1);
+            transition: all 0.4s ease;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .muscle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 87, 34, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .muscle-card:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .muscle-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 87, 34, 0.4),
+                        inset 0 0 50px rgba(255, 87, 34, 0.2);
+            border-color: #ff5722;
+        }
+
+        .muscle-card h2 {
+            color: #ff5722;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        .detail-btn {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.4);
+            font-family: 'Impact', sans-serif;
+        }
+
+        .detail-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.8);
+            background: linear-gradient(135deg, #ff7043 0%, #ff5722 100%);
+        }
+
+        .detail-btn:active {
+            transform: scale(0.98);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #444 0%, #666 100%);
+            margin-bottom: 2rem;
+            max-width: 250px;
+            color: #fff;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #666 0%, #888 100%);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-page {
+            display: none;
+        }
+
+        .detail-page.active {
+            display: block;
+            animation: explodeIn 0.5s ease;
+        }
+
+        .main-page.hidden {
+            display: none;
+        }
+
+        @keyframes explodeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            60% {
+                transform: scale(1.05) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .subsection-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            border-left: 5px solid #ff5722;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5),
+                        inset 0 0 20px rgba(255, 87, 34, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .subsection-card:hover {
+            transform: translateX(10px);
+            border-left-width: 8px;
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.3);
+        }
+
+        .subsection-card h3 {
+            color: #ff5722;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        .exercise-item {
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-item:hover {
+            transform: translateX(5px);
+            border-color: #ff5722;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.3);
+        }
+
+        .exercise-item h4 {
+            color: #ff7043;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .exercise-item p {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .page-title {
+            color: #ff5722;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        footer {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #888;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            border-top: 3px solid #ff5722;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .muscle-groups {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff5722 0%, #ff7043 100%);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff7043 0%, #ff5722 100%);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FITNESS TRAINING HUB</h1>
+        <p>UNLEASH YOUR POTENTIAL</p>
+    </header>
+
+    <div class="container">
+        <!-- Main Page -->
+        <div id="mainPage" class="main-page">
+            <div class="muscle-groups">
+                <!-- Back -->
+                <div class="muscle-card">
+                    <h2>BACK</h2>
+                    <button class="detail-btn" onclick="showDetail('back')">DESTROY BACK</button>
+                </div>
+
+                <!-- Biceps -->
+                <div class="muscle-card">
+                    <h2>BICEPS</h2>
+                    <button class="detail-btn" onclick="showDetail('biceps')">PUMP BICEPS</button>
+                </div>
+
+                <!-- Triceps -->
+                <div class="muscle-card">
+                    <h2>TRICEPS</h2>
+                    <button class="detail-btn" onclick="showDetail('triceps')">BUILD TRICEPS</button>
+                </div>
+
+                <!-- Shoulders -->
+                <div class="muscle-card">
+                    <h2>SHOULDERS</h2>
+                    <button class="detail-btn" onclick="showDetail('shoulders')">CRUSH SHOULDERS</button>
+                </div>
+
+                <!-- Forearms -->
+                <div class="muscle-card">
+                    <h2>FOREARMS</h2>
+                    <button class="detail-btn" onclick="showDetail('forearms')">GRIP POWER</button>
+                </div>
+
+                <!-- Legs -->
+                <div class="muscle-card">
+                    <h2>LEGS</h2>
+                    <button class="detail-btn" onclick="showDetail('legs')">OBLITERATE LEGS</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Detail Page -->
+        <div id="backDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">BACK MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>UPPER BACK</h3>
+                <div class="exercise-item">
+                    <h4>Pull-Ups (Wide Grip)</h4>
+                    <p>3-4 sets of 8-12 reps. Targets upper lats and teres major for width.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Face Pulls</h4>
+                    <p>3 sets of 15-20 reps. Excellent for rear delts and upper back thickness.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>High Cable Rows</h4>
+                    <p>3 sets of 10-12 reps. Builds upper back density and trapezius.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>MID BACK</h3>
+                <div class="exercise-item">
+                    <h4>Barbell Rows</h4>
+                    <p>4 sets of 8-10 reps. Core exercise for mid-back thickness.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>T-Bar Rows</h4>
+                    <p>3-4 sets of 8-12 reps. Great for middle back development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Seated Cable Rows</h4>
+                    <p>3 sets of 10-12 reps. Isolates middle back muscles effectively.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>LOWER BACK</h3>
+                <div class="exercise-item">
+                    <h4>Deadlifts</h4>
+                    <p>3-4 sets of 5-8 reps. The king of lower back and posterior chain development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Hyperextensions</h4>
+                    <p>3 sets of 12-15 reps. Strengthens erector spinae and lower back.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Good Mornings</h4>
+                    <p>3 sets of 10-12 reps. Builds lower back strength and hamstring flexibility.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biceps Detail Page -->
+        <div id="bicepsDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">BICEPS MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>LONG HEAD</h3>
+                <div class="exercise-item">
+                    <h4>Incline Dumbbell Curls</h4>
+                    <p>3-4 sets of 10-12 reps. Stretches and targets the long head for peak development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Wide Grip Barbell Curls</h4>
+                    <p>3 sets of 8-12 reps. Emphasizes long head activation.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>SHORT HEAD</h3>
+                <div class="exercise-item">
+                    <h4>Close Grip EZ Bar Curls</h4>
+                    <p>3-4 sets of 10-12 reps. Targets inner biceps for thickness.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Concentration Curls</h4>
+                    <p>3 sets of 10-15 reps. Maximum isolation of short head.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>BRACHIALIS</h3>
+                <div class="exercise-item">
+                    <h4>Hammer Curls</h4>
+                    <p>3 sets of 10-12 reps. Primary exercise for brachialis thickness.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Reverse Curls</h4>
+                    <p>3 sets of 10-12 reps. Works brachialis and brachioradialis.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triceps Detail Page -->
+        <div id="tricepsDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">TRICEPS MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>LONG HEAD</h3>
+                <div class="exercise-item">
+                    <h4>Overhead Tricep Extensions</h4>
+                    <p>3-4 sets of 10-12 reps. Primary exercise for long head development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Lying Tricep Extensions (Skull Crushers)</h4>
+                    <p>3 sets of 8-12 reps. Excellent mass builder for long head.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>LATERAL HEAD</h3>
+                <div class="exercise-item">
+                    <h4>Cable Pushdowns (Rope)</h4>
+                    <p>3 sets of 12-15 reps. Isolates lateral head for definition.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Dips</h4>
+                    <p>3-4 sets of 8-12 reps. Great for lateral head development.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>MEDIAL HEAD</h3>
+                <div class="exercise-item">
+                    <h4>Close-Grip Bench Press</h4>
+                    <p>4 sets of 8-10 reps. Compound movement hitting all three heads.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Reverse Grip Pushdowns</h4>
+                    <p>3 sets of 12-15 reps. Emphasizes medial head activation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shoulders Detail Page -->
+        <div id="shouldersDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">SHOULDER MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>ANTERIOR DELTOID</h3>
+                <div class="exercise-item">
+                    <h4>Front Raises</h4>
+                    <p>3 sets of 10-12 reps. Isolates front deltoids.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Military Press</h4>
+                    <p>4 sets of 8-10 reps. Primary mass builder for front delts.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>LATERAL DELTOID</h3>
+                <div class="exercise-item">
+                    <h4>Lateral Raises</h4>
+                    <p>3-4 sets of 12-15 reps. Essential for shoulder width.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Upright Rows</h4>
+                    <p>3 sets of 10-12 reps. Builds lateral deltoid mass.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>POSTERIOR DELTOID</h3>
+                <div class="exercise-item">
+                    <h4>Rear Delt Flyes</h4>
+                    <p>3 sets of 12-15 reps. Critical for rear delt development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Face Pulls</h4>
+                    <p>3 sets of 15-20 reps. Excellent for rear delts and shoulder health.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forearms Detail Page -->
+        <div id="forearmsDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">FOREARM MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>FLEXORS</h3>
+                <div class="exercise-item">
+                    <h4>Wrist Curls</h4>
+                    <p>3 sets of 15-20 reps. Builds forearm flexor mass.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Reverse Curls</h4>
+                    <p>3 sets of 10-12 reps. Works flexors and brachioradialis.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>EXTENSORS</h3>
+                <div class="exercise-item">
+                    <h4>Reverse Wrist Curls</h4>
+                    <p>3 sets of 15-20 reps. Targets forearm extensors.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Wrist Rollers</h4>
+                    <p>3 sets to failure. Complete forearm extensor workout.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>GRIP STRENGTH</h3>
+                <div class="exercise-item">
+                    <h4>Farmer's Walks</h4>
+                    <p>3 sets of 30-60 seconds. Builds overall forearm and grip strength.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Dead Hangs</h4>
+                    <p>3 sets of max time. Develops grip endurance and strength.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legs Detail Page -->
+        <div id="legsDetail" class="detail-page">
+            <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+            <h2 class="page-title">LEG MUSCLES</h2>
+            
+            <div class="subsection-card">
+                <h3>QUADRICEPS</h3>
+                <div class="exercise-item">
+                    <h4>Barbell Squats</h4>
+                    <p>4 sets of 8-12 reps. The king of quad development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Leg Press</h4>
+                    <p>3-4 sets of 10-15 reps. Great for quad mass with less spinal load.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Leg Extensions</h4>
+                    <p>3 sets of 12-15 reps. Isolates quadriceps for definition.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>HAMSTRINGS</h3>
+                <div class="exercise-item">
+                    <h4>Romanian Deadlifts</h4>
+                    <p>3-4 sets of 8-10 reps. Primary hamstring mass builder.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Leg Curls</h4>
+                    <p>3 sets of 12-15 reps. Isolates hamstrings effectively.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Stiff-Leg Deadlifts</h4>
+                    <p>3 sets of 10-12 reps. Stretches and builds hamstrings.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>GLUTES</h3>
+                <div class="exercise-item">
+                    <h4>Hip Thrusts</h4>
+                    <p>3-4 sets of 10-12 reps. Best exercise for glute development.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Bulgarian Split Squats</h4>
+                    <p>3 sets of 10-12 reps per leg. Builds glutes and overall leg strength.</p>
+                </div>
+            </div>
+
+            <div class="subsection-card">
+                <h3>CALVES</h3>
+                <div class="exercise-item">
+                    <h4>Standing Calf Raises</h4>
+                    <p>4 sets of 15-20 reps. Targets gastrocnemius for calf mass.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Seated Calf Raises</h4>
+                    <p>3 sets of 15-20 reps. Works soleus for complete calf development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 FITNESS TRAINING HUB | NO PAIN, NO GAIN</p>
+    </footer>
+
+    <script>
+        function showDetail(muscle) {
+            document.getElementById('mainPage').classList.add('hidden');
+            document.getElementById(muscle + 'Detail').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showMain() {
+            const detailPages = document.querySelectorAll('.detail-page');
+            detailPages.forEach(page => page.classList.remove('active'));
+            document.getElementById('mainPage').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
