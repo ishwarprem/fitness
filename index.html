@@ -497,6 +497,39 @@
             align-self: flex-start;
             border-bottom-left-radius: 0;
         }
+        
+        /* --- NEW: Styles for the pulsing dot animation --- */
+        #typing-indicator p {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #777;
+            border-radius: 50%;
+            animation: typing-pulse 1.4s infinite ease-in-out both;
+        }
+
+        #typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        #typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing-pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1.0);
+            }
+        }
+        /* --- End of new styles --- */
 
         #chatForm {
             display: flex;
@@ -1059,7 +1092,7 @@
 
         // =======================================================
         // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q";
+        const API_KEY = "YOUR_API_KEY_HERE";
         // =======================================================
 
         // Import the GoogleGenerativeAI library
@@ -1120,7 +1153,7 @@
             userInput.value = "";
 
             // Show typing indicator
-            addMessageToChatWindow("...", "ai", true);
+            addMessageToChatWindow("", "ai", true); // NEW: Pass an empty string for the message
 
             try {
                 const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
@@ -1143,13 +1176,16 @@
             messageDiv.className = `message ${sender}-message ${customClass}`;
 
             const p = document.createElement('p');
-            p.textContent = message;
-            messageDiv.appendChild(p);
-
+            
+            // NEW: If it's the typing indicator, add the dot spans, otherwise add text
             if (isTyping) {
+                p.innerHTML = '<span></span><span></span><span></span>';
                 messageDiv.id = 'typing-indicator';
+            } else {
+                p.textContent = message;
             }
 
+            messageDiv.appendChild(p);
             chatWindow.appendChild(messageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
         }
@@ -1157,9 +1193,9 @@
         function updateLastMessage(newMessage) {
             const typingIndicator = document.getElementById('typing-indicator');
             if (typingIndicator) {
-                // Sanitize and format the response slightly
                 const formattedMessage = newMessage.replace(/\*/g, '').trim();
-                typingIndicator.querySelector('p').textContent = formattedMessage;
+                // NEW: Replace the dots inside the <p> with the final text message
+                typingIndicator.querySelector('p').innerHTML = formattedMessage;
                 typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
             }
         }
