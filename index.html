@@ -386,6 +386,172 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #ff7043 0%, #ff5722 100%);
         }
+
+        /* --- GymCoach Sidebar Styles --- */
+        #coachToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.6);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #coachToggleBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.8);
+        }
+
+        #gymCoachSidebar {
+            position: fixed;
+            bottom: 20px;
+            right: -450px; /* Start off-screen */
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff5722;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+        }
+
+        #gymCoachSidebar.active {
+            right: 20px;
+        }
+
+        #sidebarHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            border-bottom: 2px solid #ff5722;
+        }
+
+        #sidebarHeader h3 {
+            color: #ff5722;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        #closeCoachBtn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #closeCoachBtn:hover {
+            color: #ff5722;
+        }
+
+        #chatWindow {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            max-width: 85%;
+            line-height: 1.5;
+            font-family: 'Arial', sans-serif;
+            animation: messageFadeIn 0.3s ease;
+        }
+
+        @keyframes messageFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .ai-message {
+            background: #333;
+            color: #ccc;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        #chatForm {
+            display: flex;
+            padding: 1rem;
+            border-top: 2px solid #111;
+            background: #1a1a1a;
+        }
+
+        #userInput {
+            flex-grow: 1;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 0.8rem;
+            color: #fff;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #userInput:focus {
+            outline: none;
+            border-color: #ff5722;
+        }
+
+        #chatForm button {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            border: none;
+            color: #000;
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            font-family: 'Impact', sans-serif;
+        }
+
+        #chatForm button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments for sidebar */
+        @media (max-width: 480px) {
+            #gymCoachSidebar {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: -100%;
+                border-radius: 0;
+                border: none;
+            }
+            #gymCoachSidebar.active {
+                right: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -437,6 +603,7 @@
             </div>
         </div>
 
+        <!-- Detail Pages (Content unchanged) -->
         <!-- Back Detail Page -->
         <div id="backDetail" class="detail-page">
             <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
@@ -810,7 +977,26 @@
         <p>© 2025 FITNESS TRAINING HUB | NO PAIN, NO GAIN</p>
     </footer>
 
+    <!-- GymCoach AI Assistant HTML -->
+    <button id="coachToggleBtn" title="Open GymCoach AI">💪</button>
+    <div id="gymCoachSidebar">
+        <div id="sidebarHeader">
+            <h3>GYMCOACH AI</h3>
+            <button id="closeCoachBtn" title="Close Chat">&times;</button>
+        </div>
+        <div id="chatWindow">
+            <div class="message ai-message">
+                <p>Hey! I'm GymCoach. Ask me anything about fitness, exercises, or nutrition!</p>
+            </div>
+        </div>
+        <form id="chatForm">
+            <input type="text" id="userInput" placeholder="Ask a question..." autocomplete="off" required>
+            <button type="submit" title="Send Message">SEND</button>
+        </form>
+    </div>
+
     <script>
+        // --- Original Website Script ---
         function showDetail(muscle) {
             document.getElementById('mainPage').classList.add('hidden');
             document.getElementById(muscle + 'Detail').classList.add('active');
@@ -863,6 +1049,118 @@
                 if (video.tagName === 'VIDEO') {
                     video.pause();
                 }
+            }
+        }
+    </script>
+    
+    <!-- Using a module script for Gemini API integration -->
+    <script type="module">
+        // --- Start of GymCoach AI Assistant Code ---
+
+        // =======================================================
+        // IMPORTANT: Add your Google Gemini API Key here
+        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q";
+        // =======================================================
+
+        // Import the GoogleGenerativeAI library
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+        // DOM Elements
+        const coachToggleBtn = document.getElementById('coachToggleBtn');
+        const closeCoachBtn = document.getElementById('closeCoachBtn');
+        const sidebar = document.getElementById('gymCoachSidebar');
+        const chatForm = document.getElementById('chatForm');
+        const userInput = document.getElementById('userInput');
+        const chatWindow = document.getElementById('chatWindow');
+        let genAI, model;
+
+        // Initialize the model only if the API key is provided
+        if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
+            try {
+                genAI = new GoogleGenerativeAI(API_KEY);
+                model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            } catch (error) {
+                console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
+            }
+        } else {
+            console.warn("Gemini API Key is not set. The GymCoach AI will not function.");
+        }
+
+        // Event Listeners
+        coachToggleBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            coachToggleBtn.style.display = 'none'; // Hide button when sidebar is open
+        });
+
+        closeCoachBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            coachToggleBtn.style.display = 'block'; // Show button when sidebar is closed
+        });
+
+        chatForm.addEventListener('submit', handleChatSubmit);
+
+        // Functions
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const userMessage = userInput.value.trim();
+
+            if (!userMessage) return;
+
+            // Check if API key is missing
+            if (!model) {
+                const warningMsg = "Please ask the site administrator to add a Gemini API key in the script to enable GymCoach.";
+                if (!document.querySelector('.api-key-warning')) {
+                    addMessageToChatWindow(warningMsg, "ai", false, 'api-key-warning');
+                }
+                userInput.value = "";
+                return;
+            }
+
+            addMessageToChatWindow(userMessage, "user");
+            userInput.value = "";
+
+            // Show typing indicator
+            addMessageToChatWindow("...", "ai", true);
+
+            try {
+                const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
+
+                const result = await model.generateContent(prompt);
+                const response = result.response;
+                const text = response.text();
+
+                // Remove typing indicator and add final response
+                updateLastMessage(text);
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                updateLastMessage("Sorry, I'm having trouble connecting right now. Please check the API key and your connection, then try again.");
+            }
+        }
+
+        function addMessageToChatWindow(message, sender, isTyping = false, customClass = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message ${customClass}`;
+
+            const p = document.createElement('p');
+            p.textContent = message;
+            messageDiv.appendChild(p);
+
+            if (isTyping) {
+                messageDiv.id = 'typing-indicator';
+            }
+
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+        }
+
+        function updateLastMessage(newMessage) {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                // Sanitize and format the response slightly
+                const formattedMessage = newMessage.replace(/\*/g, '').trim();
+                typingIndicator.querySelector('p').textContent = formattedMessage;
+                typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
             }
         }
     </script>
