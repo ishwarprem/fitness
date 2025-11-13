@@ -11,6 +11,11 @@
             box-sizing: border-box;
         }
 
+        /* FIX: Added for better mobile scroll behavior consistency */
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Impact', 'Arial Black', sans-serif;
             background: #0a0a0a;
@@ -33,6 +38,8 @@
                 linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
             z-index: -1;
             animation: pulse 4s ease-in-out infinite;
+            /* FIX: Optimizes the background animation on mobile to prevent jitter */
+            will-change: opacity;
         }
 
         @keyframes pulse {
@@ -403,6 +410,9 @@
             box-shadow: 0 5px 20px rgba(255, 87, 34, 0.6);
             z-index: 1000;
             transition: all 0.3s ease;
+            /* FIX: Prevents flashing/jittering on mobile scroll */
+            transform: translateZ(0);
+            will-change: transform, box-shadow;
         }
 
         #coachToggleBtn:hover {
@@ -425,6 +435,9 @@
             flex-direction: column;
             transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             overflow: hidden;
+            /* FIX: Prevents flashing/jittering on mobile scroll */
+            transform: translateZ(0);
+            will-change: right;
         }
 
         #gymCoachSidebar.active {
@@ -498,7 +511,6 @@
             border-bottom-left-radius: 0;
         }
         
-        /* --- NEW: Styles for the pulsing dot animation --- */
         #typing-indicator p {
             display: flex;
             align-items: center;
@@ -529,7 +541,6 @@
                 transform: scale(1.0);
             }
         }
-        /* --- End of new styles --- */
 
         #chatForm {
             display: flex;
@@ -1092,7 +1103,7 @@
 
         // =======================================================
         // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q";
+        const API_KEY = "YOUR_API_KEY_HERE";
         // =======================================================
 
         // Import the GoogleGenerativeAI library
@@ -1111,7 +1122,8 @@
         if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
             try {
                 genAI = new GoogleGenerativeAI(API_KEY);
-                model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+                /* FIX: Changed to a stable, reliable model to prevent overload errors. */
+                model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
             } catch (error) {
                 console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
             }
@@ -1153,7 +1165,7 @@
             userInput.value = "";
 
             // Show typing indicator
-            addMessageToChatWindow("", "ai", true); // NEW: Pass an empty string for the message
+            addMessageToChatWindow("", "ai", true);
 
             try {
                 const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
@@ -1177,7 +1189,6 @@
 
             const p = document.createElement('p');
             
-            // NEW: If it's the typing indicator, add the dot spans, otherwise add text
             if (isTyping) {
                 p.innerHTML = '<span></span><span></span><span></span>';
                 messageDiv.id = 'typing-indicator';
@@ -1194,7 +1205,6 @@
             const typingIndicator = document.getElementById('typing-indicator');
             if (typingIndicator) {
                 const formattedMessage = newMessage.replace(/\*/g, '').trim();
-                // NEW: Replace the dots inside the <p> with the final text message
                 typingIndicator.querySelector('p').innerHTML = formattedMessage;
                 typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
             }
