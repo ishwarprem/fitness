@@ -1103,7 +1103,7 @@
 
         // =======================================================
         // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q"; // Make sure your key is here
+        const API_KEY = "AIzaSyBgFhP9--8A12W-eoSEiCiDhzcHD3Vq7aM"; // Make sure your key is here
         // =======================================================
 
         // --- THIS IS THE FIX ---
@@ -1123,7 +1123,7 @@
         if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
             try {
                 genAI = new GoogleGenerativeAI(API_KEY);
-                model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
+                model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
             } catch (error) {
                 console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
             }
