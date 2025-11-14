@@ -209,8 +209,8 @@
 
         .muscle-card h2 {
             color: #ff5722;
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -448,6 +448,67 @@
 
             .page-title {
                 font-size: 2rem;
+            }
+        }
+
+        /* Small-screen tweaks: use scrollbar (vertical flow) and reduce large spacings */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.25rem 1rem;
+                text-align: left;
+            }
+
+            /* Make logo smaller and keep it left-aligned on mobile */
+            #logoBtn {
+                left: 1rem;
+                font-size: 2rem;
+                top: 1.25rem;
+                transform: translateY(0);
+                padding: 0.15rem 0.35rem;
+            }
+
+            header h1 {
+                font-size: 3rem;
+                text-align: center; /* keep main title centered visually */
+                margin: 0.75rem 0 0.25rem 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+                width: calc(100% - 2rem);
+                margin: 0.75rem auto;
+            }
+
+            /* Switch grid to a simple stacked list that uses page scroll */
+            .muscle-groups {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto; /* let rows size to content */
+                gap: 1rem;
+                margin-top: 1.5rem;
+                align-content: start;
+                height: auto; /* allow the groups to take natural height so page can scroll */
+                min-height: 0;
+            }
+
+            .muscle-card {
+                padding: 1.25rem;
+                border-radius: 12px;
+                height: auto; /* allow natural height */
+            }
+
+            .muscle-card h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            .detail-btn {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
         }
 
