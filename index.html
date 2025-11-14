@@ -81,7 +81,8 @@
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-family: 'Momo Trust Display', sans-serif;
+            font-size: 5rem;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 4px;
@@ -105,21 +106,66 @@
             position: absolute;
         }
 
+        /* Logo button styling: remove heavy button background, make orange and glowing, and place left */
+        #logoBtn {
+            position: absolute;
+            left: 2rem; /* place at far left */
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3; /* above marquee and header text */
+            background: transparent !important; /* remove gradient background */
+            border: none !important;
+            box-shadow: none !important;
+            color: #ff5722; /* orange color */
+            font-family: 'Momo Trust Display', sans-serif;
+            font-size: 3.2rem; /* slightly smaller than main h1 */
+            letter-spacing: 3px;
+            padding: 0.1rem 0.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,87,34,0.95), 0 0 30px rgba(255,87,34,0.6);
+            transition: transform 0.18s ease, text-shadow 0.18s ease, color 0.18s ease;
+            line-height: 1;
+        }
+
+        #logoBtn:hover {
+            transform: translateY(-50%) scale(1.05);
+            text-shadow: 0 0 14px rgba(255,87,34,1), 0 0 40px rgba(255,87,34,0.75);
+        }
+
+        #logoBtn:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,87,34,0.12);
+            border-radius: 6px;
+        }
+
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            /* Allow the cards to expand to the full viewport width while keeping some side padding */
+            max-width: none; /* removed 1200px cap so content can use full screen */
+            margin: 1.25rem auto;
+            padding: 0 2rem;
             /* Keep this for the sticky footer */
             flex: 1;
-            /* Add this line to fix the grid layout */
-            width: 100%;
+            width: calc(100% - 4rem);
+        }
+
+        /* Ensure main page expands to fill available vertical space between header and footer */
+        .main-page {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0; /* allow flex children to shrink correctly */
         }
 
         .muscle-groups {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            /* Allow more cards per row and make them expand — reduce the min width so they can fit more on large screens */
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            /* Make rows share available height so cards can expand vertically as needed */
+            grid-auto-rows: 1fr;
+            align-content: stretch;
+            gap: 1.25rem;
+            margin-top: 2rem;
         }
 
         .muscle-card {
@@ -132,6 +178,11 @@
             border: 2px solid #333;
             position: relative;
             overflow: hidden;
+            /* Make each card stretch to fill its grid row height */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .muscle-card::before {
@@ -380,16 +431,17 @@
             background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
             color: #888;
             text-align: center;
-            padding: 2.5rem;
-            margin-top: 4rem;
-            border-top: 3px solid #ff5722;
+            padding: 0.8rem 1rem; /* Thinner footer */
+            margin-top: 2rem;
+            border-top: 2px solid #ff5722;
             font-family: 'Stack Sans Text', sans-serif;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
+            font-size: 0.95rem;
         }
 
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2.5rem;
+                font-size: 3.25rem;
             }
 
             .muscle-groups {
@@ -680,7 +732,12 @@
         </div>
 
         <!-- The rest of the header content remains -->
-        <h1 style="font-family: 'Momo Trust Display', sans-serif; font-size: 5rem;">FITNOTFAT.</h1>
+        <!-- semantic: h1 contains an inline button that acts as the home control -->
+        <h1 style="display:inline-block; margin: 0;">
+            <button id="logoBtn" type="button" class="detail-btn back-btn" aria-label="Go to Home" onclick="showMain()">
+                FITNOTFAT.
+            </button>
+        </h1>
         <!--<p>WAKE UP. WORK OUT. KICK ASS. REPEAT.</p> -->
     </header>
 
@@ -1097,7 +1154,7 @@
     </div>
 
     <footer>
-        <p>© 2025 FIT NOT FAT | NO PAIN, NO GAIN</p>
+        <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
         <p>An Ishwar Prem Production</p>
     </footer>
 
