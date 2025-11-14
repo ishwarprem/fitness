@@ -759,7 +759,7 @@
             try {
                 genAI = new GoogleGenerativeAI(API_KEY);
                 // Using the most stable and reliable model to avoid overload issues.
-                model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" });
+                model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
             } catch (error) {
                 console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
             }
