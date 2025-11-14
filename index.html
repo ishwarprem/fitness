@@ -61,6 +61,7 @@
             box-shadow: 0 10px 40px rgba(255, 87, 34, 0.3);
             border-bottom: 3px solid #ff5722;
             position: relative;
+            overflow: hidden; /* Add this line */
         }
 
         header::after {
@@ -87,6 +88,7 @@
             text-shadow: 0 0 20px rgba(255, 87, 34, 0.8),
                          0 0 40px rgba(255, 87, 34, 0.5);
             /*animation: glow 2s ease-in-out infinite;*/
+            z-index: 2;
         }
 
         @keyframes glow {
@@ -99,6 +101,8 @@
             color: #ccc;
             letter-spacing: 2px;
             font-family: 'Stack Sans Text', sans-serif;
+            z-index: 2;
+            position: absolute;
         }
 
         .container {
@@ -306,6 +310,17 @@
             animation: videoSlideIn 0.4s ease;
         }
 
+                /* --- Treadmill Animation Styles --- */
+        .treadmill-wrapper {
+            width: 100%;
+            overflow: hidden; /* Hides the text when it's off-screen */
+            margin-top: 1.5rem;
+            padding: 0.75rem 0;
+            background-color: #000; /* Black band for the treadmill */
+            border-top: 1px solid #ff5722;
+            border-bottom: 1px solid #ff57
+        }
+
         @keyframes videoSlideIn {
             from {
                 opacity: 0;
@@ -383,6 +398,51 @@
 
             .page-title {
                 font-size: 2rem;
+            }
+        }
+
+                /* --- New Marquee Styles --- */
+        .marquee-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Sits behind the h1/p (z-index: 2) but above the background */
+            display: flex;
+            align-items: center; /* Vertically centers the text */
+            opacity: 0.1; /* This makes the text faint */
+        }
+
+        .marquee-text {
+            display: flex;
+            width: max-content; /* Allows the content to be wider than the container */
+            animation: marquee-scroll 25s linear infinite;
+        }
+
+        .marquee-text span {
+            font-size: 7rem; /* Adjust size as needed */
+            font-weight: 900;
+            color: #373636;
+            text-transform: uppercase;
+            white-space: nowrap; /* Prevents the text from wrapping */
+            letter-spacing: 5px;
+        }
+
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* Move left by the width of one of the spans to create a perfect loop */
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 768px) {
+            .marquee-text span {
+                font-size: 3rem;
             }
         }
 
@@ -611,9 +671,17 @@
 </head>
 <body>
     <header>
-        <h1 style = "font-family: 'Momo Trust Display', sans-serif; font-size: 70px; font-style: bold;">FITNOTFAT</h1>
-        <!--<p>WAKE UP. WORK OUT. KICK ASS. REPEAT.</p>-->
-        <p>UNLEASH YOUR POTENTIAL</p>
+        <!-- Add this new container for the scrolling text -->
+        <div class="marquee-container">
+            <div class="marquee-text">
+                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+            </div>
+        </div>
+
+        <!-- The rest of the header content remains -->
+        <h1 style="font-family: 'Momo Trust Display', sans-serif; font-size: 5rem;">FITNOTFAT.</h1>
+        <!--<p>WAKE UP. WORK OUT. KICK ASS. REPEAT.</p> -->
     </header>
 
     <div class="container">
