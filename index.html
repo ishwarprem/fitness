@@ -1097,17 +1097,19 @@
         }
     </script>
     
-    <!-- Using a module script for Gemini API integration -->
+   <!-- Using a module script for Gemini API integration -->
     <script type="module">
         // --- Start of GymCoach AI Assistant Code ---
 
         // =======================================================
         // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q";
+        const API_KEY = "AIzaSyBWz0wFhrIueHg6TwteVrqRXZ_U2a6fE2Q"; // Make sure your key is here
         // =======================================================
 
-        // Import the GoogleGenerativeAI library
+        // --- THIS IS THE FIX ---
+        // Import the LATEST GoogleGenerativeAI library to use the correct API version
         import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai@latest";
+
         // DOM Elements
         const coachToggleBtn = document.getElementById('coachToggleBtn');
         const closeCoachBtn = document.getElementById('closeCoachBtn');
@@ -1121,7 +1123,6 @@
         if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
             try {
                 genAI = new GoogleGenerativeAI(API_KEY);
-                /* FIX: Changed to a stable, reliable model to prevent overload errors. */
                 model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
             } catch (error) {
                 console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
@@ -1209,5 +1210,3 @@
             }
         }
     </script>
-</body>
-</html>
