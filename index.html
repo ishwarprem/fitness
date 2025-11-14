@@ -15,18 +15,18 @@
         }
 
         /* FIX: Added for better mobile scroll behavior consistency */
-        html {
+            html {
+            height: 100%;
             overflow-x: hidden;
-        }
+            }
 
         body {
             font-family: 'Stack Sans Text', sans-serif;
             background: #0a0a0a;
             color: #fff;
-            min-height: 100vh;
+            min-height: 100%; /* Changed from 100vh to 100% to work with html height */
             position: relative;
             overflow-x: hidden;
-            /* Keep these lines for the sticky footer */
             display: flex;
             flex-direction: column;
         }
@@ -140,49 +140,47 @@
         }
 
         .container {
-            /* Allow the cards to expand to the full viewport width while keeping some side padding */
-            max-width: none; /* removed 1200px cap so content can use full screen */
-            margin: 1.25rem auto;
-            padding: 0 2rem;
-            /* Keep this for the sticky footer */
-            flex: 1;
-            width: calc(100% - 4rem);
+            max-width: none;
+                margin: 0; /* Remove vertical margin */
+                padding: 1.5rem; /* Consistent padding on all sides */
+                flex: 1; /* This is the key change: it makes the container grow to fill space */
+                width: 100%;
+                display: flex; /* Make it a flex container for its children */
+                flex-direction: column;
         }
 
         /* Ensure main page expands to fill available vertical space between header and footer */
         .main-page {
             display: flex;
             flex-direction: column;
-            flex: 1 1 auto;
-            min-height: 0; /* allow flex children to shrink correctly */
+            flex: 1 1 auto; /* Allow this element to grow and shrink */
         }
 
         .muscle-groups {
             display: grid;
-            /* Allow more cards per row and make them expand — reduce the min width so they can fit more on large screens */
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            /* Make rows share available height so cards can expand vertically as needed */
-            grid-auto-rows: 1fr;
-            align-content: stretch;
-            gap: 1.25rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+            height: calc(100vh - 350px); /* Reduced height for smaller cards */
+            min-height: 400px; /* Reduced minimum height */
         }
 
         .muscle-card {
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            border-radius: 15px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8),
-                        inset 0 0 30px rgba(255, 87, 34, 0.1);
-            transition: all 0.4s ease;
-            border: 2px solid #333;
-            position: relative;
-            overflow: hidden;
-            /* Make each card stretch to fill its grid row height */
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8),
+                    inset 0 0 30px rgba(255, 87, 34, 0.1);
+        transition: all 0.4s ease;
+        border: 2px solid #333;
+        position: relative;
+        overflow: hidden;
+        height: 100%; /* This is crucial for filling the grid cell */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Vertically center the content */
+        align-items: center; /* Horizontally center the content */
         }
 
         .muscle-card::before {
@@ -211,7 +209,7 @@
 
         .muscle-card h2 {
             color: #ff5722;
-            font-size: 2.2rem;
+            font-size: 3rem;
             margin-bottom: 1.5rem;
             text-align: center;
             text-transform: uppercase;
