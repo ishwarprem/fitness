@@ -1,0 +1,770 @@
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* FIX: Added for better mobile scroll behavior consistency */
+            html {
+            height: 100%;
+            overflow-x: hidden;
+            }
+
+        body {
+            font-family: 'Stack Sans Text', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100%; /* Changed from 100vh to 100% to work with html height */
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 87, 34, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+            /* FIX: Optimizes the background animation on mobile to prevent jitter */
+            will-change: opacity;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: #ff5722;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.3);
+            border-bottom: 3px solid #ff5722;
+            position: relative;
+            overflow: hidden; /* Add this line */
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff5722, transparent);
+            animation: shine 2s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        header h1 {
+            font-family: 'Momo Trust Display', sans-serif;
+            font-size: 5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.8),
+                         0 0 40px rgba(255, 87, 34, 0.5);
+            /*animation: glow 2s ease-in-out infinite;*/
+            z-index: 2;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 87, 34, 0.8), 0 0 40px rgba(255, 87, 34, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 87, 34, 1), 0 0 60px rgba(255, 87, 34, 0.7); }
+        }
+
+        header p {
+            font-size: 1.3rem;
+            color: #ccc;
+            letter-spacing: 2px;
+            font-family: 'Stack Sans Text', sans-serif;
+            z-index: 2;
+            position: absolute;
+        }
+
+        /* Logo button styling: remove heavy button background, make orange and glowing, and place left */
+        #logoBtn {
+            position: absolute;
+            left: 2rem; /* place at far left */
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3; /* above marquee and header text */
+            background: transparent !important; /* remove gradient background */
+            border: none !important;
+            box-shadow: none !important;
+            color: #ff5722; /* orange color */
+            font-family: 'Momo Trust Display', sans-serif;
+            font-size: 3.2rem; /* slightly smaller than main h1 */
+            letter-spacing: 3px;
+            padding: 0.1rem 0.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,87,34,0.95), 0 0 30px rgba(255,87,34,0.6);
+            transition: transform 0.18s ease, text-shadow 0.18s ease, color 0.18s ease;
+            line-height: 1;
+        }
+
+        #logoBtn:hover {
+            transform: translateY(-50%) scale(1.05);
+            text-shadow: 0 0 14px rgba(255,87,34,1), 0 0 40px rgba(255,87,34,0.75);
+        }
+
+        #logoBtn:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,87,34,0.12);
+            border-radius: 6px;
+        }
+
+        .container {
+            max-width: none;
+                margin: 0; /* Remove vertical margin */
+                padding: 1.5rem; /* Consistent padding on all sides */
+                flex: 1; /* This is the key change: it makes the container grow to fill space */
+                width: 100%;
+                display: flex; /* Make it a flex container for its children */
+                flex-direction: column;
+        }
+
+        /* Ensure main page expands to fill available vertical space between header and footer */
+        .main-page {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto; /* Allow this element to grow and shrink */
+        }
+
+        .muscle-groups {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+            height: calc(100vh - 350px); /* Reduced height for smaller cards */
+            min-height: 400px; /* Reduced minimum height */
+        }
+
+        .muscle-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8),
+                    inset 0 0 30px rgba(255, 87, 34, 0.1);
+        transition: all 0.4s ease;
+        border: 2px solid #333;
+        position: relative;
+        overflow: hidden;
+        height: 100%; /* This is crucial for filling the grid cell */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Vertically center the content */
+        align-items: center; /* Horizontally center the content */
+        }
+
+        .muscle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 87, 34, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .muscle-card:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .muscle-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 87, 34, 0.4),
+                        inset 0 0 50px rgba(255, 87, 34, 0.2);
+            border-color: #ff5722;
+        }
+
+        .muscle-card h2 {
+            color: #ff5722;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        .detail-btn {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.4);
+            font-family: 'Impact', sans-serif;
+        }
+
+        .detail-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.8);
+            background: linear-gradient(135deg, #ff7043 0%, #ff5722 100%);
+        }
+
+        .detail-btn:active {
+            transform: scale(0.98);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #444 0%, #666 100%);
+            margin-bottom: 2rem;
+            max-width: 250px;
+            color: #fff;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #666 0%, #888 100%);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-page {
+            display: none;
+        }
+
+        .detail-page.active {
+            display: block;
+            animation: explodeIn 0.5s ease;
+        }
+
+        .main-page.hidden {
+            display: none;
+        }
+
+        @keyframes explodeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            60% {
+                transform: scale(1.05) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .subsection-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            border-left: 5px solid #ff5722;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5),
+                        inset 0 0 20px rgba(255, 87, 34, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .subsection-card:hover {
+            transform: translateX(10px);
+            border-left-width: 8px;
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.3);
+        }
+
+        .subsection-card h3 {
+            color: #ff5722;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        .exercise-item {
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-item:hover {
+            transform: translateX(5px);
+            border-color: #ff5722;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.3);
+        }
+
+        .exercise-item h4 {
+            color: #ff7043;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .exercise-item p {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-family: 'Stack Sans Text', sans-serif;
+        }
+
+        .exercise-video {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: block;
+            border: 2px solid #ff5722;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.3);
+            animation: videoSlideIn 0.4s ease;
+        }
+
+                /* --- Treadmill Animation Styles --- */
+        .treadmill-wrapper {
+            width: 100%;
+            overflow: hidden; /* Hides the text when it's off-screen */
+            margin-top: 1.5rem;
+            padding: 0.75rem 0;
+            background-color: #000; /* Black band for the treadmill */
+            border-top: 1px solid #ff5722;
+            border-bottom: 1px solid #ff57
+        }
+
+        @keyframes videoSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-btn {
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            color: #ff5722;
+            border: 2px solid #ff5722;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+            font-family: 'Impact', sans-serif;
+        }
+
+        .video-btn:hover {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.5);
+        }
+
+        .video-btn.active {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+        }
+
+        .page-title {
+            color: #ff5722;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.8);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        footer {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #888;
+            text-align: center;
+            padding: 0.8rem 1rem; /* Thinner footer */
+            margin-top: 2rem;
+            border-top: 2px solid #ff5722;
+            font-family: 'Stack Sans Text', sans-serif;
+            letter-spacing: 0.8px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3.25rem;
+            }
+
+            .muscle-groups {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Small-screen tweaks: use scrollbar (vertical flow) and reduce large spacings */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.25rem 1rem;
+                text-align: left;
+            }
+
+            /* Make logo smaller and keep it left-aligned on mobile */
+            #logoBtn {
+                left: 1rem;
+                font-size: 2rem;
+                top: 1.25rem;
+                transform: translateY(0);
+                padding: 0.15rem 0.35rem;
+            }
+
+            header h1 {
+                font-size: 3rem;
+                text-align: center; /* keep main title centered visually */
+                margin: 0.75rem 0 0.25rem 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+                width: calc(100% - 2rem);
+                margin: 0.75rem auto;
+            }
+
+            /* Switch grid to a simple stacked list that uses page scroll */
+            .muscle-groups {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto; /* let rows size to content */
+                gap: 1rem;
+                margin-top: 1.5rem;
+                align-content: start;
+                height: auto; /* allow the groups to take natural height so page can scroll */
+                min-height: 0;
+            }
+
+            .muscle-card {
+                padding: 1.25rem;
+                border-radius: 12px;
+                height: auto; /* allow natural height */
+            }
+
+            .muscle-card h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            .detail-btn {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+                /* --- New Marquee Styles --- */
+        .marquee-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Sits behind the h1/p (z-index: 2) but above the background */
+            display: flex;
+            align-items: center; /* Vertically centers the text */
+            opacity: 0.1; /* This makes the text faint */
+        }
+
+        .marquee-text {
+            display: flex;
+            width: max-content; /* Allows the content to be wider than the container */
+            animation: marquee-scroll 25s linear infinite;
+        }
+
+        .marquee-text span {
+            font-size: 7rem; /* Adjust size as needed */
+            font-weight: 900;
+            color: #373636;
+            text-transform: uppercase;
+            white-space: nowrap; /* Prevents the text from wrapping */
+            letter-spacing: 5px;
+        }
+
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* Move left by the width of one of the spans to create a perfect loop */
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 768px) {
+            .marquee-text span {
+                font-size: 3rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff5722 0%, #ff7043 100%);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff7043 0%, #ff5722 100%);
+        }
+
+        /* --- GymCoach Sidebar Styles --- */
+        #coachToggleBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 87, 34, 0.6);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            /* FIX: Prevents flashing/jittering on mobile scroll */
+            transform: translateZ(0);
+            will-change: transform, box-shadow;
+        }
+
+        #coachToggleBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.8);
+        }
+
+        #gymCoachSidebar {
+            position: fixed;
+            bottom: 20px;
+            right: -450px; /* Start off-screen */
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff5722;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+            /* FIX: Prevents flashing/jittering on mobile scroll */
+            transform: translateZ(0);
+            will-change: right;
+        }
+
+        #gymCoachSidebar.active {
+            right: 20px;
+        }
+
+        #sidebarHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            border-bottom: 2px solid #ff5722;
+        }
+
+        #sidebarHeader h3 {
+            color: #ff5722;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        #closeCoachBtn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #closeCoachBtn:hover {
+            color: #ff5722;
+        }
+
+        #chatWindow {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            max-width: 85%;
+            line-height: 1.5;
+            font-family: 'Stack Sans Text', sans-serif;
+            animation: messageFadeIn 0.3s ease;
+        }
+
+        @keyframes messageFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            color: #000;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .ai-message {
+            background: #333;
+            color: #ccc;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+        
+        
+        #typing-indicator p {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #777;
+            border-radius: 50%;
+            animation: typing-pulse 1.4s infinite ease-in-out both;
+        }
+
+        #typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        #typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing-pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
+        #chatForm {
+            display: flex;
+            padding: 1rem;
+            border-top: 2px solid #111;
+            background: #1a1a1a;
+        }
+
+        #userInput {
+            flex-grow: 1;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 0.8rem;
+            color: #fff;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            font-family: 'Stack Sans Text', sans-serif;
+        }
+
+        #userInput:focus {
+            outline: none;
+            border-color: #ff5722;
+        }
+
+        #chatForm button {
+            background: linear-gradient(135deg, #ff5722 0%, #ff7043 100%);
+            border: none;
+            color: #000;
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            font-family: 'Impact', sans-serif;
+        }
+
+        #chatForm button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments for sidebar */
+        @media (max-width: 480px) {
+            #gymCoachSidebar {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: -100%;
+                border-radius: 0;
+                border: none;
+            }
+            #gymCoachSidebar.active {
+                right: 0;
+            }
+        }
