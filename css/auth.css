@@ -1,0 +1,96 @@
+.auth-container {
+    max-width: 450px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.auth-form {
+    display: none;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.auth-form.active {
+    display: flex;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary-orange);
+    text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+    letter-spacing: 2px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+}
+
+.auth-btn {
+    background: var(--primary-orange);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    font-family: 'Teko', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 25px rgba(255, 87, 34, 0.5);
+}
+
+.toggle-form {
+    text-align: center;
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+.toggle-link {
+    color: var(--primary-orange);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    display: none; /* Hidden by default */
+}
+
+.success-message {
+    color: #2ecc71;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    display: none; /* Hidden by default */
+}
