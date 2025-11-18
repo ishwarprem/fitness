@@ -1,4 +1,6 @@
-// IMPORTANT: Replace with your actual Supabase Project URL and Anon Key
+// =======================================================
+// IMPORTANT: Replace with your actual Supabase credentials
+// =======================================================
 const SUPABASE_URL = 'https://jffbruoevfvlbjjvtzsz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmZmJydW9ldmZ2bGJqanZ0enN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMzIxODcsImV4cCI6MjA3ODcwODE4N30.HeG418JSBmzK2bUjnFIbw99V2G7n284isFbbcjZCeS8';
 
@@ -39,7 +41,7 @@ registerForm.addEventListener('submit', async (e) => {
         errorEl.textContent = error.message;
         errorEl.style.display = 'block';
     } else {
-        successEl.textContent = 'Success! Please check your email for a confirmation link.';
+        successEl.textContent = 'Success! Please check your email to confirm your account.';
         successEl.style.display = 'block';
         registerForm.reset();
     }
@@ -57,7 +59,7 @@ loginForm.addEventListener('submit', async (e) => {
     const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-        errorEl.textContent = error.message;
+        errorEl.textContent = "Invalid login credentials.";
         errorEl.style.display = 'block';
     } else {
         // On successful login, redirect to the main app page

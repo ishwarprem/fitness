@@ -768,3 +768,25 @@
                 right: 0;
             }
         }
+        /* --- LOGOUT BUTTON STYLE (for index.html) --- */
+#logoutBtn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: 1px solid var(--primary-orange);
+    color: var(--primary-orange);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    z-index: 10; /* <-- ADD THIS LINE */
+}
+
+#logoutBtn:hover {
+    background: var(--primary-orange);
+    color: #000;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- index.html -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,25 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Stack+Sans+Text:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
     
-    <!-- Main Stylesheet -->
+    <!-- Your Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
-   
-    <!-- Supabase Client Library (MUST be before your own scripts) -->
+    <link rel="stylesheet" href="css/auth.css"> <!-- It's safe to link this even if not used on this page -->
+
+    <!-- ======================================================= -->
+    <!-- START: REQUIRED AUTHENTICATION SCRIPTS -->
+    <!-- ======================================================= -->
+    
+    <!-- 1. Supabase Client Library (MUST be loaded first) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Your Gatekeeper Script -->
+    <!-- 2. Your Gatekeeper Script (checks if user is logged in) -->
     <script src="js/main.js"></script>
+
+    <!-- ======================================================= -->
+    <!-- END: REQUIRED AUTHENTICATION SCRIPTS -->
+    <!-- ======================================================= -->
 </head>
 
 <body>
