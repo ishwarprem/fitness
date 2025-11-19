@@ -13,7 +13,7 @@
     
     <!-- Your Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    
 
     <!-- Supabase & Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,25 +21,58 @@
 </head>
 
 <body>
-    <header>
-        <!-- Add this new container for the scrolling text -->
-        <div class="marquee-container">
-            <div class="marquee-text">
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-            </div>
-        </div>
+    <header class="main-header">
+    <!-- Left: Logo (Acts as Home Button) -->
+    <div class="logo-container" onclick="switchTab('exercises')" style="cursor: pointer;">
+        <span style="font-size: 2rem; color: #FF5200;">⚡</span>
+        <span class="brand-name">FITNOTFAT</span>
+    </div>
 
-        <!-- The rest of the header content remains -->
-        <!-- semantic: h1 contains an inline button that acts as the home control -->
-        <h1 style="display:inline-block; margin: 0;">
-            <button id="logoBtn" type="button" class="detail-btn back-btn" aria-label="Go to Home" onclick="showMain()">
-                FITNOTFAT.
-            </button>
-        </h1>
-        <!--<p>WAKE UP. WORK OUT. KICK ASS. REPEAT.</p> -->
+    <!-- Right: Navigation Tabs + Logout Area -->
+    <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
+    <nav class="nav-tabs" id="navContainer">
+        <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
+        <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
+        <!-- Logout button will be injected here by JS -->
+    </nav>
+
+    <!-- Marquee Background -->
+    <div class="marquee-container">
+        <div class="marquee-text">
+            <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+            <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+        </div>
+    </div>
     </header>
 
+<section id="schedulerSection" class="hidden"></section>
+    <main id="scheduler"> <!-- Added id="scheduler" so the tab link finds this section -->
+    
+    <div class="scheduler-container">
+      <h2>Weekly Routine</h2>
+      
+      <!-- The 7-Day Grid -->
+      <div class="week-grid" id="weekGrid">
+        <!-- Days will be injected here by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Simple Modal to Add Exercise -->
+    <dialog id="addExerciseModal">
+      <h3>Add Exercise to <span id="modalDayName"></span></h3>
+      <select id="exerciseSelect">
+        <!-- Options populated by JS -->
+      </select>
+      <div class="modal-actions">
+        <button onclick="closeModal()">Cancel</button>
+        <button onclick="saveExercise()">Save</button>
+      </div>
+    </dialog>
+
+  </main>
+</section>
+
+<section id="exercisesSection">
     <div class="container">
         <!-- Main Page -->
         <div id="mainPage" class="main-page">
@@ -453,6 +486,7 @@
             </div>
         </div>
     </div>
+</section>
 
     <footer>
         <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
@@ -461,7 +495,13 @@
 
 
     <!-- GymCoach AI Assistant HTML -->
-    <button id="coachToggleBtn" title="Open GymCoach AI">💪</button>
+    <button id="coachToggleBtn" title="Open GymCoach AI">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.3 2.29C14.06 2.12 13.77 2.04 13.5 2.04C12.93 2.04 12.42 2.38 12.22 2.91L11.35 5.18C11.04 6.02 10.21 6.56 9.32 6.5C7.76 6.39 6.32 7.13 5.56 8.47C4.79 9.82 4.86 11.48 5.72 12.77L6.3 13.65C6.71 14.25 6.54 15.07 5.93 15.47C5.15 15.99 4.7 16.87 4.7 17.8C4.7 19.6 6.11 21.06 7.9 21.14L16.14 21.52C17.98 21.6 19.5 20.1 19.5 18.25V14.3C19.5 12.92 18.72 11.72 17.55 11.14C17.83 10.27 17.61 9.29 16.97 8.65L14.3 2.29Z" fill="currentColor"/>
+        <path d="M10.5 10C10.5 10.8284 11.1716 11.5 12 11.5C12.8284 11.5 13.5 10.8284 13.5 10C13.5 9.17157 12.8284 8.5 12 8.5C11.1716 8.5 10.5 9.17157 10.5 10Z" fill="#FF5200"/> 
+    </svg>
+</button>
+
     <div id="gymCoachSidebar">
         <div id="sidebarHeader">
             <h3>GYMCOACH AI</h3>

@@ -13,16 +13,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         // If no user is logged in, redirect to the auth page
         window.location.replace('auth.html');
     } else {
-        // If user is logged in, show the logout button
-        const header = document.querySelector('header');
-        const logoutButton = document.createElement('button');
-        logoutButton.id = 'logoutBtn';
-        logoutButton.textContent = 'LOGOUT';
-        header.appendChild(logoutButton);
+    // User is logged in: Inject Logout button into the Nav Container
+            const navContainer = document.getElementById('navContainer');
+            
+            const logoutButton = document.createElement('button');
+            logoutButton.id = 'logoutBtn';
+            logoutButton.textContent = 'LOGOUT';
+            
+            // Append to the nav container instead of the header
+            navContainer.appendChild(logoutButton);
 
-        logoutButton.addEventListener('click', async () => {
-            await _supabase.auth.signOut();
-            window.location.replace('auth.html');
-        });
+            logoutButton.addEventListener('click', async () => {
+                await _supabase.auth.signOut();
+                window.location.replace('auth.html');
+            });
     }
 });
