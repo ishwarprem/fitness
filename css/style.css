@@ -767,3 +767,31 @@ dialog::backdrop {
     color: black;
     border-color: var(--primary-accent);
 }
+
+.hidden {
+    display: none !important;
+}
+
+/* Tab Button Styling (if not already present) */
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #A1A1A1;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+
+.tab-btn:hover, .tab-btn.active {
+    color: #FF5200; /* Your primary orange color */
+}
+
+#navContainer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
