@@ -8,24 +8,24 @@ const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // --- AUTH GATEKEEPER ---
 document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await _supabase.auth.getSession();
-    
+
     if (!session) {
         // If no user is logged in, redirect to the auth page
         window.location.replace('auth.html');
     } else {
-    // User is logged in: Inject Logout button into the Nav Container
-            const navContainer = document.getElementById('navContainer');
-            
-            const logoutButton = document.createElement('button');
-            logoutButton.id = 'logoutBtn';
-            logoutButton.textContent = 'LOGOUT';
-            
-            // Append to the nav container instead of the header
-            navContainer.appendChild(logoutButton);
+        // User is logged in: Inject Logout button into the Nav Container
+        const navContainer = document.getElementById('navContainer');
 
-            logoutButton.addEventListener('click', async () => {
-                await _supabase.auth.signOut();
-                window.location.replace('auth.html');
-            });
+        const logoutButton = document.createElement('button');
+        logoutButton.id = 'logoutBtn';
+        logoutButton.textContent = 'LOGOUT';
+
+        // Append to the nav container instead of the header
+        navContainer.appendChild(logoutButton);
+
+        logoutButton.addEventListener('click', async () => {
+            await _supabase.auth.signOut();
+            window.location.replace('auth.html');
+        });
     }
 });

@@ -25,35 +25,50 @@
 
 <body>
     <header class="main-header">
-        <!-- Left: Logo (Acts as Home Button) -->
+        <!-- Left: Logo -->
         <div class="logo-container" onclick="switchTab('exercises')" style="cursor: pointer;">
             <span class="brand-name">FITNOTFAT</span>
         </div>
 
-        <!-- Right: Navigation Tabs + Logout Area -->
-        <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
+        <!-- Right: Navigation Tabs -->
         <nav class="nav-tabs" id="navContainer">
             <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
             <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
-            <!-- Logout button will be injected here by JS -->
         </nav>
+    </header>
 
-        <!-- Marquee Background -->
-        <div class="marquee-container">
-            <div class="marquee-text">
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">UNLEASH<br>YOUR<br>POTENTIAL</h1>
+            <p class="hero-subtitle">ELITE TRAINING FOR THE MODERN ATHLETE</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-val">50+</span>
+                    <span class="stat-label">EXERCISES</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-val">AI</span>
+                    <span class="stat-label">COACHING</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-val">∞</span>
+                    <span class="stat-label">GAINS</span>
+                </div>
             </div>
         </div>
-    </header>
+        <div class="hero-overlay"></div>
+    </section>
 
 
 
     <section id="schedulerSection" class="hidden">
-        <main id="scheduler"> <!-- Added id="scheduler" so the tab link finds this section -->
-
+        <main id="scheduler">
             <div class="scheduler-container">
-                <h2>Weekly Routine</h2>
+                <div class="scheduler-header">
+                    <h2>WEEKLY ROUTINE</h2>
+                    <p class="subtitle">PLAN YOUR GRIND. CONQUER THE WEEK.</p>
+                </div>
 
                 <!-- The 7-Day Grid -->
                 <div class="week-grid" id="weekGrid">
@@ -61,25 +76,50 @@
                 </div>
             </div>
 
-            <!-- Simple Modal to Add Exercise -->
-            <dialog id="addExerciseModal">
-                <h3>Add Exercise to <span id="modalDayName"></span></h3>
-                <div class="modal-input-group">
-                    <select id="muscleGroupSelect" class="modal-select">
-                        <option value="">Select Muscle Group</option>
-                        <!-- Populated by JS -->
-                    </select>
-                    <select id="exerciseSelect" disabled class="modal-select">
-                        <option value="">Select Exercise</option>
-                        <!-- Options populated by JS -->
-                    </select>
+            <!-- Enhanced Modal to Add Exercise -->
+            <dialog id="addExerciseModal" class="glass-modal">
+                <div class="modal-header">
+                    <h3>ADD TO <span id="modalDayName"></span></h3>
+                    <button onclick="closeModal()" class="close-modal-btn">&times;</button>
                 </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>MUSCLE GROUP</label>
+                        <select id="muscleGroupSelect" onchange="updateExerciseOptions()">
+                            <option value="Back">Back</option>
+                            <option value="Biceps">Biceps</option>
+                            <option value="Triceps">Triceps</option>
+                            <option value="Shoulders">Shoulders</option>
+                            <option value="Forearms">Forearms</option>
+                            <option value="Legs">Legs</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>EXERCISE</label>
+                        <select id="exerciseSelect">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>SETS</label>
+                            <input type="number" id="setsInput" value="3" min="1">
+                        </div>
+                        <div class="form-group half">
+                            <label>REPS</label>
+                            <input type="text" id="repsInput" value="10-12" placeholder="e.g. 12">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="modal-actions">
-                    <button class="btn-modal btn-cancel" onclick="closeModal()">Cancel</button>
-                    <button class="btn-modal btn-save" onclick="saveExercise()">Save</button>
+                    <button onclick="closeModal()" class="btn-cancel">CANCEL</button>
+                    <button onclick="saveExercise()" class="btn-save">SAVE EXERCISE</button>
                 </div>
             </dialog>
-
         </main>
     </section>
 
