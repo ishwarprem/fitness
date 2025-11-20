@@ -1,0 +1,348 @@
+/* css/onboarding.css */
+
+body {
+    background-color: #050505;
+    /* Fallback */
+    background-image:
+        radial-gradient(circle at 50% -20%, rgba(255, 82, 0, 0.1) 0%, transparent 60%),
+        linear-gradient(to bottom, #050505 0%, #080808 100%);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.onboarding-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.wizard-card {
+    width: 100%;
+    max-width: 600px;
+    background: #121212;
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Header --- */
+.wizard-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-text {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.progress-container {
+    width: 100%;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 4px;
+    background: #222;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 20%;
+    background: #FF5200;
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.step-text {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Form Steps --- */
+.form-step {
+    display: none;
+    animation: fadeSlide 0.4s ease forwards;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+h2 {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.sub-text {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Inputs --- */
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    color: #888;
+    font-size: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+
+input[type="number"] {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #FF5200;
+    box-shadow: 0 0 10px rgba(255, 82, 0, 0.1);
+}
+
+/* Gender Toggle */
+.radio-toggle {
+    display: flex;
+    background: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.radio-toggle input {
+    display: none;
+}
+
+.radio-toggle label {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    color: #666;
+    transition: 0.3s;
+    margin: 0;
+}
+
+.radio-toggle input:checked+label {
+    background: #FF5200;
+    color: black;
+    font-weight: bold;
+}
+
+/* --- Selection Cards --- */
+.card-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.selection-card input {
+    display: none;
+}
+
+.card-content {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.card-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.selection-card input:checked+.card-content {
+    border-color: #FF5200;
+    background: rgba(255, 82, 0, 0.05);
+}
+
+.selection-card input:checked+.card-content h3 {
+    color: #FF5200;
+}
+
+/* --- Slider --- */
+.slider-wrapper {
+    text-align: center;
+    padding: 20px 0;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #333;
+}
+
+.slider {
+    width: 80%;
+    accent-color: #FF5200;
+    cursor: pointer;
+}
+
+.slider-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    color: #FF5200;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.slider-note {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+#splitName {
+    color: white;
+    font-weight: bold;
+}
+
+/* --- Checkbox Grid --- */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.check-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    cursor: pointer;
+    color: #ccc;
+    transition: 0.2s;
+}
+
+.check-card:hover {
+    border-color: #555;
+}
+
+.check-card input {
+    accent-color: #FF5200;
+    width: 18px;
+    height: 18px;
+}
+
+/* --- Buttons --- */
+.btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-next,
+.btn-finish {
+    background: #FF5200;
+    color: black;
+    border: none;
+    padding: 12px 30px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.btn-row .btn-next {
+    width: auto;
+}
+
+.btn-next:hover,
+.btn-finish:hover {
+    background: white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-back {
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    padding: 12px 25px;
+}
+
+.btn-back:hover {
+    color: white;
+    border-color: white;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .wizard-card {
+        height: 100%;
+        border-radius: 0;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}

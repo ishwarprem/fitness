@@ -63,6 +63,6 @@ loginForm.addEventListener('submit', async (e) => {
         errorEl.style.display = 'block';
     } else {
         // On successful login, redirect to the main app page
-        window.location.href = 'index.html';
+        window.location.href = 'onboarding.html';
     }
 });
