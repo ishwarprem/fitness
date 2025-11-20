@@ -1,0 +1,143 @@
+/* --- Hero Overlay Styles --- */
+#hero-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0f0f0f;
+    z-index: 9999;
+
+    /* Layout Engine */
+    display: flex;
+    flex-direction: column;
+    /* Stacks TextBlock and Button vertically */
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    /* Adds explicit space between the Text and the Button */
+
+    overflow: hidden;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+
+#hero-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Canvas stays in back */
+}
+
+/* Wrapper for the text elements */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+    pointer-events: none;
+
+    /* NEW: Flex settings to stop text overlapping */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-headline {
+    font-family: 'Oswald', sans-serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    /* Tighter line height */
+    text-align: center;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+
+    /* Reset positioning to ensure it doesn't float/overlap */
+    position: relative;
+    margin: 0;
+    /* We handle spacing with the subheadline margin */
+}
+
+.hero-subheadline {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #CCCCCC;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.6;
+    text-align: center;
+
+    /* Reset positioning */
+    position: relative;
+    margin: 0 0 1.5rem 0;
+    /* Pushes the headline down slightly */
+}
+
+.hero-btn {
+    /* Ensures the button sits in the layout flow */
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    display: inline-block;
+
+    background: transparent;
+    color: #FF5200;
+    border: 2px solid #FF5200;
+    padding: 1rem 3rem;
+
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 82, 0, 0.2);
+}
+
+.hero-btn:hover {
+    background: #FF5200;
+    color: #000000;
+    box-shadow: 0 0 40px rgba(255, 82, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.hero-btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #hero-overlay {
+        gap: 30px;
+        /* Smaller gap on mobile */
+    }
+
+    .hero-headline {
+        font-size: 3rem;
+    }
+
+    .hero-subheadline {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+}

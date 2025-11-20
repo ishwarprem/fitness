@@ -24,696 +24,697 @@
 </head>
 
 <body>
-    <header class="main-header">
-        <!-- Left: Logo (Acts as Home Button) -->
-        <div class="logo-container" onclick="switchTab('exercises')" style="cursor: pointer;">
-            <span class="brand-name">FITNOTFAT</span>
+
+    <body>
+
+        <header class="main-header">
+            <!-- Left: Logo (Acts as Home Button) -->
+            <div class="logo-container" onclick="switchTab('exercises')" style="cursor: pointer;">
+                <span class="brand-name">FITNOTFAT</span>
+            </div>
+
+            <!-- Right: Navigation Tabs + Logout Area -->
+            <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
+            <nav class="nav-tabs" id="navContainer">
+                <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
+                <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
+                <!-- Logout button will be injected here by JS -->
+            </nav>
+
+            <!-- Marquee Background -->
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+                    <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </header>
+
+
+
+        <section id="schedulerSection" class="hidden">
+            <main id="scheduler"> <!-- Added id="scheduler" so the tab link finds this section -->
+
+                <div class="scheduler-container">
+                    <h2>Weekly Routine</h2>
+
+                    <!-- The 7-Day Grid -->
+                    <div class="week-grid" id="weekGrid">
+                        <!-- Days will be injected here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Simple Modal to Add Exercise -->
+                <dialog id="addExerciseModal">
+                    <h3>Add Exercise to <span id="modalDayName"></span></h3>
+                    <div class="modal-input-group">
+                        <select id="muscleGroupSelect" class="modal-select">
+                            <option value="">Select Muscle Group</option>
+                            <!-- Populated by JS -->
+                        </select>
+                        <select id="exerciseSelect" disabled class="modal-select">
+                            <option value="">Select Exercise</option>
+                            <!-- Options populated by JS -->
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-cancel" onclick="closeModal()">Cancel</button>
+                        <button class="btn-modal btn-save" onclick="saveExercise()">Save</button>
+                    </div>
+                </dialog>
+
+            </main>
+        </section>
+
+        <section id="exercisesSection">
+            <div class="container">
+                <!-- Main Page -->
+                <div id="mainPage" class="main-page">
+                    <div class="muscle-groups">
+                        <!-- Back -->
+                        <div class="muscle-card">
+                            <h2>BACK</h2>
+                            <button class="detail-btn" onclick="showDetail('back')">DESTROY BACK</button>
+                        </div>
+
+                        <!-- Biceps -->
+                        <div class="muscle-card">
+                            <h2>BICEPS</h2>
+                            <button class="detail-btn" onclick="showDetail('biceps')">PUMP BICEPS</button>
+                        </div>
+
+                        <!-- Triceps -->
+                        <div class="muscle-card">
+                            <h2>TRICEPS</h2>
+                            <button class="detail-btn" onclick="showDetail('triceps')">BUILD TRICEPS</button>
+                        </div>
+
+                        <!-- Shoulders -->
+                        <div class="muscle-card">
+                            <h2>SHOULDERS</h2>
+                            <button class="detail-btn" onclick="showDetail('shoulders')">CRUSH SHOULDERS</button>
+                        </div>
+
+                        <!-- Forearms -->
+                        <div class="muscle-card">
+                            <h2>FOREARMS</h2>
+                            <button class="detail-btn" onclick="showDetail('forearms')">GRIP POWER</button>
+                        </div>
+
+                        <!-- Legs -->
+                        <div class="muscle-card">
+                            <h2>LEGS</h2>
+                            <button class="detail-btn" onclick="showDetail('legs')">OBLITERATE LEGS</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Pages (Content unchanged) -->
+                <!-- Back Detail Page -->
+                <div id="backDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">BACK MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>UPPER BACK</h3>
+                        <div class="exercise-item">
+                            <h4>Pull-Ups (Wide Grip)</h4>
+                            <p>3-4 sets of 8-12 reps. Targets upper lats and teres major for width.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://media.tenor.com/bOA5VPeUz5QAAAAM/noequipmentexercisesmen-pullups.gif"
+                                alt="Pull-Ups" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Face Pulls</h4>
+                            <p>3 sets of 15-20 reps. Excellent for rear delts and upper back thickness.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/FACE_PULL.gif" alt="Face Pulls"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>High Cable Rows</h4>
+                            <p>3 sets of 10-12 reps. Builds upper back density and trapezius.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/1079.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>MID BACK</h3>
+                        <div class="exercise-item">
+                            <h4>Barbell Rows</h4>
+                            <p>4 sets of 8-10 reps. Core exercise for mid-back thickness.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://downloads.ctfassets.net/6ilvqec50fal/26TEIC8oITW2g58iY4lx9i/bc3ddf88afd1fa401738c39e64a17dfa/Reverse_Grip_-_Underhand_-_Barbell_Bent-Over_Row.gif"
+                                alt="Barbell Rows" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>T-Bar Rows</h4>
+                            <p>3-4 sets of 8-12 reps. Great for middle back development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/T_BAR_ROW_MAC.gif" alt="T-Bar Rows"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Seated Cable Rows</h4>
+                            <p>3 sets of 10-12 reps. Isolates middle back muscles effectively.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://gymvisual.com/img/p/1/5/2/4/1/15241.gif" alt="Seated Cable Rows"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>LOWER BACK</h3>
+                        <div class="exercise-item">
+                            <h4>Deadlifts</h4>
+                            <p>3-4 sets of 5-8 reps. The king of lower back and posterior chain development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://downloads.ctfassets.net/6ilvqec50fal/6KwX1ImLXsFqlD3ipUZZXr/816c1509a3fab6ff9c0c2dbe31d47c2e/Barbell_Romanian_Deadlift.gif"
+                                alt="Deadlifts" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Hyperextensions</h4>
+                            <p>3 sets of 12-15 reps. Strengthens erector spinae and lower back.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/HPET.gif" alt="Hyperextensions"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Good Mornings</h4>
+                            <p>3 sets of 10-12 reps. Builds lower back strength and hamstring flexibility.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/dumbbellgoodmorning-1457046257.gif"
+                                alt="Good Mornings" class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biceps Detail Page -->
+                <div id="bicepsDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">BICEPS MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>LONG HEAD</h3>
+                        <div class="exercise-item">
+                            <h4>Incline Dumbbell Curls</h4>
+                            <p>3-4 sets of 10-12 reps. Stretches and targets the long head for peak development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://www.strengthlog.com/wp-content/uploads/2020/10/Incline-Dumbbell-Curl.gif"
+                                alt="Incline Dumbbell Curls" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Wide Grip Barbell Curls</h4>
+                            <p>3 sets of 8-12 reps. Emphasizes long head activation.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video
+                                src="https://www.shutterstock.com/shutterstock/videos/1016912113/preview/stock-footage-barbell-standing-wide-grip-biceps-curl-exercise-anatomy-of-fitness-and-bodybuilding-target.webm"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>SHORT HEAD</h3>
+                        <div class="exercise-item">
+                            <h4>Close Grip EZ Bar Curls</h4>
+                            <p>3-4 sets of 10-12 reps. Targets inner biceps for thickness.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7040.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Concentration Curls</h4>
+                            <p>3 sets of 10-15 reps. Maximum isolation of short head.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7010.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>BRACHIALIS</h3>
+                        <div class="exercise-item">
+                            <h4>Hammer Curls</h4>
+                            <p>3 sets of 10-12 reps. Primary exercise for brachialis thickness.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7009.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Reverse Curls</h4>
+                            <p>3 sets of 10-12 reps. Works brachialis and brachioradialis.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7015.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Triceps Detail Page -->
+                <div id="tricepsDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">TRICEPS MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>LONG HEAD</h3>
+                        <div class="exercise-item">
+                            <h4>Overhead Tricep Extensions</h4>
+                            <p>3-4 sets of 10-12 reps. Primary exercise for long head development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/6032.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Skull Crushers</h4>
+                            <p>3 sets of 8-12 reps. Excellent mass builder for long head.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://barbend.com/wp-content/uploads/2022/05/barbell-skull-crusher-barbend-movement-gif-masters.gif"
+                                alt="Skull Crushers" class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>LATERAL HEAD</h3>
+                        <div class="exercise-item">
+                            <h4>Cable Pushdowns (Rope)</h4>
+                            <p>3 sets of 12-15 reps. Isolates lateral head for definition.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/6002.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Dips</h4>
+                            <p>3-4 sets of 8-12 reps. Great for lateral head development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/2040.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>MEDIAL HEAD</h3>
+                        <div class="exercise-item">
+                            <h4>Close-Grip Bench Press</h4>
+                            <p>4 sets of 8-10 reps. Compound movement hitting all three heads.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/CG_BB_BP.gif"
+                                alt="Close-Grip Bench Press" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Reverse Grip Pushdowns</h4>
+                            <p>3 sets of 12-15 reps. Emphasizes medial head activation.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Reverse-Grip-Pushdown.gif"
+                                alt="Reverse Grip Pushdowns" class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shoulders Detail Page -->
+                <div id="shouldersDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">SHOULDER MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>ANTERIOR DELTOID</h3>
+                        <div class="exercise-item">
+                            <h4>Front Raises</h4>
+                            <p>3 sets of 10-12 reps. Isolates front deltoids.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_F_RAISE.gif" alt="Front Raises"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Military Press</h4>
+                            <p>4 sets of 8-10 reps. Primary mass builder for front delts.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3001.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>LATERAL DELTOID</h3>
+                        <div class="exercise-item">
+                            <h4>Lateral Raises</h4>
+                            <p>3-4 sets of 12-15 reps. Essential for shoulder width.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_LAT_RAISE.gif"
+                                alt="Lateral Raises" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Upright Rows</h4>
+                            <p>3 sets of 10-12 reps. Builds lateral deltoid mass.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3024.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>POSTERIOR DELTOID</h3>
+                        <div class="exercise-item">
+                            <h4>Rear Delt Flyes</h4>
+                            <p>3 sets of 12-15 reps. Critical for rear delt development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3013.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Face Pulls</h4>
+                            <p>3 sets of 15-20 reps. Excellent for rear delts and shoulder health.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/FACE_PULL.gif" alt="Face Pulls"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forearms Detail Page -->
+                <div id="forearmsDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">FOREARM MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>FLEXORS</h3>
+                        <div class="exercise-item">
+                            <h4>Wrist Curls</h4>
+                            <p>3 sets of 15-20 reps. Builds forearm flexor mass.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_WRIST_CURL.gif" alt="Wrist Curls"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Grip Crushers</h4>
+                            <p>Perform 2 to 3 sets of 8-15 reps on each hand, focusing on controlled and maximal
+                                squeezing.
+                            </p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://www.nerdfitness.com/wp-content/uploads/2019/06/improve-grip-strength-with-grip-crushers.gif"
+                                alt="Grip Crushes" class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>EXTENSORS</h3>
+                        <div class="exercise-item">
+                            <h4>Reverse Wrist Curls</h4>
+                            <p>3 sets of 15-20 reps. Targets forearm extensors.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/8005.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Wrist Rollers</h4>
+                            <p>3 sets to failure. Complete forearm extensor workout.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/8003.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>GRIP STRENGTH</h3>
+                        <div class="exercise-item">
+                            <h4>Farmer's Walks</h4>
+                            <p>3 sets of 30-60 seconds. Builds overall forearm and grip strength.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://www.verywellfit.com/thmb/JHjO_2UU0SV5J5ln0aKwp1clcVk=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/13-Farmers-Carry-GIF-ae7d9ca0c5be485987c72a1e7d944538.gif"
+                                alt="Farmer's Walks" class="exercise-video" style="display: none;">
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Dead Hangs</h4>
+                            <p>3 sets of max time. Develops grip endurance and strength.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <img src="https://www.inspireusafoundation.org/file/2023/06/dead-hang.gif" alt="Dead Hangs"
+                                class="exercise-video" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legs Detail Page -->
+                <div id="legsDetail" class="detail-page">
+                    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+                    <h2 class="page-title">LEG MUSCLES</h2>
+
+                    <div class="subsection-card">
+                        <h3>QUADRICEPS</h3>
+                        <div class="exercise-item">
+                            <h4>Barbell Squats</h4>
+                            <p>4 sets of 8-12 reps. The king of quad development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4001.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Leg Press</h4>
+                            <p>3-4 sets of 10-15 reps. Great for quad mass with less spinal load.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4067.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Leg Extensions</h4>
+                            <p>3 sets of 12-15 reps. Isolates quadriceps for definition.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4007.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>HAMSTRINGS</h3>
+                        <div class="exercise-item">
+                            <h4>Romanian Deadlifts</h4>
+                            <p>3-4 sets of 8-10 reps. Primary hamstring mass builder.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/1004.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Leg Curls</h4>
+                            <p>3 sets of 12-15 reps. Isolates hamstrings effectively.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4004.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Stiff-Leg Deadlifts</h4>
+                            <p>3 sets of 10-12 reps. Stretches and builds hamstrings.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4005.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>GLUTES</h3>
+                        <div class="exercise-item">
+                            <h4>Hip Thrusts</h4>
+                            <p>3-4 sets of 10-12 reps. Best exercise for glute development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4123.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Bulgarian Split Squats</h4>
+                            <p>3 sets of 10-12 reps per leg. Builds glutes and overall leg strength.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4024.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+
+                    <div class="subsection-card">
+                        <h3>CALVES</h3>
+                        <div class="exercise-item">
+                            <h4>Standing Calf Raises</h4>
+                            <p>4 sets of 15-20 reps. Targets gastrocnemius for calf mass.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4053.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Seated Calf Raises</h4>
+                            <p>3 sets of 15-20 reps. Works soleus for complete calf development.</p>
+                            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+                            <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4046.mp4"
+                                class="exercise-video" loop muted playsinline style="display: none;"></video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
+            <p>An Ishwar Prem Production</p>
+        </footer>
+
+
+        <!-- GymCoach AI Assistant HTML -->
+        <button id="coachToggleBtn" title="Open GymCoach AI">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path id="SVGRepo_iconCarrier"
+                    d="M211.832 39.06c-15.022 15.31-15.894 22.83-23.473 43.903 2.69 9.14 5.154 16.927 9.148 25.117 5.158.283 10.765.47 15.342.43-6.11-10.208-8.276-19.32-4.733-35.274 4.3 19.05 12.847 29.993 21.203 34.332q4.548-.5 8.776-1.146c-6.255-10.337-8.494-19.47-4.914-35.588 3.897 17.27 11.287 27.876 18.86 32.94 4.658-1.043 9.283-2.243 13.927-3.534-5.517-9.69-7.36-18.692-3.97-33.957 3.357 14.876 9.307 24.81 15.732 30.516a1528 1528 0 0 0 13.852-4.347c-.685-5.782-.416-12.187 1.064-19.115l1.883-8.8 17.603 3.76-1.88 8.804c-3.636 17.008 1.324 24.42 7.306 28.666 5.98 4.244 14.69 3.46 16.03 2.6l7.576-4.86 9.72 15.15c-3.857 2.34-7.9 5.44-11.822 7.06 18.65 27.678 32.183 61.465 24.756 93.55-2.365 9.474-6.03 18.243-11.715 24.986 12.725 12.13 21.215 22.026 31.032 34.5a692 692 0 0 0-11.692-7.37c-11.397-7.01-23.832-14.214-34.98-19.802-16.012-7.8-31.367-18.205-47.73-20.523-22.552-2.967-46.27 4.797-73.32 21.06 7.872 8.72 13.282 15.474 20.312 24.288-6.98-4.338-14.652-9.07-23.16-14.23-32.554-17.48-65.39-48.227-100.438-49.99-30.56-1.092-59.952 14.955-89.677 38.568L18 254.293V494h31.963c45.184-17.437 80.287-57.654 97.03-94.52l.25-.564.325-.52c9.463-15.252 11.148-29.688 16.79-44.732 5.645-15.044 16.907-29.718 41.884-38.756 4.353-2.16 5.07-1.415 8.633 1.395 30.468 24.01 57.29 32.02 83.24 32.35 32.61-1.557 58.442-9.882 85.682-19.38-3.966 3.528-8.77 7.21-13.986 10.762-15.323 10.436-34.217 19.928-46.304 24.8-14.716 2.006-28.36 2.416-41.967.616-9.96 12.09-25.574 20.358-37.35 26.673 63.92 14.023 115.88.91 167.386-22.896-9.522-1.817-19.008-3.692-27.994-5.42 31.634-4.422 64.984-3.766 94.705-3.53 4.084-.02 7.213-.453 8.7-.886 14.167-51.072-4.095-97.893-34.294-145.216-30.263-47.425-72.18-94.107-101.896-143.04-21.1-17.257-48.6-31.455-77.522-46.175-20.386 4.25-41.026 9.336-61.443 14.1zm85.385 70.49c-11.678 3.6-23.71 7.425-33.852 10.012 2.527 4.93 3.735 10.664 3.395 16.202 11.028.877 21.082-2.018 28.965-6.356 4.845-2.666 8.74-6.048 11.414-8.96-3.854-2.735-7.26-6.41-9.923-10.9zm-54.213 14.698c-11.76 1.143-24.59 2.362-35.06 2.236 2.39 4.772 3.78 12.067 8.51 14.84 11.18 1.164 20.6 1.997 29.91-1.746 5.435-3.214 1.818-15.058-3.36-15.33m-34.98 209.332c-17.593 7.233-22.586 15.14-26.813 26.406-3.998 10.66-6.227 25.076-14.48 41.014 32.29-6.38 69.625-21.23 93.852-40.088-17.017-5.098-34.553-13.852-52.557-27.332zm9.318 71.385c-18.723 7.237-40.836 16.144-59.696 14.062C143.774 446.68 124.012 474.03 91.762 494h84.68c21.564-29.798 38.067-56.575 40.9-89.035">
+                </path>
+            </svg>
+        </button>
+
+        <div id="gymCoachSidebar">
+            <div id="sidebarHeader">
+                <h3>GYMCOACH AI</h3>
+                <button id="closeCoachBtn" title="Close Chat">&times;</button>
+            </div>
+            <div id="chatWindow">
+                <div class="message ai-message">
+                    <p>Hey! I'm GymCoach. Ask me anything about fitness, exercises, or nutrition!</p>
+                </div>
+            </div>
+            <form id="chatForm">
+                <input type="text" id="userInput" placeholder="Ask a question..." autocomplete="off" required>
+                <button type="submit" title="Send Message">SEND</button>
+            </form>
         </div>
 
-        <!-- Right: Navigation Tabs + Logout Area -->
-        <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
-        <nav class="nav-tabs" id="navContainer">
-            <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
-            <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
-            <!-- Logout button will be injected here by JS -->
-        </nav>
+        <script src="js/script.js"></script>
 
-        <!-- Marquee Background -->
-        <div class="marquee-container">
-            <div class="marquee-text">
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-            </div>
-        </div>
-    </header>
+        <!-- Using a module script for Gemini API integration -->
+        <script type="module">
+            // --- Start of GymCoach AI Assistant Code ---
 
 
+            // =======================================================
+            // IMPORTANT: Add your Google Gemini API Key here
+            const API_KEY = "AIzaSyCNGUMI66Z3Iv3QkA3xf78F_A6mcoOY7WU";
+            // =======================================================
 
-    <section id="schedulerSection" class="hidden">
-        <main id="scheduler"> <!-- Added id="scheduler" so the tab link finds this section -->
 
-            <div class="scheduler-container">
-                <h2>Weekly Routine</h2>
+            // Import the GoogleGenerativeAI library
+            import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-                <!-- The 7-Day Grid -->
-                <div class="week-grid" id="weekGrid">
-                    <!-- Days will be injected here by JavaScript -->
-                </div>
-            </div>
 
-            <!-- Simple Modal to Add Exercise -->
-            <dialog id="addExerciseModal">
-                <h3>Add Exercise to <span id="modalDayName"></span></h3>
-                <div class="modal-input-group">
-                    <select id="muscleGroupSelect" class="modal-select">
-                        <option value="">Select Muscle Group</option>
-                        <!-- Populated by JS -->
-                    </select>
-                    <select id="exerciseSelect" disabled class="modal-select">
-                        <option value="">Select Exercise</option>
-                        <!-- Options populated by JS -->
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-modal btn-cancel" onclick="closeModal()">Cancel</button>
-                    <button class="btn-modal btn-save" onclick="saveExercise()">Save</button>
-                </div>
-            </dialog>
+            // DOM Elements
+            const coachToggleBtn = document.getElementById('coachToggleBtn');
+            const closeCoachBtn = document.getElementById('closeCoachBtn');
+            const sidebar = document.getElementById('gymCoachSidebar');
+            const chatForm = document.getElementById('chatForm');
+            const userInput = document.getElementById('userInput');
+            const chatWindow = document.getElementById('chatWindow');
+            let genAI, model;
 
-        </main>
-    </section>
 
-    <section id="exercisesSection">
-        <div class="container">
-            <!-- Main Page -->
-            <div id="mainPage" class="main-page">
-                <div class="muscle-groups">
-                    <!-- Back -->
-                    <div class="muscle-card">
-                        <h2>BACK</h2>
-                        <button class="detail-btn" onclick="showDetail('back')">DESTROY BACK</button>
-                    </div>
-
-                    <!-- Biceps -->
-                    <div class="muscle-card">
-                        <h2>BICEPS</h2>
-                        <button class="detail-btn" onclick="showDetail('biceps')">PUMP BICEPS</button>
-                    </div>
-
-                    <!-- Triceps -->
-                    <div class="muscle-card">
-                        <h2>TRICEPS</h2>
-                        <button class="detail-btn" onclick="showDetail('triceps')">BUILD TRICEPS</button>
-                    </div>
-
-                    <!-- Shoulders -->
-                    <div class="muscle-card">
-                        <h2>SHOULDERS</h2>
-                        <button class="detail-btn" onclick="showDetail('shoulders')">CRUSH SHOULDERS</button>
-                    </div>
-
-                    <!-- Forearms -->
-                    <div class="muscle-card">
-                        <h2>FOREARMS</h2>
-                        <button class="detail-btn" onclick="showDetail('forearms')">GRIP POWER</button>
-                    </div>
-
-                    <!-- Legs -->
-                    <div class="muscle-card">
-                        <h2>LEGS</h2>
-                        <button class="detail-btn" onclick="showDetail('legs')">OBLITERATE LEGS</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Detail Pages (Content unchanged) -->
-            <!-- Back Detail Page -->
-            <div id="backDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">BACK MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>UPPER BACK</h3>
-                    <div class="exercise-item">
-                        <h4>Pull-Ups (Wide Grip)</h4>
-                        <p>3-4 sets of 8-12 reps. Targets upper lats and teres major for width.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://media.tenor.com/bOA5VPeUz5QAAAAM/noequipmentexercisesmen-pullups.gif"
-                            alt="Pull-Ups" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Face Pulls</h4>
-                        <p>3 sets of 15-20 reps. Excellent for rear delts and upper back thickness.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/FACE_PULL.gif" alt="Face Pulls"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>High Cable Rows</h4>
-                        <p>3 sets of 10-12 reps. Builds upper back density and trapezius.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/1079.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>MID BACK</h3>
-                    <div class="exercise-item">
-                        <h4>Barbell Rows</h4>
-                        <p>4 sets of 8-10 reps. Core exercise for mid-back thickness.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://downloads.ctfassets.net/6ilvqec50fal/26TEIC8oITW2g58iY4lx9i/bc3ddf88afd1fa401738c39e64a17dfa/Reverse_Grip_-_Underhand_-_Barbell_Bent-Over_Row.gif"
-                            alt="Barbell Rows" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>T-Bar Rows</h4>
-                        <p>3-4 sets of 8-12 reps. Great for middle back development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/T_BAR_ROW_MAC.gif" alt="T-Bar Rows"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Seated Cable Rows</h4>
-                        <p>3 sets of 10-12 reps. Isolates middle back muscles effectively.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://gymvisual.com/img/p/1/5/2/4/1/15241.gif" alt="Seated Cable Rows"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>LOWER BACK</h3>
-                    <div class="exercise-item">
-                        <h4>Deadlifts</h4>
-                        <p>3-4 sets of 5-8 reps. The king of lower back and posterior chain development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://downloads.ctfassets.net/6ilvqec50fal/6KwX1ImLXsFqlD3ipUZZXr/816c1509a3fab6ff9c0c2dbe31d47c2e/Barbell_Romanian_Deadlift.gif"
-                            alt="Deadlifts" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Hyperextensions</h4>
-                        <p>3 sets of 12-15 reps. Strengthens erector spinae and lower back.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/HPET.gif" alt="Hyperextensions"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Good Mornings</h4>
-                        <p>3 sets of 10-12 reps. Builds lower back strength and hamstring flexibility.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/dumbbellgoodmorning-1457046257.gif"
-                            alt="Good Mornings" class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Biceps Detail Page -->
-            <div id="bicepsDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">BICEPS MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>LONG HEAD</h3>
-                    <div class="exercise-item">
-                        <h4>Incline Dumbbell Curls</h4>
-                        <p>3-4 sets of 10-12 reps. Stretches and targets the long head for peak development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://www.strengthlog.com/wp-content/uploads/2020/10/Incline-Dumbbell-Curl.gif"
-                            alt="Incline Dumbbell Curls" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Wide Grip Barbell Curls</h4>
-                        <p>3 sets of 8-12 reps. Emphasizes long head activation.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video
-                            src="https://www.shutterstock.com/shutterstock/videos/1016912113/preview/stock-footage-barbell-standing-wide-grip-biceps-curl-exercise-anatomy-of-fitness-and-bodybuilding-target.webm"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>SHORT HEAD</h3>
-                    <div class="exercise-item">
-                        <h4>Close Grip EZ Bar Curls</h4>
-                        <p>3-4 sets of 10-12 reps. Targets inner biceps for thickness.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7040.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Concentration Curls</h4>
-                        <p>3 sets of 10-15 reps. Maximum isolation of short head.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7010.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>BRACHIALIS</h3>
-                    <div class="exercise-item">
-                        <h4>Hammer Curls</h4>
-                        <p>3 sets of 10-12 reps. Primary exercise for brachialis thickness.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7009.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Reverse Curls</h4>
-                        <p>3 sets of 10-12 reps. Works brachialis and brachioradialis.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/7015.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Triceps Detail Page -->
-            <div id="tricepsDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">TRICEPS MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>LONG HEAD</h3>
-                    <div class="exercise-item">
-                        <h4>Overhead Tricep Extensions</h4>
-                        <p>3-4 sets of 10-12 reps. Primary exercise for long head development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/6032.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Skull Crushers</h4>
-                        <p>3 sets of 8-12 reps. Excellent mass builder for long head.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://barbend.com/wp-content/uploads/2022/05/barbell-skull-crusher-barbend-movement-gif-masters.gif"
-                            alt="Skull Crushers" class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>LATERAL HEAD</h3>
-                    <div class="exercise-item">
-                        <h4>Cable Pushdowns (Rope)</h4>
-                        <p>3 sets of 12-15 reps. Isolates lateral head for definition.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/6002.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Dips</h4>
-                        <p>3-4 sets of 8-12 reps. Great for lateral head development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/2040.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>MEDIAL HEAD</h3>
-                    <div class="exercise-item">
-                        <h4>Close-Grip Bench Press</h4>
-                        <p>4 sets of 8-10 reps. Compound movement hitting all three heads.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/CG_BB_BP.gif"
-                            alt="Close-Grip Bench Press" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Reverse Grip Pushdowns</h4>
-                        <p>3 sets of 12-15 reps. Emphasizes medial head activation.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://fitnessprogramer.com/wp-content/uploads/2021/06/Reverse-Grip-Pushdown.gif"
-                            alt="Reverse Grip Pushdowns" class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Shoulders Detail Page -->
-            <div id="shouldersDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">SHOULDER MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>ANTERIOR DELTOID</h3>
-                    <div class="exercise-item">
-                        <h4>Front Raises</h4>
-                        <p>3 sets of 10-12 reps. Isolates front deltoids.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_F_RAISE.gif" alt="Front Raises"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Military Press</h4>
-                        <p>4 sets of 8-10 reps. Primary mass builder for front delts.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3001.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>LATERAL DELTOID</h3>
-                    <div class="exercise-item">
-                        <h4>Lateral Raises</h4>
-                        <p>3-4 sets of 12-15 reps. Essential for shoulder width.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_LAT_RAISE.gif" alt="Lateral Raises"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Upright Rows</h4>
-                        <p>3 sets of 10-12 reps. Builds lateral deltoid mass.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3024.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>POSTERIOR DELTOID</h3>
-                    <div class="exercise-item">
-                        <h4>Rear Delt Flyes</h4>
-                        <p>3 sets of 12-15 reps. Critical for rear delt development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/3013.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Face Pulls</h4>
-                        <p>3 sets of 15-20 reps. Excellent for rear delts and shoulder health.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/FACE_PULL.gif" alt="Face Pulls"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Forearms Detail Page -->
-            <div id="forearmsDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">FOREARM MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>FLEXORS</h3>
-                    <div class="exercise-item">
-                        <h4>Wrist Curls</h4>
-                        <p>3 sets of 15-20 reps. Builds forearm flexor mass.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://burnfit.io/wp-content/uploads/2023/11/DB_WRIST_CURL.gif" alt="Wrist Curls"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Grip Crushers</h4>
-                        <p>Perform 2 to 3 sets of 8-15 reps on each hand, focusing on controlled and maximal squeezing.
-                        </p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://www.nerdfitness.com/wp-content/uploads/2019/06/improve-grip-strength-with-grip-crushers.gif"
-                            alt="Grip Crushes" class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>EXTENSORS</h3>
-                    <div class="exercise-item">
-                        <h4>Reverse Wrist Curls</h4>
-                        <p>3 sets of 15-20 reps. Targets forearm extensors.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/8005.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Wrist Rollers</h4>
-                        <p>3 sets to failure. Complete forearm extensor workout.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/8003.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>GRIP STRENGTH</h3>
-                    <div class="exercise-item">
-                        <h4>Farmer's Walks</h4>
-                        <p>3 sets of 30-60 seconds. Builds overall forearm and grip strength.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://www.verywellfit.com/thmb/JHjO_2UU0SV5J5ln0aKwp1clcVk=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/13-Farmers-Carry-GIF-ae7d9ca0c5be485987c72a1e7d944538.gif"
-                            alt="Farmer's Walks" class="exercise-video" style="display: none;">
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Dead Hangs</h4>
-                        <p>3 sets of max time. Develops grip endurance and strength.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <img src="https://www.inspireusafoundation.org/file/2023/06/dead-hang.gif" alt="Dead Hangs"
-                            class="exercise-video" style="display: none;">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Legs Detail Page -->
-            <div id="legsDetail" class="detail-page">
-                <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-                <h2 class="page-title">LEG MUSCLES</h2>
-
-                <div class="subsection-card">
-                    <h3>QUADRICEPS</h3>
-                    <div class="exercise-item">
-                        <h4>Barbell Squats</h4>
-                        <p>4 sets of 8-12 reps. The king of quad development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4001.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Leg Press</h4>
-                        <p>3-4 sets of 10-15 reps. Great for quad mass with less spinal load.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4067.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Leg Extensions</h4>
-                        <p>3 sets of 12-15 reps. Isolates quadriceps for definition.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4007.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>HAMSTRINGS</h3>
-                    <div class="exercise-item">
-                        <h4>Romanian Deadlifts</h4>
-                        <p>3-4 sets of 8-10 reps. Primary hamstring mass builder.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/1004.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Leg Curls</h4>
-                        <p>3 sets of 12-15 reps. Isolates hamstrings effectively.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4004.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Stiff-Leg Deadlifts</h4>
-                        <p>3 sets of 10-12 reps. Stretches and builds hamstrings.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4005.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>GLUTES</h3>
-                    <div class="exercise-item">
-                        <h4>Hip Thrusts</h4>
-                        <p>3-4 sets of 10-12 reps. Best exercise for glute development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4123.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Bulgarian Split Squats</h4>
-                        <p>3 sets of 10-12 reps per leg. Builds glutes and overall leg strength.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4024.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-
-                <div class="subsection-card">
-                    <h3>CALVES</h3>
-                    <div class="exercise-item">
-                        <h4>Standing Calf Raises</h4>
-                        <p>4 sets of 15-20 reps. Targets gastrocnemius for calf mass.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4053.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                    <div class="exercise-item">
-                        <h4>Seated Calf Raises</h4>
-                        <p>3 sets of 15-20 reps. Works soleus for complete calf development.</p>
-                        <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-                        <video src="https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4046.mp4"
-                            class="exercise-video" loop muted playsinline style="display: none;"></video>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
-        <p>An Ishwar Prem Production</p>
-    </footer>
-
-
-    <!-- GymCoach AI Assistant HTML -->
-    <button id="coachToggleBtn" title="Open GymCoach AI">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M14.3 2.29C14.06 2.12 13.77 2.04 13.5 2.04C12.93 2.04 12.42 2.38 12.22 2.91L11.35 5.18C11.04 6.02 10.21 6.56 9.32 6.5C7.76 6.39 6.32 7.13 5.56 8.47C4.79 9.82 4.86 11.48 5.72 12.77L6.3 13.65C6.71 14.25 6.54 15.07 5.93 15.47C5.15 15.99 4.7 16.87 4.7 17.8C4.7 19.6 6.11 21.06 7.9 21.14L16.14 21.52C17.98 21.6 19.5 20.1 19.5 18.25V14.3C19.5 12.92 18.72 11.72 17.55 11.14C17.83 10.27 17.61 9.29 16.97 8.65L14.3 2.29Z"
-                fill="currentColor" />
-            <path
-                d="M10.5 10C10.5 10.8284 11.1716 11.5 12 11.5C12.8284 11.5 13.5 10.8284 13.5 10C13.5 9.17157 12.8284 8.5 12 8.5C11.1716 8.5 10.5 9.17157 10.5 10Z"
-                fill="#FF5200" />
-        </svg>
-    </button>
-
-    <div id="gymCoachSidebar">
-        <div id="sidebarHeader">
-            <h3>GYMCOACH AI</h3>
-            <button id="closeCoachBtn" title="Close Chat">&times;</button>
-        </div>
-        <div id="chatWindow">
-            <div class="message ai-message">
-                <p>Hey! I'm GymCoach. Ask me anything about fitness, exercises, or nutrition!</p>
-            </div>
-        </div>
-        <form id="chatForm">
-            <input type="text" id="userInput" placeholder="Ask a question..." autocomplete="off" required>
-            <button type="submit" title="Send Message">SEND</button>
-        </form>
-    </div>
-
-    <script src="js/script.js"></script>
-
-    <!-- Using a module script for Gemini API integration -->
-    <script type="module">
-        // --- Start of GymCoach AI Assistant Code ---
-
-
-        // =======================================================
-        // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyCNGUMI66Z3Iv3QkA3xf78F_A6mcoOY7WU";
-        // =======================================================
-
-
-        // Import the GoogleGenerativeAI library
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
-
-        // DOM Elements
-        const coachToggleBtn = document.getElementById('coachToggleBtn');
-        const closeCoachBtn = document.getElementById('closeCoachBtn');
-        const sidebar = document.getElementById('gymCoachSidebar');
-        const chatForm = document.getElementById('chatForm');
-        const userInput = document.getElementById('userInput');
-        const chatWindow = document.getElementById('chatWindow');
-        let genAI, model;
-
-
-        // Initialize the model only if the API key is provided
-        if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
-            try {
-                genAI = new GoogleGenerativeAI(API_KEY);
-                /* FIX: Changed to a stable, reliable model to prevent overload errors. */
-                model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-            } catch (error) {
-                console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
-            }
-        } else {
-            console.warn("Gemini API Key is not set. The GymCoach AI will not function.");
-        }
-
-
-        // Event Listeners
-        coachToggleBtn.addEventListener('click', () => {
-            sidebar.classList.add('active');
-            coachToggleBtn.style.display = 'none'; // Hide button when sidebar is open
-        });
-
-
-        closeCoachBtn.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            coachToggleBtn.style.display = 'block'; // Show button when sidebar is closed
-        });
-
-
-        chatForm.addEventListener('submit', handleChatSubmit);
-
-
-        // Functions
-        async function handleChatSubmit(e) {
-            e.preventDefault();
-            const userMessage = userInput.value.trim();
-
-
-            if (!userMessage) return;
-
-
-            // Check if API key is missing
-            if (!model) {
-                const warningMsg = "Please ask the site administrator to add a Gemini API key in the script to enable GymCoach.";
-                if (!document.querySelector('.api-key-warning')) {
-                    addMessageToChatWindow(warningMsg, "ai", false, 'api-key-warning');
+            // Initialize the model only if the API key is provided
+            if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
+                try {
+                    genAI = new GoogleGenerativeAI(API_KEY);
+                    /* FIX: Changed to a stable, reliable model to prevent overload errors. */
+                    model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+                } catch (error) {
+                    console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
                 }
-                userInput.value = "";
-                return;
-            }
-
-
-            addMessageToChatWindow(userMessage, "user");
-            userInput.value = "";
-
-
-            // Show typing indicator
-            addMessageToChatWindow("", "ai", true);
-
-
-            try {
-                const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
-
-
-                const result = await model.generateContent(prompt);
-                const response = result.response;
-                const text = response.text();
-
-
-                // Remove typing indicator and add final response
-                updateLastMessage(text);
-
-
-            } catch (error) {
-                console.error("Error calling Gemini API:", error);
-                updateLastMessage("Sorry, I'm having trouble connecting right now. Please check the API key and your connection, then try again.");
-            }
-        }
-
-
-        function addMessageToChatWindow(message, sender, isTyping = false, customClass = '') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message ${customClass}`;
-
-
-            const p = document.createElement('p');
-
-            if (isTyping) {
-                p.innerHTML = '<span></span><span></span><span></span>';
-                messageDiv.id = 'typing-indicator';
             } else {
-                p.textContent = message;
+                console.warn("Gemini API Key is not set. The GymCoach AI will not function.");
             }
 
 
-            messageDiv.appendChild(p);
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
-        }
+            // Event Listeners
+            coachToggleBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                coachToggleBtn.style.display = 'none'; // Hide button when sidebar is open
+            });
 
 
-        function updateLastMessage(newMessage) {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                const formattedMessage = newMessage.replace(/\*/g, '').trim();
-                typingIndicator.querySelector('p').innerHTML = formattedMessage;
-                typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
+            closeCoachBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                coachToggleBtn.style.display = 'block'; // Show button when sidebar is closed
+            });
+
+
+            chatForm.addEventListener('submit', handleChatSubmit);
+
+
+            // Functions
+            async function handleChatSubmit(e) {
+                e.preventDefault();
+                const userMessage = userInput.value.trim();
+
+
+                if (!userMessage) return;
+
+
+                // Check if API key is missing
+                if (!model) {
+                    const warningMsg = "Please ask the site administrator to add a Gemini API key in the script to enable GymCoach.";
+                    if (!document.querySelector('.api-key-warning')) {
+                        addMessageToChatWindow(warningMsg, "ai", false, 'api-key-warning');
+                    }
+                    userInput.value = "";
+                    return;
+                }
+
+
+                addMessageToChatWindow(userMessage, "user");
+                userInput.value = "";
+
+
+                // Show typing indicator
+                addMessageToChatWindow("", "ai", true);
+
+
+                try {
+                    const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
+
+
+                    const result = await model.generateContent(prompt);
+                    const response = result.response;
+                    const text = response.text();
+
+
+                    // Remove typing indicator and add final response
+                    updateLastMessage(text);
+
+
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    updateLastMessage("Sorry, I'm having trouble connecting right now. Please check the API key and your connection, then try again.");
+                }
             }
-        }
 
-    </script>
-</body>
+
+            function addMessageToChatWindow(message, sender, isTyping = false, customClass = '') {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message ${customClass}`;
+
+
+                const p = document.createElement('p');
+
+                if (isTyping) {
+                    p.innerHTML = '<span></span><span></span><span></span>';
+                    messageDiv.id = 'typing-indicator';
+                } else {
+                    p.textContent = message;
+                }
+
+
+                messageDiv.appendChild(p);
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+            }
+
+
+            function updateLastMessage(newMessage) {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    const formattedMessage = newMessage.replace(/\*/g, '').trim();
+                    typingIndicator.querySelector('p').innerHTML = formattedMessage;
+                    typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
+                }
+            }
+
+        </script>
+    </body>
 
 </html>
