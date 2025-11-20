@@ -283,10 +283,48 @@ const EXERCISE_LIBRARY = {
         "Standing Calf Raises",
         "Seated Calf Raises"
     ],
-    "Other": [
-        "Rest Day",
-        "Cardio",
-        "Stretching"
+    "Chest": [
+        "Bench Press",
+        "Incline Bench Press",
+        "Dumbbell Flyes",
+        "Push Ups",
+        "Cable Crossovers",
+        "Dips"
+    ],
+    "Cardio": [
+        "Running",
+        "Cycling",
+        "Jump Rope",
+        "HIIT",
+        "Rowing",
+        "Stair Climber"
+    ],
+    "Calisthenics": [
+        "Muscle Ups",
+        "Planque",
+        "Front Lever",
+        "Pistol Squats",
+        "Handstand Pushups",
+        "L-Sit"
+    ],
+    "Neck": [
+        "Neck Curls",
+        "Neck Extensions",
+        "Neck Bridges"
+    ],
+    "Core": [
+        "Plank",
+        "Crunches",
+        "Leg Raises",
+        "Russian Twists",
+        "Ab Wheel Rollouts",
+        "Hanging Leg Raises"
+    ],
+    "Rest Day": [
+        "Rest",
+        "Active Recovery",
+        "Stretching",
+        "Foam Rolling"
     ]
 };
 
