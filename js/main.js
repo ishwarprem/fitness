@@ -13,7 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // If no user is logged in, redirect to the auth page
         window.location.replace('auth.html');
     } else {
-        // User is logged in: Inject Logout button into the Nav Container
+        // User is logged in: Show the page
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+        document.body.style.transition = 'opacity 0.5s ease-in';
+
+        // Inject Logout button into the Nav Container
         const navContainer = document.getElementById('navContainer');
 
         const logoutButton = document.createElement('button');
