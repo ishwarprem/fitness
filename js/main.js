@@ -7,30 +7,33 @@ const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // --- AUTH GATEKEEPER ---
 document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Check Auth Session
     const { data: { session } } = await _supabase.auth.getSession();
 
     if (!session) {
-        // If no user is logged in, redirect to the auth page
+        // Not logged in? Go to Auth
         window.location.replace('auth.html');
-    } else {
-        // User is logged in: Show the page
-        document.body.style.visibility = 'visible';
-        document.body.style.opacity = '1';
-        document.body.style.transition = 'opacity 0.5s ease-in';
-
-        // Inject Logout button into the Nav Container
-        const navContainer = document.getElementById('navContainer');
-
-        const logoutButton = document.createElement('button');
-        logoutButton.id = 'logoutBtn';
-        logoutButton.textContent = 'LOGOUT';
-
-        // Append to the nav container instead of the header
-        navContainer.appendChild(logoutButton);
-
-        logoutButton.addEventListener('click', async () => {
-            await _supabase.auth.signOut();
-            window.location.replace('auth.html');
-        });
+        return; // Stop execution
     }
+
+    // 2. Check if Profile Exists
+    const { data: profile, error } = await _supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', session.user.id)
+        .single();
+
+    if (!profile) {
+        // Logged in, but no profile? Force Onboarding
+        window.location.replace('onboarding.html');
+        return;
+    }
+
+    // 3. All Good? Reveal the Page
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = '1';
+    document.body.style.transition = 'opacity 0.5s ease-in';
+
+    // Initialize your app logic here...
+    // (Rest of your existing code follows...)
 });

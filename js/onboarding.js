@@ -133,30 +133,63 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
     console.log("Generated Profile:", profileData);
 
     // D. Save Data (Supabase + LocalStorage Fallback)
+    // D. Save Data
     try {
-        // 1. Local Backup (Instant access)
-        localStorage.setItem('fitnotfat_profile', JSON.stringify(profileData));
-
-        // 2. Supabase Insert (If logged in)
+        // 1. Get Current User
         const { data: { session } } = await _supabase.auth.getSession();
 
-        if (session) {
-            // Update user metadata or a dedicated 'profiles' table
-            // Note: Ensure you have a 'profiles' table in Supabase linked to auth.users
-            const { error } = await _supabase
-                .from('profiles')
-                .upsert({
-                    id: session.user.id,
-                    ...profileData,
-                    updated_at: new Date()
-                });
-
-            if (error) throw error;
+        if (!session) {
+            console.error("No session found.");
+            alert("You need to be logged in to save.");
+            return;
         }
 
-        // Success
+        // 2. Upsert into Supabase
+        // FIX: Explicitly map JS variables to DB Column Names
+        const { error } = await _supabase
+            .from('profiles')
+            .upsert({
+                id: session.user.id,
+
+                // DB Column Name : JS Variable Name
+                gender: gender,
+                age: age,
+                height: height,
+                weight: weight,
+
+                // FIXED: Mapped 'experience' -> 'experience_level'
+                experience_level: experience,
+
+                goal: goal,
+
+                // FIXED: Mapped 'frequency' -> 'training_frequency'
+                training_frequency: frequency,
+
+                injuries: injuries,
+                stats: { // We save the calculated math in the JSON column
+                    bmr: Math.round(bmr),
+                    tdee: tdee,
+                    target_calories: targetCalories,
+                    macros: {
+                        protein: Math.round((targetCalories * 0.3) / 4),
+                        carbs: Math.round((targetCalories * 0.35) / 4),
+                        fats: Math.round((targetCalories * 0.35) / 9)
+                    }
+                },
+                updated_at: new Date()
+            });
+
+        if (error) {
+            console.error("Supabase Error:", error);
+            throw error;
+        }
+
+        // 3. Success UI
         btn.innerText = "PROFILE COMPLETE";
         btn.style.backgroundColor = "#00C851"; // Green
+
+        // Save local backup just in case
+        localStorage.setItem('fitnotfat_profile', JSON.stringify(profileData));
 
         setTimeout(() => {
             window.location.href = 'index.html';
@@ -164,8 +197,8 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
 
     } catch (error) {
         console.error("Saving error:", error);
-        // Even if Supabase fails (e.g. table doesn't exist), we proceed with local data
-        alert("Profile saved locally! Redirecting...");
-        window.location.href = 'index.html';
+        alert("Error saving profile: " + error.message);
+        btn.innerText = "TRY AGAIN";
+        btn.disabled = false;
     }
 });

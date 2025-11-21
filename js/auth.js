@@ -53,16 +53,36 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     const errorEl = document.getElementById('loginError');
+    const btn = e.target.querySelector('button');
 
     errorEl.style.display = 'none';
+    btn.textContent = "CHECKING...";
+    btn.disabled = true;
 
-    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+    // 1. Attempt Login
+    const { data: { user }, error } = await _supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
         errorEl.textContent = "Invalid login credentials.";
         errorEl.style.display = 'block';
+        btn.textContent = "LOGIN";
+        btn.disabled = false;
+        return;
+    }
+
+    // 2. Login Success! Now Check for Profile
+    const { data: profile, error: profileError } = await _supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', user.id)
+        .single();
+
+    // 3. Route Logic
+    if (profile) {
+        // Profile exists -> Go to Dashboard
+        window.location.href = 'index.html';
     } else {
-        // On successful login, redirect to the main app page
+        // No profile found (New user) -> Go to Onboarding
         window.location.href = 'onboarding.html';
     }
 });
