@@ -37,7 +37,7 @@
         <nav class="nav-tabs" id="navContainer">
             <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
             <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
-            <!-- Logout button will be injected here by JS -->
+            <button class="tab-btn" onclick="logout()" id="logoutBtn">LOG OUT</button>
         </nav>
 
         <!-- Marquee Background -->
@@ -686,7 +686,7 @@
 
         // =======================================================
         // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyCNGUMI66Z3Iv3QkA3xf78F_A6mcoOY7WU";
+        const API_KEY = "AIzaSyBuLa8ARh2itSCLHL4zZGknMGblBB5cXro";
         // =======================================================
 
 
@@ -705,7 +705,7 @@
 
 
         // Initialize the model only if the API key is provided
-        if (API_KEY && API_KEY !== "YOUR_API_KEY_HERE") {
+        if (API_KEY && API_KEY !== "AIzaSyBuLa8ARh2itSCLHL4zZGknMGblBB5cXro") {
             try {
                 genAI = new GoogleGenerativeAI(API_KEY);
                 /* FIX: Changed to a stable, reliable model to prevent overload errors. */

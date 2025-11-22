@@ -37,3 +37,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize your app logic here...
     // (Rest of your existing code follows...)
 });
+
+// --- LOGOUT FUNCTION ---
+async function logout() {
+    const { error } = await _supabase.auth.signOut();
+    if (error) {
+        console.error('Error logging out:', error);
+        alert('Error logging out. See console for details.');
+    } else {
+        window.location.href = 'auth.html';
+    }
+}
