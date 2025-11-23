@@ -680,20 +680,8 @@
     <script src="js/script.js"></script>
 
     <!-- Using a module script for Gemini API integration -->
-    <script type="module">
-        // --- Start of GymCoach AI Assistant Code ---
-
-
-        // =======================================================
-        // IMPORTANT: Add your Google Gemini API Key here
-        const API_KEY = "AIzaSyBuLa8ARh2itSCLHL4zZGknMGblBB5cXro";
-        // =======================================================
-
-
-        // Import the GoogleGenerativeAI library
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
-
+    <!-- REPLACE YOUR ENTIRE BOTTOM SCRIPT WITH THIS -->
+    <script>
         // DOM Elements
         const coachToggleBtn = document.getElementById('coachToggleBtn');
         const closeCoachBtn = document.getElementById('closeCoachBtn');
@@ -701,117 +689,89 @@
         const chatForm = document.getElementById('chatForm');
         const userInput = document.getElementById('userInput');
         const chatWindow = document.getElementById('chatWindow');
-        let genAI, model;
-
-
-        // Initialize the model only if the API key is provided
-        if (API_KEY && API_KEY !== "AIzaSyBuLa8ARh2itSCLHL4zZGknMGblBB5cXro") {
-            try {
-                genAI = new GoogleGenerativeAI(API_KEY);
-                /* FIX: Changed to a stable, reliable model to prevent overload errors. */
-                model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-            } catch (error) {
-                console.error("Failed to initialize GoogleGenerativeAI. Check your API key.", error);
-            }
-        } else {
-            console.warn("Gemini API Key is not set. The GymCoach AI will not function.");
-        }
-
 
         // Event Listeners
-        coachToggleBtn.addEventListener('click', () => {
-            sidebar.classList.add('active');
-            coachToggleBtn.style.display = 'none'; // Hide button when sidebar is open
-        });
+        if (coachToggleBtn) {
+            coachToggleBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                coachToggleBtn.style.display = 'none';
+            });
+        }
 
+        if (closeCoachBtn) {
+            closeCoachBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                coachToggleBtn.style.display = 'flex';
+            });
+        }
 
-        closeCoachBtn.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            coachToggleBtn.style.display = 'block'; // Show button when sidebar is closed
-        });
-
-
-        chatForm.addEventListener('submit', handleChatSubmit);
-
+        if (chatForm) {
+            chatForm.addEventListener('submit', handleChatSubmit);
+        }
 
         // Functions
         async function handleChatSubmit(e) {
             e.preventDefault();
             const userMessage = userInput.value.trim();
-
-
             if (!userMessage) return;
 
-
-            // Check if API key is missing
-            if (!model) {
-                const warningMsg = "Please ask the site administrator to add a Gemini API key in the script to enable GymCoach.";
-                if (!document.querySelector('.api-key-warning')) {
-                    addMessageToChatWindow(warningMsg, "ai", false, 'api-key-warning');
-                }
-                userInput.value = "";
-                return;
-            }
-
-
+            // 1. Show User Message
             addMessageToChatWindow(userMessage, "user");
             userInput.value = "";
 
-
-            // Show typing indicator
+            // 2. Show Typing Indicator
             addMessageToChatWindow("", "ai", true);
 
-
             try {
-                const prompt = `You are GymCoach, an expert AI fitness assistant. A user has a question about the gym. Keep your answers concise, helpful, and motivating, using simple language. Format your response with paragraphs for readability. User's question: "${userMessage}"`;
+                // 3. Call Vercel Backend (No API Key needed here!)
+                const response = await fetch('/api/gymcoach', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessage })
+                });
 
+                const data = await response.json();
 
-                const result = await model.generateContent(prompt);
-                const response = result.response;
-                const text = response.text();
+                if (!response.ok) {
+                    throw new Error(data.error || "Server connection failed");
+                }
 
-
-                // Remove typing indicator and add final response
-                updateLastMessage(text);
-
+                // 4. Display AI Response
+                updateLastMessage(data.reply);
 
             } catch (error) {
-                console.error("Error calling Gemini API:", error);
-                updateLastMessage("Sorry, I'm having trouble connecting right now. Please check the API key and your connection, then try again.");
+                console.error("Chat Error:", error);
+                updateLastMessage("I'm having trouble connecting to the server. Please refresh and try again.");
             }
         }
 
-
-        function addMessageToChatWindow(message, sender, isTyping = false, customClass = '') {
+        function addMessageToChatWindow(message, sender, isTyping = false) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message ${customClass}`;
-
+            messageDiv.className = `message ${sender}-message`;
 
             const p = document.createElement('p');
-
             if (isTyping) {
-                p.innerHTML = '<span></span><span></span><span></span>';
+                p.innerHTML = '<span>.</span><span>.</span><span>.</span>';
                 messageDiv.id = 'typing-indicator';
             } else {
-                p.textContent = message;
+                p.innerHTML = message.replace(/\n/g, '<br>');
             }
-
 
             messageDiv.appendChild(p);
             chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+            chatWindow.scrollTop = chatWindow.scrollHeight;
         }
-
 
         function updateLastMessage(newMessage) {
             const typingIndicator = document.getElementById('typing-indicator');
             if (typingIndicator) {
-                const formattedMessage = newMessage.replace(/\*/g, '').trim();
-                typingIndicator.querySelector('p').innerHTML = formattedMessage;
-                typingIndicator.removeAttribute('id'); // Remove id so it's not selected again
+                const cleanMsg = newMessage.replace(/\*\*/g, '').replace(/\*/g, '');
+                const p = typingIndicator.querySelector('p');
+                p.innerHTML = cleanMsg.replace(/\n/g, '<br>');
+                typingIndicator.removeAttribute('id');
+                chatWindow.scrollTop = chatWindow.scrollHeight;
             }
         }
-
     </script>
 </body>
 
