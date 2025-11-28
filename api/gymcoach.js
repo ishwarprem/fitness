@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     // 3. Parse user message
     const { message } = req.body;
 
-    // 4. Connect to Google
+    // 4. Connect to Google (Using the stable model)
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
