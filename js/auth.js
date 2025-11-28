@@ -44,6 +44,8 @@ registerForm.addEventListener('submit', async (e) => {
         successEl.textContent = 'Success! Please check your email to confirm your account.';
         successEl.style.display = 'block';
         registerForm.reset();
+
+       
     }
 });
 
