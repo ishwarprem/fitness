@@ -1,5 +1,6 @@
 {
     "dependencies": {
-        "@google/generative-ai": "latest"
+        "@google/generative-ai": "latest",
+        "typescript": "^5.9.3"
     }
 }
