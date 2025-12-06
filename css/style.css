@@ -966,3 +966,25 @@ dialog h3 span {
     align-items: center;
     gap: 1.5rem;
 }
+
+/* Chat Message Formatting */
+.ai-message ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.ai-message li {
+    margin-bottom: 5px;
+    list-style-type: disc;
+    /* Makes sure dots show up */
+}
+
+.ai-message strong {
+    color: #FF5200;
+    /* Make bold text Orange */
+    font-weight: 700;
+}
+
+.ai-message p {
+    margin-bottom: 10px;
+}

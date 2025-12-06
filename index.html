@@ -15,7 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap"
         rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Your Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
 
@@ -737,26 +737,33 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
 
-            const p = document.createElement('p');
             if (isTyping) {
-                p.innerHTML = '<span>.</span><span>.</span><span>.</span>';
+                // Typing indicator stays the same
                 messageDiv.id = 'typing-indicator';
+                messageDiv.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
             } else {
-                p.innerHTML = message.replace(/\n/g, '<br>');
+                // FOR THE AI: Parse Markdown to HTML
+                if (sender === 'ai') {
+                    // This converts **Bold** to <b> and - List to <li>
+                    messageDiv.innerHTML = marked.parse(message);
+                } else {
+                    // FOR USER: Keep plain text
+                    messageDiv.textContent = message;
+                }
             }
 
-            messageDiv.appendChild(p);
             chatWindow.appendChild(messageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
+        // Also update this small helper function to use Markdown
         function updateLastMessage(newMessage) {
             const typingIndicator = document.getElementById('typing-indicator');
             if (typingIndicator) {
-                const cleanMsg = newMessage.replace(/\*\*/g, '').replace(/\*/g, '');
-                const p = typingIndicator.querySelector('p');
-                p.innerHTML = cleanMsg.replace(/\n/g, '<br>');
-                typingIndicator.removeAttribute('id');
+                const messageDiv = typingIndicator; // Reuse the div
+                messageDiv.removeAttribute('id');
+                // Convert the new message to HTML
+                messageDiv.innerHTML = marked.parse(newMessage);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
         }
