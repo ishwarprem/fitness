@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
     // 4. Connect to Google (Using standard model)
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `You are GymCoach, an expert AI fitness assistant. Keep answers concise and motivating. User asks: "${message}"`;
 
