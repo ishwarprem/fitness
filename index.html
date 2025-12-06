@@ -723,30 +723,31 @@
 
             // 2. Show Typing Indicator
             addMessageToChatWindow("", "ai", true);
+            // ... inside handleChatSubmit function ...
 
             try {
-                // 3. Call Vercel Backend (No API Key needed here!)
+                // 1. Get User Profile from Local Storage (Saved during Onboarding)
+                const storedProfile = localStorage.getItem('fitnotfat_profile');
+                const userProfile = storedProfile ? JSON.parse(storedProfile) : null;
+
+                // 2. Call Vercel Backend with Message AND Profile
                 const response = await fetch('/api/gymcoach', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userMessage })
+                    body: JSON.stringify({
+                        message: userMessage,
+                        userProfile: userProfile // <--- Sending the data here
+                    })
                 });
 
-                let data;
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    data = await response.json();
-                } else {
-                    const text = await response.text();
-                    throw new Error(`Server Error: ${text.substring(0, 100)}...`); // Capture partial text for debugging
-                }
+                const data = await response.json();
 
                 if (!response.ok) {
                     throw new Error(data.error || "Server connection failed");
                 }
 
-                // 4. Display AI Response
                 updateLastMessage(data.reply);
+
 
             } catch (error) {
                 console.error("Chat Error:", error);
