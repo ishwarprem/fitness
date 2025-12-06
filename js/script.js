@@ -471,13 +471,17 @@ function toggleVideo(button) {
 }
 
 function switchTab(tabName) {
-    // 1. Hide both main sections
+    // 1. Hide all main sections
     document.getElementById('schedulerSection').classList.add('hidden');
     document.getElementById('exercisesSection').classList.add('hidden');
+    const aiCoachSection = document.getElementById('aiCoachSection');
+    if (aiCoachSection) aiCoachSection.classList.add('hidden');
 
     // 2. Remove 'active' class from all tabs
     document.getElementById('tab-scheduler').classList.remove('active');
     document.getElementById('tab-exercises').classList.remove('active');
+    const tabAiCoach = document.getElementById('tab-ai-coach');
+    if (tabAiCoach) tabAiCoach.classList.remove('active');
 
     // 3. Show the selected section and activate button
     if (tabName === 'scheduler') {
@@ -488,6 +492,9 @@ function switchTab(tabName) {
         document.getElementById('exercisesSection').classList.remove('hidden');
         document.getElementById('tab-exercises').classList.add('active');
         showMain(); // Ensure we are on the main grid, not a detail page
+    } else if (tabName === 'ai-coach') {
+        if (aiCoachSection) aiCoachSection.classList.remove('hidden');
+        if (tabAiCoach) tabAiCoach.classList.add('active');
     }
 }
 
