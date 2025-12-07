@@ -412,7 +412,7 @@ footer {
 }
 
 .ai-greeting h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: var(--text-main);
     letter-spacing: normal;
@@ -496,36 +496,7 @@ footer {
     align-items: center;
 }
 
-.tool-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.tool-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    color: #aaa;
-    font-size: 0.85rem;
-    padding: 6px 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-    font-family: var(--font-body);
-}
-
-.tool-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-.tool-btn svg {
-    width: 14px;
-    height: 14px;
-    fill: currentColor;
-}
+/* Tool buttons styles removed */
 
 .send-btn {
     background: #333;
