@@ -599,8 +599,48 @@ function saveProfile() {
     // Disable inputs again
     toggleEditMode(false);
 
+    // 6. Sync to Supabase
+    saveProfileToSupabase(profileData, btn, originalText);
+}
+
+async function saveProfileToSupabase(profileData, btn, originalText) {
+    try {
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (!session) {
+            console.warn("User not logged in, saved locally only.");
+            finishSaveUI(btn, originalText, "SAVED LOCALLY!");
+            return;
+        }
+
+        const { error } = await _supabase
+            .from('profiles')
+            .upsert({
+                id: session.user.id,
+                username: profileData.username,
+                gender: profileData.gender,
+                age: profileData.age,
+                height: profileData.height,
+                weight: profileData.weight,
+                experience_level: profileData.experience,
+                goal: profileData.goal,
+                training_frequency: profileData.frequency,
+                stats: profileData.stats,
+                updated_at: new Date()
+            });
+
+        if (error) throw error;
+
+        finishSaveUI(btn, originalText, "SAVED TO CLOUD!");
+
+    } catch (err) {
+        console.error("Supabase Sync Error:", err);
+        finishSaveUI(btn, originalText, "SAVED LOCALLY (SYNC ERROR)");
+    }
+}
+
+function finishSaveUI(btn, originalText, message) {
     setTimeout(() => {
-        btn.innerText = "PROFILE SAVED!";
+        btn.innerText = message;
         btn.style.backgroundColor = "#00C851";
 
         setTimeout(() => {
@@ -608,8 +648,6 @@ function saveProfile() {
             btn.style.backgroundColor = ""; // Reset
         }, 2000);
     }, 500);
-
-    // Optional: Sync to Supabase if logic existed here (skipping for this simple requested task)
 }
 
 function toggleEditMode(forceState = null) {
