@@ -96,59 +96,7 @@
 }
 
 /* --- Calculated Stats Card --- */
-.stats-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.stats-card h3 {
-    text-align: center;
-    color: var(--text-main);
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    text-align: center;
-}
-
-.metric-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-    background: #000;
-    border-radius: 8px;
-    border: 1px solid #222;
-}
-
-.metric-item.highlight {
-    border-color: var(--primary-accent);
-    box-shadow: 0 0 20px rgba(255, 82, 0, 0.1);
-}
-
-.metric-item .label {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.metric-item .value {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-family: var(--font-heading);
-}
-
-.metric-item.highlight .value {
-    color: var(--primary-accent);
-}
+/* Calculated Stats Styles Removed */
 
 .form-actions {
     display: flex;

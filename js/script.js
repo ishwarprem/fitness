@@ -529,12 +529,8 @@ function loadProfile() {
         document.getElementById('p_frequency').value = profile.frequency || 3;
         document.getElementById('p_goal').value = profile.goal || 'lose_fat';
 
-        // Populate Stats (if available)
-        if (profile.stats) {
-            document.getElementById('p_bmr').innerText = profile.stats.bmr || '--';
-            document.getElementById('p_tdee').innerText = profile.stats.tdee || '--';
-            document.getElementById('p_target').innerText = profile.stats.target_calories || '--';
-        }
+        // Populate Stats (if available) - UI Removed
+        // if (profile.stats) { ... }
     } catch (e) {
         console.error("Error loading profile", e);
     }
