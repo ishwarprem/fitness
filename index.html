@@ -91,18 +91,48 @@
     <section id="aiCoachSection" class="hidden">
         <div class="container">
             <div class="coach-container">
-                <div id="sidebarHeader">
-                    <h3>GYMCOACH AI</h3>
+                <!-- Greeting (Start Page Only) -->
+                <div id="aiGreeting" class="ai-greeting">
+                    <h2>Hey! I'm GymCoach. Ask me anything about fitness, exercises, or nutrition!</h2>
                 </div>
-                <div id="chatWindow">
-                    <div class="message ai-message">
-                        <p>Hey! I'm GymCoach. Ask me anything about fitness, exercises, or nutrition!</p>
-                    </div>
+
+                <!-- Chat Window (Fills space when chatting) -->
+                <div id="chatWindow" class="hidden">
+                    <!-- Messages will be injected here -->
                 </div>
-                <form id="chatForm">
-                    <input type="text" id="userInput" placeholder="Ask a question..." autocomplete="off" required>
-                    <button type="submit" title="Send Message">SEND</button>
-                </form>
+
+                <!-- Input Area -->
+                <div id="inputWrapper" class="input-wrapper">
+                    <form id="chatForm">
+                        <div class="input-box">
+                            <textarea id="userInput" placeholder="Message GymCoach..." rows="1"></textarea>
+                            <div class="input-tools">
+                                <div class="tool-buttons">
+                                    <button type="button" class="tool-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                                            <path d="M12 6a6 6 0 0 0-6 6h2a4 4 0 0 1 4-4z" />
+                                        </svg>
+                                        DeepThink
+                                    </button>
+                                    <button type="button" class="tool-btn">
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                                        </svg>
+                                        Search
+                                    </button>
+                                </div>
+                                <button type="submit" id="sendBtn" class="send-btn" disabled>
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -683,38 +713,77 @@
         const chatForm = document.getElementById('chatForm');
         const userInput = document.getElementById('userInput');
         const chatWindow = document.getElementById('chatWindow');
+        const sendBtn = document.getElementById('sendBtn');
+        const aiGreeting = document.getElementById('aiGreeting');
+        const inputWrapper = document.getElementById('inputWrapper');
 
-        // Event Listeners
+        // Auto-resize Textarea
+        if (userInput) {
+            userInput.addEventListener('input', function () {
+                this.style.height = 'auto'; // Reset height
+                this.style.height = (this.scrollHeight) + 'px';
+
+                // Toggle Send Button
+                if (this.value.trim().length > 0) {
+                    sendBtn.disabled = false;
+                    sendBtn.classList.add('active');
+                } else {
+                    sendBtn.disabled = true;
+                    sendBtn.classList.remove('active');
+                }
+            });
+
+            // Allow Enter to send (Shift+Enter for newline)
+            userInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendBtn.disabled) chatForm.dispatchEvent(new Event('submit'));
+                }
+            });
+        }
+
+        // Handle Submit
         if (chatForm) {
             chatForm.addEventListener('submit', handleChatSubmit);
         }
 
-        // Functions
         async function handleChatSubmit(e) {
             e.preventDefault();
             const userMessage = userInput.value.trim();
             if (!userMessage) return;
 
+            // --- UI Transition to Chat Mode ---
+            if (aiGreeting && !aiGreeting.classList.contains('hidden')) {
+                aiGreeting.classList.add('hidden');
+                inputWrapper.classList.add('chat-mode');
+                chatWindow.classList.remove('hidden');
+                setTimeout(() => chatWindow.classList.add('active'), 50); // Fade in
+            }
+
             // 1. Show User Message
             addMessageToChatWindow(userMessage, "user");
+
+            // Reset Input
             userInput.value = "";
+            userInput.style.height = 'auto';
+            sendBtn.disabled = true;
+            sendBtn.classList.remove('active');
 
             // 2. Show Typing Indicator
             addMessageToChatWindow("", "ai", true);
-            // ... inside handleChatSubmit function ...
 
             try {
-                // 1. Get User Profile from Local Storage (Saved during Onboarding)
+                // Get User Profile
                 const storedProfile = localStorage.getItem('fitnotfat_profile');
                 const userProfile = storedProfile ? JSON.parse(storedProfile) : null;
 
-                // 2. Call Vercel Backend with Message AND Profile
+                // Call API
                 const response = await fetch('/api/gymcoach', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: userMessage,
-                        userProfile: userProfile // <--- Sending the data here
+                        userProfile: userProfile
                     })
                 });
 
@@ -725,7 +794,6 @@
                 }
 
                 updateLastMessage(data.reply);
-
 
             } catch (error) {
                 console.error("Chat Error:", error);
@@ -738,17 +806,16 @@
             messageDiv.className = `message ${sender}-message`;
 
             if (isTyping) {
-                // Typing indicator stays the same
                 messageDiv.id = 'typing-indicator';
                 messageDiv.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
             } else {
-                // FOR THE AI: Parse Markdown to HTML
                 if (sender === 'ai') {
-                    // This converts **Bold** to <b> and - List to <li>
+                    // Use marked for MD
                     messageDiv.innerHTML = marked.parse(message);
                 } else {
-                    // FOR USER: Keep plain text
+                    // Plain text for user (preserve newlines if any)
                     messageDiv.textContent = message;
+                    messageDiv.style.whiteSpace = "pre-line";
                 }
             }
 
@@ -756,13 +823,11 @@
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        // Also update this small helper function to use Markdown
         function updateLastMessage(newMessage) {
             const typingIndicator = document.getElementById('typing-indicator');
             if (typingIndicator) {
-                const messageDiv = typingIndicator; // Reuse the div
+                const messageDiv = typingIndicator;
                 messageDiv.removeAttribute('id');
-                // Convert the new message to HTML
                 messageDiv.innerHTML = marked.parse(newMessage);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
