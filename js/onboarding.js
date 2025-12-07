@@ -86,6 +86,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
     btn.innerText = "CALCULATING...";
 
     // A. Gather Data
+    const username = document.getElementById('username').value;
     const gender = document.querySelector('input[name="gender"]:checked').value;
     const age = parseInt(document.getElementById('age').value);
     const height = parseInt(document.getElementById('height').value);
@@ -121,7 +122,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
 
     // C. Create Profile Object
     const profileData = {
-        gender, age, height, weight, experience, goal, frequency, injuries,
+        username, gender, age, height, weight, experience, goal, frequency, injuries,
         stats: {
             bmr: Math.round(bmr),
             tdee: tdee,
@@ -152,6 +153,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
                 id: session.user.id,
 
                 // DB Column Name : JS Variable Name
+                username: username,
                 gender: gender,
                 age: age,
                 height: height,

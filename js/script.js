@@ -520,6 +520,7 @@ function loadProfile() {
         const profile = JSON.parse(rawData);
 
         // Populate fields
+        document.getElementById('p_username').value = profile.username || '';
         document.getElementById('p_name').value = profile.name || ''; // Assuming name might be added
         document.getElementById('p_age').value = profile.age || '';
         document.getElementById('p_height').value = profile.height || '';
@@ -542,6 +543,7 @@ function saveProfile() {
     btn.innerText = "SAVING...";
 
     // 1. Gather Data
+    const username = document.getElementById('p_username').value;
     const name = document.getElementById('p_name').value;
     const gender = document.getElementById('p_gender').value;
     const age = parseInt(document.getElementById('p_age').value);
@@ -578,7 +580,7 @@ function saveProfile() {
 
     // 3. Create Object
     const profileData = {
-        name, gender, age, height, weight, experience, frequency, goal,
+        username, name, gender, age, height, weight, experience, frequency, goal,
         stats: {
             bmr: Math.round(bmr),
             tdee: tdee,
