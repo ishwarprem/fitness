@@ -18,6 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Your Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
 
 
     <!-- Supabase & Scripts -->
@@ -38,6 +39,7 @@
         <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
         <nav class="nav-tabs" id="navContainer">
             <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
+            <button class="tab-btn" onclick="switchTab('profile')" id="tab-profile">PROFILE</button>
             <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
             <button class="tab-btn" onclick="switchTab('ai-coach')" id="tab-ai-coach">AI COACH</button>
             <button class="tab-btn" onclick="logout()" id="logoutBtn">LOG OUT</button>
@@ -86,6 +88,87 @@
             </dialog>
 
         </main>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profileSection" class="hidden">
+        <div class="container">
+            <div class="profile-container">
+                <h2 class="section-title">YOUR ATHLETE PROFILE</h2>
+
+                <form id="profileForm" onsubmit="event.preventDefault(); saveProfile();">
+                    <!-- Personal Stats Grid -->
+                    <div class="profile-grid">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="p_name" placeholder="Enter Name">
+                        </div>
+                        <div class="input-group">
+                            <label>Age</label>
+                            <input type="number" id="p_age">
+                        </div>
+                        <div class="input-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="p_height">
+                        </div>
+                        <div class="input-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="p_weight">
+                        </div>
+                        <div class="input-group">
+                            <label>Gender</label>
+                            <select id="p_gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Experience Level</label>
+                            <select id="p_experience">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Training Frequency (Days/Week)</label>
+                            <input type="number" id="p_frequency" min="1" max="7">
+                        </div>
+                        <div class="input-group">
+                            <label>Primary Goal</label>
+                            <select id="p_goal">
+                                <option value="lose_fat">Lose Fat</option>
+                                <option value="build_muscle">Build Muscle</option>
+                                <option value="strength">Strength</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Calculated Stats Display -->
+                    <div class="stats-card">
+                        <h3>CALCULATED METRICS</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <span class="label">BMR</span>
+                                <span class="value" id="p_bmr">--</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="label">TDEE</span>
+                                <span class="value" id="p_tdee">--</span>
+                            </div>
+                            <div class="metric-item highlight">
+                                <span class="label">TARGET CALORIES</span>
+                                <span class="value" id="p_target">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">SAVE PROFILE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
 
     <section id="aiCoachSection" class="hidden">

@@ -482,6 +482,12 @@ function switchTab(tabName) {
     document.getElementById('tab-exercises').classList.remove('active');
     const tabAiCoach = document.getElementById('tab-ai-coach');
     if (tabAiCoach) tabAiCoach.classList.remove('active');
+    const tabProfile = document.getElementById('tab-profile');
+    if (tabProfile) tabProfile.classList.remove('active');
+
+    // Hide Profile Section
+    const profileSec = document.getElementById('profileSection');
+    if (profileSec) profileSec.classList.add('hidden');
 
     // 3. Show the selected section and activate button
     if (tabName === 'scheduler') {
@@ -495,7 +501,114 @@ function switchTab(tabName) {
     } else if (tabName === 'ai-coach') {
         if (aiCoachSection) aiCoachSection.classList.remove('hidden');
         if (tabAiCoach) tabAiCoach.classList.add('active');
+    } else if (tabName === 'profile') {
+        if (profileSec) profileSec.classList.remove('hidden');
+        if (tabProfile) tabProfile.classList.add('active');
+        loadProfile(); // Load data when tab is opened
     }
+}
+
+// ==========================================
+// 4. PROFILE LOGIC
+// ==========================================
+
+function loadProfile() {
+    const rawData = localStorage.getItem('fitnotfat_profile');
+    if (!rawData) return;
+
+    try {
+        const profile = JSON.parse(rawData);
+
+        // Populate fields
+        document.getElementById('p_name').value = profile.name || ''; // Assuming name might be added
+        document.getElementById('p_age').value = profile.age || '';
+        document.getElementById('p_height').value = profile.height || '';
+        document.getElementById('p_weight').value = profile.weight || '';
+        document.getElementById('p_gender').value = profile.gender || 'male';
+        document.getElementById('p_experience').value = profile.experience || 'beginner';
+        document.getElementById('p_frequency').value = profile.frequency || 3;
+        document.getElementById('p_goal').value = profile.goal || 'lose_fat';
+
+        // Populate Stats (if available)
+        if (profile.stats) {
+            document.getElementById('p_bmr').innerText = profile.stats.bmr || '--';
+            document.getElementById('p_tdee').innerText = profile.stats.tdee || '--';
+            document.getElementById('p_target').innerText = profile.stats.target_calories || '--';
+        }
+    } catch (e) {
+        console.error("Error loading profile", e);
+    }
+}
+
+function saveProfile() {
+    const btn = document.querySelector('.btn-save');
+    const originalText = btn.innerText;
+    btn.innerText = "SAVING...";
+
+    // 1. Gather Data
+    const name = document.getElementById('p_name').value;
+    const gender = document.getElementById('p_gender').value;
+    const age = parseInt(document.getElementById('p_age').value);
+    const height = parseInt(document.getElementById('p_height').value);
+    const weight = parseInt(document.getElementById('p_weight').value);
+    const experience = document.getElementById('p_experience').value;
+    const frequency = parseInt(document.getElementById('p_frequency').value);
+    const goal = document.getElementById('p_goal').value;
+
+    if (!age || !height || !weight) {
+        alert("Please fill in all numerical fields to calculate stats.");
+        btn.innerText = originalText;
+        return;
+    }
+
+    // 2. Calculate Stats (Mifflin-St Jeor)
+    let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+    bmr += (gender === 'male') ? 5 : -161;
+
+    let activityMult = 1.2;
+    if (frequency >= 3) activityMult = 1.375;
+    if (frequency >= 5) activityMult = 1.55;
+    if (frequency >= 6) activityMult = 1.725;
+
+    let tdee = Math.round(bmr * activityMult);
+
+    let targetCalories = tdee;
+    if (goal === 'lose_fat') targetCalories -= 500;
+    if (goal === 'build_muscle') targetCalories += 300;
+
+    const protein = Math.round((targetCalories * 0.3) / 4);
+    const carbs = Math.round((targetCalories * 0.35) / 4);
+    const fats = Math.round((targetCalories * 0.35) / 9);
+
+    // 3. Create Object
+    const profileData = {
+        name, gender, age, height, weight, experience, frequency, goal,
+        stats: {
+            bmr: Math.round(bmr),
+            tdee: tdee,
+            target_calories: targetCalories,
+            macros: { protein, carbs, fats }
+        },
+        updated_at: new Date().toISOString()
+    };
+
+    // 4. Save to Local Storage
+    localStorage.setItem('fitnotfat_profile', JSON.stringify(profileData));
+
+    // 5. Update UI
+    loadProfile(); // Refresh calculated numbers
+
+    setTimeout(() => {
+        btn.innerText = "PROFILE SAVED!";
+        btn.style.backgroundColor = "#00C851";
+
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.backgroundColor = ""; // Reset
+        }, 2000);
+    }, 500);
+
+    // Optional: Sync to Supabase if logic existed here (skipping for this simple requested task)
 }
 
 
