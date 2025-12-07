@@ -8,14 +8,43 @@
     border-radius: var(--radius-lg);
     padding: 3rem;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    /* For positioning */
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 .section-title {
     color: var(--primary-accent);
     font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+    margin-bottom: 0;
+    /* Adjusted for flex alignment */
+    text-align: left;
     letter-spacing: 2px;
+}
+
+.btn-edit {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit:hover,
+.btn-edit.active {
+    color: var(--primary-accent);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .profile-grid {
@@ -47,6 +76,16 @@
     font-family: var(--font-body);
     font-size: 1rem;
     transition: all 0.2s ease;
+}
+
+.input-group input:disabled,
+.input-group select:disabled {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-main);
+    padding-left: 0;
+    cursor: default;
+    /* Look like plain text */
 }
 
 .input-group input:focus,
@@ -114,6 +153,11 @@
 .form-actions {
     display: flex;
     justify-content: center;
+}
+
+.form-actions .btn-save {
+    display: none;
+    /* Hidden by default */
 }
 
 .btn-save {

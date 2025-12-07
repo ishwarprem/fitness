@@ -598,6 +598,9 @@ function saveProfile() {
     // 5. Update UI
     loadProfile(); // Refresh calculated numbers
 
+    // Disable inputs again
+    toggleEditMode(false);
+
     setTimeout(() => {
         btn.innerText = "PROFILE SAVED!";
         btn.style.backgroundColor = "#00C851";
@@ -609,6 +612,32 @@ function saveProfile() {
     }, 500);
 
     // Optional: Sync to Supabase if logic existed here (skipping for this simple requested task)
+}
+
+function toggleEditMode(forceState = null) {
+    const form = document.getElementById('profileForm');
+    const inputs = form.querySelectorAll('input, select');
+    const editBtn = document.querySelector('.btn-edit');
+
+    // Check current state (if first input is disabled, we are in "Read Mode")
+    const isCurrentlyDisabled = inputs[0].disabled;
+
+    // Determine new state: 
+    // If forceState is provided, use it. 
+    // Otherwise, toggle (if disabled -> enable)
+    const shouldEnable = forceState !== null ? forceState : isCurrentlyDisabled;
+
+    inputs.forEach(input => {
+        input.disabled = !shouldEnable;
+    });
+
+    if (shouldEnable) {
+        if (editBtn) editBtn.classList.add('active');
+        document.querySelector('.btn-save').style.display = 'inline-block'; // Show Save button
+    } else {
+        if (editBtn) editBtn.classList.remove('active');
+        document.querySelector('.btn-save').style.display = 'none'; // Hide Save button when not editing
+    }
 }
 
 

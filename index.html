@@ -94,37 +94,45 @@
     <section id="profileSection" class="hidden">
         <div class="container">
             <div class="profile-container">
-                <h2 class="section-title">YOUR ATHLETE PROFILE</h2>
+                <div class="profile-header">
+                    <h2 class="section-title">YOUR ATHLETE PROFILE</h2>
+                    <button type="button" class="btn-edit" onclick="toggleEditMode()" title="Edit Profile">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                        </svg>
+                    </button>
+                </div>
 
                 <form id="profileForm" onsubmit="event.preventDefault(); saveProfile();">
                     <!-- Personal Stats Grid -->
                     <div class="profile-grid">
                         <div class="input-group">
                             <label>Full Name</label>
-                            <input type="text" id="p_name" placeholder="Enter Name">
+                            <input type="text" id="p_name" placeholder="Enter Name" disabled>
                         </div>
                         <div class="input-group">
                             <label>Age</label>
-                            <input type="number" id="p_age">
+                            <input type="number" id="p_age" disabled>
                         </div>
                         <div class="input-group">
                             <label>Height (cm)</label>
-                            <input type="number" id="p_height">
+                            <input type="number" id="p_height" disabled>
                         </div>
                         <div class="input-group">
                             <label>Weight (kg)</label>
-                            <input type="number" id="p_weight">
+                            <input type="number" id="p_weight" disabled>
                         </div>
                         <div class="input-group">
                             <label>Gender</label>
-                            <select id="p_gender">
+                            <select id="p_gender" disabled>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
                         </div>
                         <div class="input-group">
                             <label>Experience Level</label>
-                            <select id="p_experience">
+                            <select id="p_experience" disabled>
                                 <option value="beginner">Beginner</option>
                                 <option value="intermediate">Intermediate</option>
                                 <option value="advanced">Advanced</option>
@@ -132,11 +140,11 @@
                         </div>
                         <div class="input-group">
                             <label>Training Frequency (Days/Week)</label>
-                            <input type="number" id="p_frequency" min="1" max="7">
+                            <input type="number" id="p_frequency" min="1" max="7" disabled>
                         </div>
                         <div class="input-group">
                             <label>Primary Goal</label>
-                            <select id="p_goal">
+                            <select id="p_goal" disabled>
                                 <option value="lose_fat">Lose Fat</option>
                                 <option value="build_muscle">Build Muscle</option>
                                 <option value="strength">Strength</option>
