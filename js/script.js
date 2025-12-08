@@ -562,7 +562,9 @@ async function loadProfile() {
 }
 
 function renderProfileUI(profile) {
-    // Populate fields
+    // We ONLY update the inputs. 
+    // We do NOT touch the stats (BMR, Calories) even though they exist in the 'profile' object.
+
     if (document.getElementById('p_username')) document.getElementById('p_username').value = profile.username || '';
     if (document.getElementById('p_name')) document.getElementById('p_name').value = profile.name || '';
     if (document.getElementById('p_age')) document.getElementById('p_age').value = profile.age || '';
