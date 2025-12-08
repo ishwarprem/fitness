@@ -654,6 +654,7 @@ async function saveProfileToSupabase(profileData, btn, originalText) {
             .upsert({
                 id: session.user.id,
                 username: profileData.username,
+                full_name: profileData.name,
                 gender: profileData.gender,
                 age: profileData.age,
                 height: profileData.height,
