@@ -1,3 +1,9 @@
+// --- Config ---
+const SUPABASE_URL = 'https://jffbruoevfvlbjjvtzsz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmZmJydW9ldmZ2bGJqanZ0enN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMzIxODcsImV4cCI6MjA3ODcwODE4N30.HeG418JSBmzK2bUjnFIbw99V2G7n284isFbbcjZCeS8';
+const { createClient } = supabase;
+const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 // --- Scheduler Logic ---
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 // Temporary storage (In a real app, you'd load this from Supabase)
@@ -512,29 +518,66 @@ function switchTab(tabName) {
 // 4. PROFILE LOGIC
 // ==========================================
 
-function loadProfile() {
-    const rawData = localStorage.getItem('fitnotfat_profile');
-    if (!rawData) return;
-
+async function loadProfile() {
+    // 1. Try Fetching from Supabase
     try {
-        const profile = JSON.parse(rawData);
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (session) {
+            const { data, error } = await _supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
 
-        // Populate fields
-        document.getElementById('p_username').value = profile.username || '';
-        document.getElementById('p_name').value = profile.name || ''; // Assuming name might be added
-        document.getElementById('p_age').value = profile.age || '';
-        document.getElementById('p_height').value = profile.height || '';
-        document.getElementById('p_weight').value = profile.weight || '';
-        document.getElementById('p_gender').value = profile.gender || 'male';
-        document.getElementById('p_experience').value = profile.experience || 'beginner';
-        document.getElementById('p_frequency').value = profile.frequency || 3;
-        document.getElementById('p_goal').value = profile.goal || 'lose_fat';
+            if (data && !error) {
+                // Determine source mapping (DB to JS)
+                const profile = {
+                    username: data.username,
+                    name: data.full_name || '', // DB might not have full_name yet, using generic
+                    age: data.age,
+                    height: data.height,
+                    weight: data.weight,
+                    gender: data.gender,
+                    experience: data.experience_level,
+                    frequency: data.training_frequency,
+                    goal: data.goal,
+                    stats: data.stats
+                };
 
-        // Populate Stats (if available) - UI Removed
-        // if (profile.stats) { ... }
-    } catch (e) {
-        console.error("Error loading profile", e);
+                // Update Local Storage to match Cloud (Best Practice)
+                localStorage.setItem('fitnotfat_profile', JSON.stringify(profile));
+
+                renderProfileUI(profile);
+                return; // Exit if successful
+            }
+        }
+    } catch (err) {
+        console.warn("Could not fetch from Supabase, failing over to local.", err);
     }
+
+    // 2. Fallback to Local Storage
+    const rawData = localStorage.getItem('fitnotfat_profile');
+    if (rawData) {
+        try {
+            const profile = JSON.parse(rawData);
+            renderProfileUI(profile);
+        } catch (e) {
+            console.error("Error loading local profile", e);
+        }
+    }
+}
+
+function renderProfileUI(profile) {
+    // Populate fields
+    if (document.getElementById('p_username')) document.getElementById('p_username').value = profile.username || '';
+    if (document.getElementById('p_name')) document.getElementById('p_name').value = profile.name || '';
+    if (document.getElementById('p_age')) document.getElementById('p_age').value = profile.age || '';
+    if (document.getElementById('p_height')) document.getElementById('p_height').value = profile.height || '';
+    if (document.getElementById('p_weight')) document.getElementById('p_weight').value = profile.weight || '';
+    if (document.getElementById('p_gender')) document.getElementById('p_gender').value = profile.gender || 'male';
+    if (document.getElementById('p_experience')) document.getElementById('p_experience').value = profile.experience || 'beginner';
+    if (document.getElementById('p_frequency')) document.getElementById('p_frequency').value = profile.frequency || 3;
+    if (document.getElementById('p_goal')) document.getElementById('p_goal').value = profile.goal || 'lose_fat';
 }
 
 function saveProfile() {
