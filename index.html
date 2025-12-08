@@ -94,7 +94,15 @@
     <section id="profileSection" class="hidden">
         <div class="container">
             <div class="profile-container">
-                <!-- ... inside <div class="profile-container"> ... -->
+                <div class="profile-header">
+                    <h2 class="section-title">YOUR ATHLETE PROFILE</h2>
+                    <button type="button" class="btn-edit" onclick="toggleEditMode()" title="Edit Profile">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                        </svg>
+                    </button>
+                </div>
 
                 <form id="profileForm" onsubmit="event.preventDefault(); saveProfile();">
                     <!-- Personal Stats Grid -->
@@ -135,7 +143,7 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <label>Training Frequency</label>
+                            <label>Training Frequency (Days/Week)</label>
                             <input type="number" id="p_frequency" min="1" max="7" disabled>
                         </div>
                         <div class="input-group">
@@ -148,13 +156,10 @@
                         </div>
                     </div>
 
-                    <!-- NOTE: The "Calculated Stats" HTML block is GONE from here -->
-
                     <div class="form-actions">
                         <button type="submit" class="btn-save">SAVE PROFILE</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </section>
