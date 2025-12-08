@@ -633,22 +633,22 @@ function saveProfile() {
     // 5. Update UI
     loadProfile(); // Refresh calculated numbers
 
-    // Disable inputs again
-    toggleEditMode(false);
-
-    // 6. Sync to Supabase
+    // 6. Sync to Supabase & Show Feedback first
     saveProfileToSupabase(profileData, btn, originalText);
 }
 
 async function saveProfileToSupabase(profileData, btn, originalText) {
     try {
         const { data: { session } } = await _supabase.auth.getSession();
+
+        // Handle Offline / No Session
         if (!session) {
             console.warn("User not logged in, saved locally only.");
             finishSaveUI(btn, originalText, "SAVED LOCALLY!");
             return;
         }
 
+        // Handle Online Sync
         const { error } = await _supabase
             .from('profiles')
             .upsert({
@@ -677,15 +677,16 @@ async function saveProfileToSupabase(profileData, btn, originalText) {
 }
 
 function finishSaveUI(btn, originalText, message) {
-    setTimeout(() => {
-        btn.innerText = message;
-        btn.style.backgroundColor = "#00C851";
+    // Show success message
+    btn.innerText = message;
+    btn.style.backgroundColor = "#00C851";
 
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.backgroundColor = ""; // Reset
-        }, 2000);
-    }, 500);
+    // Wait 2 seconds, then reset UI and hide button
+    setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.backgroundColor = ""; // Reset color
+        toggleEditMode(false); // Hide button and disable inputs AFTER message
+    }, 2000);
 }
 
 function toggleEditMode(forceState = null) {
