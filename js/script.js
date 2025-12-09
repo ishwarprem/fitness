@@ -631,7 +631,7 @@ function saveProfile() {
     localStorage.setItem('fitnotfat_profile', JSON.stringify(profileData));
 
     // 5. Update UI
-    loadProfile(); // Refresh calculated numbers
+    renderProfileUI(profileData); // Refresh calculated numbers using current data
 
     // 6. Sync to Supabase & Show Feedback first
     saveProfileToSupabase(profileData, btn, originalText);
@@ -654,7 +654,7 @@ async function saveProfileToSupabase(profileData, btn, originalText) {
             .upsert({
                 id: session.user.id,
                 username: profileData.username,
-                full_name: profileData.name,
+                "Full Name": profileData.name,
                 gender: profileData.gender,
                 age: profileData.age,
                 height: profileData.height,
@@ -694,25 +694,36 @@ function toggleEditMode(forceState = null) {
     const inputs = form.querySelectorAll('input, select');
     const editBtn = document.querySelector('.btn-edit');
 
-    // Check current state (if first input is disabled, we are in "Read Mode")
-    const isCurrentlyDisabled = inputs[0].disabled;
+    // NEW: Use the specific ID we just added
+    const saveBtn = document.getElementById('saveProfileBtn');
 
-    // Determine new state: 
-    // If forceState is provided, use it. 
-    // Otherwise, toggle (if disabled -> enable)
+    // Safety Check: If button is missing, stop script to prevent crash
+    if (!saveBtn) {
+        console.error("CRITICAL ERROR: Save button not found. Check HTML.");
+        return;
+    }
+
+    // Determine Logic (Are we locked or unlocked?) 
+    const isCurrentlyDisabled = inputs[0].disabled;
     const shouldEnable = forceState !== null ? forceState : isCurrentlyDisabled;
 
+    // 1. Loop through inputs
     inputs.forEach(input => {
-        input.disabled = !shouldEnable;
+        // Keep username locked (read-only)
+        if (input.id !== 'p_username') {
+            input.disabled = !shouldEnable;
+        }
     });
 
+    // 2. Visual Updates
     if (shouldEnable) {
-        if (editBtn) editBtn.classList.add('active');
-        document.querySelector('.btn-save').style.display = 'inline-block'; // Show Save button
+        // EDIT MODE: ON
+        if (editBtn) editBtn.classList.add('active'); // Glow effect
+        saveBtn.style.display = 'block'; // SHOW BUTTON
     } else {
+        // READ MODE: ON
         if (editBtn) editBtn.classList.remove('active');
-        document.querySelector('.btn-save').style.display = 'none'; // Hide Save button when not editing
+        saveBtn.style.display = 'none'; // HIDE BUTTON
     }
 }
-
 

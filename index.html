@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn-save">SAVE PROFILE</button>
+                        <button type="submit" class="btn-save" id="saveProfileBtn">SAVE PROFILE</button>
                     </div>
                 </form>
             </div>
@@ -765,24 +765,43 @@
 
     <script src="js/script.js"></script>
 
-    <!-- Using a module script for Gemini API integration -->
-    <!-- REPLACE YOUR ENTIRE BOTTOM SCRIPT WITH THIS -->
+
     <script>
-        // DOM Elements
+        // ==========================================
+        // 1. PAGE INITIALIZATION & CHAT LOGIC
+        // ==========================================
+
+
         const chatForm = document.getElementById('chatForm');
         const userInput = document.getElementById('userInput');
         const chatWindow = document.getElementById('chatWindow');
         const sendBtn = document.getElementById('sendBtn');
         const aiGreeting = document.getElementById('aiGreeting');
         const inputWrapper = document.getElementById('inputWrapper');
+        const coachToggleBtn = document.getElementById('coachToggleBtn');
+        const closeCoachBtn = document.getElementById('closeCoachBtn');
+        const sidebar = document.getElementById('gymCoachSidebar');
+
+        // Sidebar Toggles
+        if (coachToggleBtn) {
+            coachToggleBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                coachToggleBtn.style.display = 'none';
+            });
+        }
+
+        if (closeCoachBtn) {
+            closeCoachBtn.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                coachToggleBtn.style.display = 'flex';
+            });
+        }
 
         // Auto-resize Textarea
         if (userInput) {
             userInput.addEventListener('input', function () {
-                this.style.height = 'auto'; // Reset height
+                this.style.height = 'auto';
                 this.style.height = (this.scrollHeight) + 'px';
-
-                // Toggle Send Button
                 if (this.value.trim().length > 0) {
                     sendBtn.disabled = false;
                     sendBtn.classList.add('active');
@@ -792,7 +811,6 @@
                 }
             });
 
-            // Allow Enter to send (Shift+Enter for newline)
             userInput.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -801,7 +819,6 @@
             });
         }
 
-        // Handle Submit
         if (chatForm) {
             chatForm.addEventListener('submit', handleChatSubmit);
         }
@@ -811,46 +828,34 @@
             const userMessage = userInput.value.trim();
             if (!userMessage) return;
 
-            // --- UI Transition to Chat Mode ---
             if (aiGreeting && !aiGreeting.classList.contains('hidden')) {
                 aiGreeting.classList.add('hidden');
                 inputWrapper.classList.add('chat-mode');
                 chatWindow.classList.remove('hidden');
-                setTimeout(() => chatWindow.classList.add('active'), 50); // Fade in
+                setTimeout(() => chatWindow.classList.add('active'), 50);
             }
 
-            // 1. Show User Message
             addMessageToChatWindow(userMessage, "user");
-
-            // Reset Input
             userInput.value = "";
             userInput.style.height = 'auto';
             sendBtn.disabled = true;
             sendBtn.classList.remove('active');
 
-            // 2. Show Typing Indicator
             addMessageToChatWindow("", "ai", true);
 
             try {
-                // Get User Profile
+                // Grab the profile data we saved/loaded earlier
                 const storedProfile = localStorage.getItem('fitnotfat_profile');
                 const userProfile = storedProfile ? JSON.parse(storedProfile) : null;
 
-                // Call API
                 const response = await fetch('/api/gymcoach', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        userProfile: userProfile
-                    })
+                    body: JSON.stringify({ message: userMessage, userProfile: userProfile })
                 });
 
                 const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || "Server connection failed");
-                }
+                if (!response.ok) throw new Error(data.error || "Server connection failed");
 
                 updateLastMessage(data.reply);
 
@@ -869,15 +874,13 @@
                 messageDiv.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
             } else {
                 if (sender === 'ai') {
-                    // Use marked for MD
+                    // Use marked for Bold/Lists
                     messageDiv.innerHTML = marked.parse(message);
                 } else {
-                    // Plain text for user (preserve newlines if any)
                     messageDiv.textContent = message;
                     messageDiv.style.whiteSpace = "pre-line";
                 }
             }
-
             chatWindow.appendChild(messageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }

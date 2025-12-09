@@ -95,36 +95,38 @@
     box-shadow: 0 0 10px rgba(255, 82, 0, 0.1);
 }
 
-/* --- Calculated Stats Card --- */
-/* Calculated Stats Styles Removed */
+
+/* css/profile.css */
 
 .form-actions {
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
-}
-
-.form-actions .btn-save {
-    display: none;
-    /* Hidden by default */
+    /* Centers the button */
+    width: 100%;
 }
 
 .btn-save {
-    background: var(--primary-accent);
+    display: none;
+    /* Hidden by default */
+    background-color: #FF5200;
+    /* Bright Orange */
     color: #000;
     border: none;
-    padding: 1rem 3rem;
-    font-size: 1.1rem;
+    padding: 12px 40px;
+    font-size: 1rem;
     font-weight: 700;
+    font-family: 'Oswald', sans-serif;
     border-radius: 4px;
     cursor: pointer;
-    font-family: var(--font-heading);
-    letter-spacing: 1px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 82, 0, 0.3);
 }
 
 .btn-save:hover {
-    box-shadow: 0 0 30px var(--primary-glow);
+    background-color: #fff;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 768px) {
