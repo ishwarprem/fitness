@@ -51,6 +51,17 @@ function initScheduler() {
         switchTab('exercises');
         // Initialize scheduler just in case
         initScheduler();
+        // Load profile data (including header image) immediately
+        loadProfile();
+
+        // Listen for Auth Changes (in case session loads LATER)
+        if (typeof _supabase !== 'undefined') {
+            _supabase.auth.onAuthStateChange((event, session) => {
+                if (session) {
+                    loadProfile(); // Reload if user just signed in or session was restored
+                }
+            });
+        }
     });
 
 

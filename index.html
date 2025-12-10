@@ -45,7 +45,9 @@
 
             <!-- NEW: Profile Image Icon (Clicking this opens the Profile Tab) -->
             <div class="profile-icon-container" onclick="switchTab('profile')">
-                <img id="headerProfileImg" src="https://via.placeholder.com/150" alt="Profile">
+                <img id="headerProfileImg"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                    alt="Profile">
             </div>
         </nav>
 
@@ -111,7 +113,9 @@
                 <!-- NEW: Avatar Uploader Section -->
                 <div class="avatar-upload-section">
                     <div class="avatar-preview">
-                        <img id="profilePageImg" src="https://via.placeholder.com/150" alt="Profile">
+                        <img id="profilePageImg"
+                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                            alt="Profile">
                     </div>
                     <div class="file-input-wrapper">
                         <label for="avatarInput" class="upload-btn">CHANGE PHOTO</label>
@@ -779,26 +783,433 @@
         </div>
     </section>
 
-    <footer>
-        <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
-        <p>An Ishwar Prem Production</p>
-    </footer>
 
 
-    <script src="js/script.js"></script>
+</html> <!-- ... sections above ... -->
 
+<footer>
+    <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
+    <p>An Ishwar Prem Production</p>
+</footer>
 
-    <!-- Crop Image Modal -->
-    <dialog id="cropModal" class="crop-modal">
-        <h3>Adjust Your Photo</h3>
-        <div class="crop-container" style="max-height: 400px; max-width: 100%;">
-            <img id="cropImage" style="max-width: 100%; display: block;">
-        </div>
-        <div class="modal-actions">
-            <button class="btn-modal btn-cancel" onclick="closeCropModal()">Cancel</button>
-            <button class="btn-modal btn-confirm" onclick="confirmCrop()">Set Profile Picture</button>
-        </div>
-    </dialog>
+<!-- 1. CROP MODAL (Place it here, outside other sections) -->
+<dialog id="cropModal" class="crop-modal">
+    <h3>Adjust Your Photo</h3>
+    <div class="crop-container" style="max-height: 400px; max-width: 100%;">
+        <img id="cropImage" style="max-width: 100%; display: block;">
+    </div>
+    <div class="modal-actions">
+        <button class="btn-modal btn-cancel" onclick="closeCropModal()">Cancel</button>
+        <button class="btn-modal btn-confirm" onclick="confirmCrop()">Set Profile Picture</button>
+    </div>
+</dialog>
+
+<!-- 2. EXTERNAL SCRIPTS -->
+<script src="js/script.js"></script>
+
+<!-- 3. MAIN LOGIC -->
+<script>
+    // ==========================================
+    // GLOBAL VARIABLES
+    // ==========================================
+    var avatarCropper = null; // Renamed to avoid any "cropper" conflict
+
+    // ==========================================
+    // 1. INITIALIZATION
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Initialize Scheduler (from script.js)
+        if (typeof initScheduler === 'function') initScheduler();
+
+        // Load Profile & Images
+        await loadProfile();
+
+        // Set Default Tab
+        switchTab('exercises');
+    });
+
+    // ==========================================
+    // 2. PROFILE LOGIC
+    // ==========================================
+    async function loadProfile() {
+        try {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                const { data, error } = await _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (data && !error) {
+                    const profile = {
+                        username: data.username,
+                        name: data['Full Name'],
+                        age: data.age,
+                        height: data.height,
+                        weight: data.weight,
+                        gender: data.gender,
+                        experience: data.experience_level,
+                        frequency: data.training_frequency,
+                        goal: data.goal,
+                        avatar_url: data.avatar_url
+                    };
+                    localStorage.setItem('fitnotfat_profile', JSON.stringify(profile));
+                    renderProfileUI(profile);
+                    return;
+                }
+            }
+        } catch (err) {
+            console.warn("Load Error:", err);
+        }
+
+        // Fallback
+        const rawData = localStorage.getItem('fitnotfat_profile');
+        if (rawData) renderProfileUI(JSON.parse(rawData));
+    }
+
+    function renderProfileUI(profile) {
+        if (document.getElementById('p_username')) document.getElementById('p_username').value = profile.username || '';
+        if (document.getElementById('p_name')) document.getElementById('p_name').value = profile.name || '';
+        if (document.getElementById('p_age')) document.getElementById('p_age').value = profile.age || '';
+        if (document.getElementById('p_height')) document.getElementById('p_height').value = profile.height || '';
+        if (document.getElementById('p_weight')) document.getElementById('p_weight').value = profile.weight || '';
+        if (document.getElementById('p_gender')) document.getElementById('p_gender').value = profile.gender || 'male';
+        if (document.getElementById('p_experience')) document.getElementById('p_experience').value = profile.experience || 'beginner';
+        if (document.getElementById('p_frequency')) document.getElementById('p_frequency').value = profile.frequency || 3;
+        if (document.getElementById('p_goal')) document.getElementById('p_goal').value = profile.goal || 'lose_fat';
+
+        // Update Images
+        if (profile.avatar_url) {
+            const timestamp = new Date().getTime();
+            const fullUrl = `${profile.avatar_url}?t=${timestamp}`;
+            if (document.getElementById('headerProfileImg')) document.getElementById('headerProfileImg').src = fullUrl;
+            if (document.getElementById('profilePageImg')) document.getElementById('profilePageImg').src = fullUrl;
+        }
+    }
+
+    // ==========================================
+    // 3. IMAGE UPLOAD
+    // ==========================================
+    function uploadAvatar(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const image = document.getElementById('cropImage');
+            image.src = e.target.result;
+
+            const modal = document.getElementById('cropModal');
+            modal.showModal();
+
+            if (avatarCropper) avatarCropper.destroy();
+
+            avatarCropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1,
+                autoCropArea: 1,
+            });
+        };
+        reader.readAsDataURL(file);
+        input.value = '';
+    }
+
+    function closeCropModal() {
+        document.getElementById('cropModal').close();
+        if (avatarCropper) {
+            avatarCropper.destroy();
+            avatarCropper = null;
+        }
+    }
+
+    async function confirmCrop() {
+        if (!avatarCropper) return;
+
+        const canvas = avatarCropper.getCroppedCanvas({ width: 300, height: 300 });
+
+        canvas.toBlob(async (blob) => {
+            closeCropModal();
+
+            const statusTxt = document.getElementById('uploadStatus');
+            if (statusTxt) {
+                statusTxt.innerText = "Uploading...";
+                statusTxt.style.color = "#FF5200";
+            }
+
+            try {
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (!session) throw new Error("Please login first.");
+
+                const fileExt = "png";
+                const filePath = `users/${session.user.id}/avatar.${fileExt}`;
+
+                const { error: uploadError } = await _supabase.storage
+                    .from('avatars')
+                    .upload(filePath, blob, { contentType: 'image/png', upsert: true });
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = _supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                const { error: dbError } = await _supabase
+                    .from('profiles')
+                    .update({ avatar_url: publicUrl })
+                    .eq('id', session.user.id);
+
+                if (dbError) throw dbError;
+
+                if (statusTxt) {
+                    statusTxt.innerText = "Done!";
+                    statusTxt.style.color = "#00C851";
+                }
+
+                const currentProfile = JSON.parse(localStorage.getItem('fitnotfat_profile') || '{}');
+                currentProfile.avatar_url = publicUrl;
+                localStorage.setItem('fitnotfat_profile', JSON.stringify(currentProfile));
+                renderProfileUI(currentProfile);
+
+            } catch (error) {
+                console.error("Upload failed", error);
+                if (statusTxt) {
+                    statusTxt.innerText = "Failed.";
+                    statusTxt.style.color = "red";
+                }
+            }
+        });
+    }
+
+    // ==========================================
+    // 4. PROFILE SAVE
+    // ==========================================
+    async function saveProfile() {
+        const btn = document.getElementById('profileSaveBtn');
+        if (!btn) return;
+
+        const originalText = btn.innerText;
+        btn.innerText = "SAVING...";
+        btn.disabled = true;
+
+        try {
+            const username = document.getElementById('p_username').value;
+            const fullName = document.getElementById('p_name').value;
+            const gender = document.getElementById('p_gender').value;
+            const age = parseInt(document.getElementById('p_age').value);
+            const height = parseFloat(document.getElementById('p_height').value);
+            const weight = parseFloat(document.getElementById('p_weight').value);
+            const experience = document.getElementById('p_experience').value;
+            const frequency = parseInt(document.getElementById('p_frequency').value);
+            const goal = document.getElementById('p_goal').value;
+
+            if (!age || !height || !weight) throw new Error("Check numbers.");
+
+            // Math
+            let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+            bmr += (gender === 'male') ? 5 : -161;
+            let activityMult = 1.2;
+            if (frequency >= 3) activityMult = 1.375;
+            if (frequency >= 5) activityMult = 1.55;
+            if (frequency >= 6) activityMult = 1.725;
+            let tdee = Math.round(bmr * activityMult);
+            let targetCalories = tdee;
+            if (goal === 'lose_fat') targetCalories -= 500;
+            if (goal === 'build_muscle') targetCalories += 300;
+
+            const updates = {
+                username: username,
+                "Full Name": fullName,
+                gender: gender,
+                age: age,
+                height: height,
+                weight: weight,
+                experience_level: experience,
+                training_frequency: frequency,
+                goal: goal,
+                stats: { bmr, tdee, target_calories: targetCalories },
+                updated_at: new Date()
+            };
+
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                const { error } = await _supabase
+                    .from('profiles')
+                    .update(updates)
+                    .eq('id', session.user.id);
+                if (error) throw error;
+            }
+
+            // Preserve Avatar
+            const currentLocal = JSON.parse(localStorage.getItem('fitnotfat_profile') || '{}');
+            if (currentLocal.avatar_url) updates.avatar_url = currentLocal.avatar_url;
+
+            localStorage.setItem('fitnotfat_profile', JSON.stringify(updates));
+
+            btn.innerText = "SAVED!";
+            btn.style.backgroundColor = "#00C851";
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "";
+                btn.disabled = false;
+                toggleEditMode(false);
+            }, 1500);
+
+        } catch (error) {
+            console.error("Save Error:", error);
+            alert(error.message);
+            btn.innerText = "TRY AGAIN";
+            btn.disabled = false;
+        }
+    }
+
+    function toggleEditMode(forceState = null) {
+        const form = document.getElementById('profileForm');
+        const inputs = form.querySelectorAll('input, select');
+        const editBtn = document.querySelector('.btn-edit');
+        const saveBtn = document.getElementById('profileSaveBtn');
+
+        if (!saveBtn) return;
+
+        const isCurrentlyDisabled = inputs[0].disabled;
+        const shouldEnable = forceState !== null ? forceState : isCurrentlyDisabled;
+
+        inputs.forEach(input => {
+            if (input.id !== 'p_username') input.disabled = !shouldEnable;
+        });
+
+        if (shouldEnable) {
+            if (editBtn) editBtn.classList.add('active');
+            saveBtn.style.display = 'block';
+        } else {
+            if (editBtn) editBtn.classList.remove('active');
+            saveBtn.style.display = 'none';
+        }
+    }
+
+    // ==========================================
+    // 5. CHAT LOGIC
+    // ==========================================
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const chatWindow = document.getElementById('chatWindow');
+    const sendBtn = document.getElementById('sendBtn');
+    const aiGreeting = document.getElementById('aiGreeting');
+    const inputWrapper = document.getElementById('inputWrapper');
+    const coachToggleBtn = document.getElementById('coachToggleBtn');
+    const closeCoachBtn = document.getElementById('closeCoachBtn');
+    const sidebar = document.getElementById('gymCoachSidebar');
+
+    if (coachToggleBtn) {
+        coachToggleBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            coachToggleBtn.style.display = 'none';
+        });
+    }
+
+    if (closeCoachBtn) {
+        closeCoachBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            coachToggleBtn.style.display = 'flex';
+        });
+    }
+
+    if (userInput) {
+        userInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.value.trim().length > 0) {
+                sendBtn.disabled = false;
+                sendBtn.classList.add('active');
+            } else {
+                sendBtn.disabled = true;
+                sendBtn.classList.remove('active');
+            }
+        });
+
+        userInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    }
+
+    if (chatForm) {
+        chatForm.addEventListener('submit', handleChatSubmit);
+    }
+
+    async function handleChatSubmit(e) {
+        e.preventDefault();
+        const userMessage = userInput.value.trim();
+        if (!userMessage) return;
+
+        if (aiGreeting && !aiGreeting.classList.contains('hidden')) {
+            aiGreeting.classList.add('hidden');
+            inputWrapper.classList.add('chat-mode');
+            chatWindow.classList.remove('hidden');
+            setTimeout(() => chatWindow.classList.add('active'), 50);
+        }
+
+        addMessageToChatWindow(userMessage, "user");
+        userInput.value = "";
+        userInput.style.height = 'auto';
+        sendBtn.disabled = true;
+        sendBtn.classList.remove('active');
+
+        addMessageToChatWindow("", "ai", true);
+
+        try {
+            const storedProfile = localStorage.getItem('fitnotfat_profile');
+            const userProfile = storedProfile ? JSON.parse(storedProfile) : null;
+
+            const response = await fetch('/api/gymcoach', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMessage, userProfile: userProfile })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Server connection failed");
+
+            updateLastMessage(data.reply);
+
+        } catch (error) {
+            console.error("Chat Error:", error);
+            updateLastMessage("I'm having trouble connecting to the server. Please refresh and try again.");
+        }
+    }
+
+    function addMessageToChatWindow(message, sender, isTyping = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+
+        if (isTyping) {
+            messageDiv.id = 'typing-indicator';
+            messageDiv.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
+        } else {
+            if (sender === 'ai') {
+                messageDiv.innerHTML = marked.parse(message);
+            } else {
+                messageDiv.textContent = message;
+                messageDiv.style.whiteSpace = "pre-line";
+            }
+        }
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function updateLastMessage(newMessage) {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            const messageDiv = typingIndicator;
+            messageDiv.removeAttribute('id');
+            messageDiv.innerHTML = marked.parse(newMessage);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    }
+</script>
 </body>
 
 </html>
