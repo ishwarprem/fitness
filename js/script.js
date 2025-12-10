@@ -527,7 +527,7 @@ async function loadProfile() {
                 // Determine source mapping (DB to JS)
                 const profile = {
                     username: data.username,
-                    name: data.full_name || '', // DB might not have full_name yet, using generic
+                    name: data['Full Name'] || data.full_name || '', // DB might not have full_name yet, using generic
                     age: data.age,
                     height: data.height,
                     weight: data.weight,
@@ -535,7 +535,8 @@ async function loadProfile() {
                     experience: data.experience_level,
                     frequency: data.training_frequency,
                     goal: data.goal,
-                    stats: data.stats
+                    stats: data.stats,
+                    avatar_url: data.avatar_url
                 };
 
                 // Update Local Storage to match Cloud (Best Practice)
@@ -572,6 +573,18 @@ function renderProfileUI(profile) {
     if (document.getElementById('p_experience')) document.getElementById('p_experience').value = profile.experience || 'beginner';
     if (document.getElementById('p_frequency')) document.getElementById('p_frequency').value = profile.frequency || 3;
     if (document.getElementById('p_goal')) document.getElementById('p_goal').value = profile.goal || 'lose_fat';
+
+    // Update Images
+    if (profile.avatar_url) {
+        const timestamp = new Date().getTime(); // Bust cache
+        const fullUrl = `${profile.avatar_url}?t=${timestamp}`;
+
+        const headerImg = document.getElementById('headerProfileImg');
+        if (headerImg) headerImg.src = fullUrl;
+
+        const pageImg = document.getElementById('profilePageImg');
+        if (pageImg) pageImg.src = fullUrl;
+    }
 }
 
 function saveProfile() {
@@ -624,6 +637,7 @@ function saveProfile() {
             target_calories: targetCalories,
             macros: { protein, carbs, fats }
         },
+        avatar_url: JSON.parse(localStorage.getItem('fitnotfat_profile') || '{}').avatar_url, // Preserve existing avatar
         updated_at: new Date().toISOString()
     };
 
@@ -695,7 +709,7 @@ function toggleEditMode(forceState = null) {
     const editBtn = document.querySelector('.btn-edit');
 
     // NEW: Use the specific ID we just added
-    const saveBtn = document.getElementById('saveProfileBtn');
+    const saveBtn = document.getElementById('profileSaveBtn');
 
     // Safety Check: If button is missing, stop script to prevent crash
     if (!saveBtn) {
@@ -727,3 +741,113 @@ function toggleEditMode(forceState = null) {
     }
 }
 
+// ==========================================
+// 5. CROPPER & IMAGE UPLOAD LOGIC
+// ==========================================
+let cropper = null;
+
+function uploadAvatar(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const image = document.getElementById('cropImage');
+        image.src = e.target.result;
+
+        const modal = document.getElementById('cropModal');
+        modal.showModal();
+
+        // Initialize Cropper
+        if (cropper) {
+            cropper.destroy();
+        }
+        cropper = new Cropper(image, {
+            aspectRatio: 1, // Square crop for avatars
+            viewMode: 1,
+            autoCropArea: 1,
+        });
+    };
+    reader.readAsDataURL(file);
+    input.value = ''; // Reset input so same file can be selected again
+}
+
+function closeCropModal() {
+    const modal = document.getElementById('cropModal');
+    modal.close();
+    if (cropper) {
+        cropper.destroy();
+        cropper = null;
+    }
+}
+
+async function confirmCrop() {
+    if (!cropper) return;
+
+    // Get cropped canvas
+    const canvas = cropper.getCroppedCanvas({
+        width: 300,
+        height: 300,
+    });
+
+    // Convert to blob
+    canvas.toBlob(async (blob) => {
+        closeCropModal(); // Close immediately for better UX
+
+        const statusTxt = document.getElementById('uploadStatus');
+        if (statusTxt) {
+            statusTxt.innerText = "Uploading...";
+            statusTxt.style.color = "#FF5200";
+        }
+
+        try {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (!session) throw new Error("Please login first.");
+
+            const fileExt = "png"; // Canvas exports as png by default
+            const filePath = `users/${session.user.id}/avatar.${fileExt}`;
+
+            // Upload
+            const { error: uploadError } = await _supabase.storage
+                .from('avatars')
+                .upload(filePath, blob, {
+                    contentType: 'image/png',
+                    upsert: true
+                });
+
+            if (uploadError) throw uploadError;
+
+            // Get Public URL
+            const { data: { publicUrl } } = _supabase.storage
+                .from('avatars')
+                .getPublicUrl(filePath);
+
+            // Update Profile DB
+            const { error: dbError } = await _supabase
+                .from('profiles')
+                .update({ avatar_url: publicUrl })
+                .eq('id', session.user.id);
+
+            if (dbError) throw dbError;
+
+            // Success UI
+            if (statusTxt) {
+                statusTxt.innerText = "Done!";
+                statusTxt.style.color = "#00C851";
+            }
+
+            // Update Local State & UI
+            const currentProfile = JSON.parse(localStorage.getItem('fitnotfat_profile') || '{}');
+            currentProfile.avatar_url = publicUrl;
+            localStorage.setItem('fitnotfat_profile', JSON.stringify(currentProfile));
+            renderProfileUI(currentProfile);
+
+        } catch (error) {
+            console.error("Upload failed", error);
+            if (statusTxt) {
+                statusTxt.innerText = "Failed.";
+                statusTxt.style.color = "red";
+            }
+        }
+    });
+}

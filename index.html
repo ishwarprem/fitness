@@ -16,6 +16,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <!-- Your Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/profile.css">
@@ -35,14 +37,16 @@
             <span class="brand-name">FITNOTFAT.</span>
         </div>
 
-        <!-- Right: Navigation Tabs + Logout Area -->
-        <!-- We gave this an ID "navContainer" so Javascript can put the Logout button inside here -->
+
         <nav class="nav-tabs" id="navContainer">
             <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
-            <button class="tab-btn" onclick="switchTab('profile')" id="tab-profile">PROFILE</button>
             <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
             <button class="tab-btn" onclick="switchTab('ai-coach')" id="tab-ai-coach">AI COACH</button>
-            <button class="tab-btn" onclick="logout()" id="logoutBtn">LOG OUT</button>
+
+            <!-- NEW: Profile Image Icon (Clicking this opens the Profile Tab) -->
+            <div class="profile-icon-container" onclick="switchTab('profile')">
+                <img id="headerProfileImg" src="https://via.placeholder.com/150" alt="Profile">
+            </div>
         </nav>
 
         <!-- Marquee Background -->
@@ -104,8 +108,20 @@
                     </button>
                 </div>
 
+                <!-- NEW: Avatar Uploader Section -->
+                <div class="avatar-upload-section">
+                    <div class="avatar-preview">
+                        <img id="profilePageImg" src="https://via.placeholder.com/150" alt="Profile">
+                    </div>
+                    <div class="file-input-wrapper">
+                        <label for="avatarInput" class="upload-btn">CHANGE PHOTO</label>
+                        <input type="file" id="avatarInput" accept="image/*" onchange="uploadAvatar(this)">
+                        <p id="uploadStatus"></p>
+                    </div>
+                </div>
+
                 <form id="profileForm" onsubmit="event.preventDefault(); saveProfile();">
-                    <!-- Personal Stats Grid -->
+                    <!-- Personal Stats Grid (SAME AS BEFORE) -->
                     <div class="profile-grid">
                         <div class="input-group">
                             <label>Username</label>
@@ -143,7 +159,7 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <label>Training Frequency (Days/Week)</label>
+                            <label>Training Frequency</label>
                             <input type="number" id="p_frequency" min="1" max="7" disabled>
                         </div>
                         <div class="input-group">
@@ -156,8 +172,14 @@
                         </div>
                     </div>
 
+                    <!-- SAVE BUTTON -->
                     <div class="form-actions">
-                        <button type="submit" class="btn-save" id="saveProfileBtn">SAVE PROFILE</button>
+                        <button type="submit" id="profileSaveBtn" class="btn-save">SAVE PROFILE</button>
+                    </div>
+
+                    <!-- NEW: LOGOUT BUTTON (Moved Here) -->
+                    <div class="logout-section">
+                        <button type="button" onclick="logout()" class="btn-logout">LOG OUT</button>
                     </div>
                 </form>
             </div>
@@ -766,135 +788,17 @@
     <script src="js/script.js"></script>
 
 
-    <script>
-        // ==========================================
-        // 1. PAGE INITIALIZATION & CHAT LOGIC
-        // ==========================================
-
-
-        const chatForm = document.getElementById('chatForm');
-        const userInput = document.getElementById('userInput');
-        const chatWindow = document.getElementById('chatWindow');
-        const sendBtn = document.getElementById('sendBtn');
-        const aiGreeting = document.getElementById('aiGreeting');
-        const inputWrapper = document.getElementById('inputWrapper');
-        const coachToggleBtn = document.getElementById('coachToggleBtn');
-        const closeCoachBtn = document.getElementById('closeCoachBtn');
-        const sidebar = document.getElementById('gymCoachSidebar');
-
-        // Sidebar Toggles
-        if (coachToggleBtn) {
-            coachToggleBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                coachToggleBtn.style.display = 'none';
-            });
-        }
-
-        if (closeCoachBtn) {
-            closeCoachBtn.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                coachToggleBtn.style.display = 'flex';
-            });
-        }
-
-        // Auto-resize Textarea
-        if (userInput) {
-            userInput.addEventListener('input', function () {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-                if (this.value.trim().length > 0) {
-                    sendBtn.disabled = false;
-                    sendBtn.classList.add('active');
-                } else {
-                    sendBtn.disabled = true;
-                    sendBtn.classList.remove('active');
-                }
-            });
-
-            userInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (!sendBtn.disabled) chatForm.dispatchEvent(new Event('submit'));
-                }
-            });
-        }
-
-        if (chatForm) {
-            chatForm.addEventListener('submit', handleChatSubmit);
-        }
-
-        async function handleChatSubmit(e) {
-            e.preventDefault();
-            const userMessage = userInput.value.trim();
-            if (!userMessage) return;
-
-            if (aiGreeting && !aiGreeting.classList.contains('hidden')) {
-                aiGreeting.classList.add('hidden');
-                inputWrapper.classList.add('chat-mode');
-                chatWindow.classList.remove('hidden');
-                setTimeout(() => chatWindow.classList.add('active'), 50);
-            }
-
-            addMessageToChatWindow(userMessage, "user");
-            userInput.value = "";
-            userInput.style.height = 'auto';
-            sendBtn.disabled = true;
-            sendBtn.classList.remove('active');
-
-            addMessageToChatWindow("", "ai", true);
-
-            try {
-                // Grab the profile data we saved/loaded earlier
-                const storedProfile = localStorage.getItem('fitnotfat_profile');
-                const userProfile = storedProfile ? JSON.parse(storedProfile) : null;
-
-                const response = await fetch('/api/gymcoach', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userMessage, userProfile: userProfile })
-                });
-
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.error || "Server connection failed");
-
-                updateLastMessage(data.reply);
-
-            } catch (error) {
-                console.error("Chat Error:", error);
-                updateLastMessage("I'm having trouble connecting to the server. Please refresh and try again.");
-            }
-        }
-
-        function addMessageToChatWindow(message, sender, isTyping = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-
-            if (isTyping) {
-                messageDiv.id = 'typing-indicator';
-                messageDiv.innerHTML = '<p><span>.</span><span>.</span><span>.</span></p>';
-            } else {
-                if (sender === 'ai') {
-                    // Use marked for Bold/Lists
-                    messageDiv.innerHTML = marked.parse(message);
-                } else {
-                    messageDiv.textContent = message;
-                    messageDiv.style.whiteSpace = "pre-line";
-                }
-            }
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        function updateLastMessage(newMessage) {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                const messageDiv = typingIndicator;
-                messageDiv.removeAttribute('id');
-                messageDiv.innerHTML = marked.parse(newMessage);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
-        }
-    </script>
+    <!-- Crop Image Modal -->
+    <dialog id="cropModal" class="crop-modal">
+        <h3>Adjust Your Photo</h3>
+        <div class="crop-container" style="max-height: 400px; max-width: 100%;">
+            <img id="cropImage" style="max-width: 100%; display: block;">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-modal btn-cancel" onclick="closeCropModal()">Cancel</button>
+            <button class="btn-modal btn-confirm" onclick="confirmCrop()">Set Profile Picture</button>
+        </div>
+    </dialog>
 </body>
 
 </html>

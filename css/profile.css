@@ -108,9 +108,8 @@
 
 .btn-save {
     display: none;
-    /* Hidden by default */
+    /* Only for the main profile save button */
     background-color: #FF5200;
-    /* Bright Orange */
     color: #000;
     border: none;
     padding: 12px 40px;
@@ -133,4 +132,163 @@
     .metrics-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* --- Header Profile Icon --- */
+.profile-icon-container {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--primary-accent);
+    margin-left: 15px;
+    transition: transform 0.2s;
+}
+
+.profile-icon-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 82, 0, 0.5);
+}
+
+#headerProfileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Profile Page Uploader --- */
+.avatar-upload-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--primary-accent);
+}
+
+#profilePageImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.upload-btn {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+}
+
+.upload-btn:hover {
+    background: var(--primary-accent);
+    color: black;
+}
+
+/* --- Logout Button (Red Style) --- */
+.logout-section {
+    margin-top: 3rem;
+    border-top: 1px solid #333;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid #ff4444;
+    color: #ff4444;
+    padding: 10px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background: #ff4444;
+    color: white;
+}
+
+/* --- Crop Modal --- */
+.crop-modal {
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 90vw;
+    width: 600px;
+}
+
+.crop-modal::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.crop-modal h3 {
+    text-align: center;
+    color: var(--primary-accent);
+    margin-bottom: 1rem;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+}
+
+.crop-container {
+    background: #000;
+    margin-bottom: 20px;
+    height: 400px;
+    /* Fixed height for cropper */
+    overflow: hidden;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+}
+
+.btn-cancel {
+    background: #333;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #444;
+}
+
+.btn-confirm {
+    background: var(--primary-accent);
+    color: black;
+}
+
+.btn-confirm:hover {
+    background: white;
 }
