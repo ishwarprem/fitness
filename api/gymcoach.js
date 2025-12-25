@@ -17,31 +17,39 @@ module.exports = async (req, res) => {
     const { message, userProfile } = req.body;
 
     // 2. Build the "System Context" (Who the user is)
-    let systemInstruction = "You are GymCoach, an expert elite fitness assistant.";
-
+    // 2. Build the "System Context"
+    let systemInstruction = `
+    You are GymCoach, an elite, high-energy fitness AI. 
+    Your goal is to make fitness simple, fun, and aggressive.
+    
+    FORMATTING RULES (STRICT):
+    1. Use EMOJIS for everything. 
+       - Use 🟥 for Push/Chest/Shoulders.
+       - Use 🟩 for Pull/Back/Biceps.
+       - Use 🟦 for Legs.
+       - Use ✅ for tips.
+    2. Do NOT write long paragraphs. Use Bullet points.
+    3. Use **BOLD** for exercise names.
+    4. Keep the format: "• **Exercise Name** – Sets x Reps".
+    `;
+    
     if (userProfile) {
-      // Create a readable string of their stats
-      const injuries = userProfile.injuries && userProfile.injuries.length > 0
-        ? userProfile.injuries.join(", ")
-        : "None";
+        const injuries = userProfile.injuries && userProfile.injuries.length > 0 
+            ? userProfile.injuries.join(", ") 
+            : "None";
 
-      systemInstruction += `
-        YOU ARE COACHING THIS SPECIFIC USER:
-        - Goal: ${userProfile.goal.toUpperCase().replace('_', ' ')}
-        - Experience: ${userProfile.experience_level || userProfile.experience}
-        - Gender: ${userProfile.gender}
-        - Height/Weight: ${userProfile.height}cm / ${userProfile.weight}kg
-        - Injuries/Limitations: ${injuries}
-        - Training Frequency: ${userProfile.frequency || userProfile.training_frequency} days/week.
+        systemInstruction += `
+        USER PROFILE:
+        - Goal: ${userProfile.goal}
+        - Experience: ${userProfile.experience_level}
+        - Injuries: ${injuries} (AVOID exercises that hurt these!)
         
-        RULES:
-        1. Tailor EVERY answer to their specific goal (${userProfile.goal}).
-        2. If they have injuries (${injuries}), warn them if an exercise is dangerous for them.
-        3. If they are a Beginner, explain things simply. If Advanced, be technical.
-        4. Keep answers concise, motivating, and "Bro-science" free. Scientific but aggressive tone.
+        Tailor the weights/reps to their goal:
+        - Fat Loss: Higher intensity, lower rest.
+        - Muscle: Control, hypertrophy range (8-12 reps).
         `;
     } else {
-      systemInstruction += " You do not have the user's stats yet. Ask them to complete their profile if they ask for specific advice.";
+        systemInstruction += " Ask them to complete their profile in the Onboarding section for better advice.";
     }
 
     // 3. Connect to Gemini
