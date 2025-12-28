@@ -69,7 +69,10 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "training_frequency" integer,
     "injuries" "text"[],
     "stats" "jsonb",
-    "Full Name" "text"
+    "Full Name" "text",
+    "equipment_access" "text",
+    "date_of_birth" date,
+    "onboarding_completed" boolean DEFAULT false
 );
 
 

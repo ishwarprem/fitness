@@ -31,22 +31,57 @@
                     <div class="progress-bar-bg">
                         <div id="progressBar" class="progress-bar-fill"></div>
                     </div>
-                    <p class="step-text">Step <span id="currentStepNum">1</span> of 5</p>
+                    <p class="step-text">Step <span id="currentStepNum">1</span> of 9</p>
                 </div>
             </div>
 
             <form id="onboardingForm">
 
-                <!-- STEP 1: BIOMETRICS -->
+                <!-- STEP 1: PRIMARY HEALTH GOAL -->
                 <div class="form-step active" data-step="1">
-                    <h2>THE BASICS</h2>
-                    <p class="sub-text">We need this data to calculate your metabolism (BMR).</p>
+                    <h2>WHAT'S YOUR PRIMARY HEALTH GOAL?</h2>
+                    <p class="sub-text">This will help us tailor your training and nutrition.</p>
+
+                    <div class="card-selection">
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="lose_fat" checked>
+                            <div class="card-content">
+                                <h3>🔥 Lose Fat</h3>
+                                <p>Caloric deficit. Get lean and shredded.</p>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="build_muscle">
+                            <div class="card-content">
+                                <h3>💪 Build Muscle</h3>
+                                <p>Caloric surplus. Maximize muscle growth.</p>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="recomp">
+                            <div class="card-content">
+                                <h3>⚡ Recomposition</h3>
+                                <p>Maintenance calories. Build muscle while losing fat.</p>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="goal" value="general_fitness">
+                            <div class="card-content">
+                                <h3>🎯 General Fitness</h3>
+                                <p>Stay healthy, active, and strong.</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="button" class="btn-next">NEXT STEP &rarr;</button>
+                </div>
+
+                <!-- STEP 2: BODY METRICS -->
+                <div class="form-step" data-step="2">
+                    <h2>BODY METRICS</h2>
+                    <p class="sub-text">We need this to calculate your metabolism (BMR).</p>
 
                     <div class="input-grid">
-                        <div class="input-group">
-                            <label>Username</label>
-                            <input type="text" id="username" placeholder="Choose a refined username" required>
-                        </div>
                         <div class="input-group">
                             <label>Gender</label>
                             <div class="radio-toggle">
@@ -58,10 +93,6 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <label>Age</label>
-                            <input type="number" id="age" placeholder="e.g. 24" required>
-                        </div>
-                        <div class="input-group">
                             <label>Height (cm)</label>
                             <input type="number" id="height" placeholder="e.g. 180" required>
                         </div>
@@ -70,12 +101,32 @@
                             <input type="number" id="weight" placeholder="e.g. 75" required>
                         </div>
                     </div>
-                    <button type="button" class="btn-next">NEXT STEP &rarr;</button>
+
+                    <div class="input-group" style="margin-top: 20px;">
+                        <label>Date of Birth</label>
+                        <div class="date-picker">
+                            <select id="dobDay" required>
+                                <option value="">Day</option>
+                            </select>
+                            <select id="dobMonth" required>
+                                <option value="">Month</option>
+                            </select>
+                            <select id="dobYear" required>
+                                <option value="">Year</option>
+                            </select>
+                        </div>
+                        <p class="calculated-age" id="calculatedAge"></p>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back">Back</button>
+                        <button type="button" class="btn-next">Next Step &rarr;</button>
+                    </div>
                 </div>
 
-                <!-- STEP 2: EXPERIENCE -->
-                <div class="form-step" data-step="2">
-                    <h2>EXPERIENCE LEVEL</h2>
+                <!-- STEP 3: FITNESS LEVEL -->
+                <div class="form-step" data-step="3">
+                    <h2>FITNESS LEVEL</h2>
                     <p class="sub-text">This determines your workout complexity.</p>
 
                     <div class="card-selection">
@@ -83,21 +134,21 @@
                             <input type="radio" name="experience" value="beginner" checked>
                             <div class="card-content">
                                 <h3>Beginner</h3>
-                                <p>0 - 1 Years. Learning the ropes.</p>
+                                <p>0 - 1 Years. Learning the fundamentals.</p>
                             </div>
                         </label>
                         <label class="selection-card">
                             <input type="radio" name="experience" value="intermediate">
                             <div class="card-content">
                                 <h3>Intermediate</h3>
-                                <p>1 - 3 Years. Consistent training.</p>
+                                <p>1 - 3 Years. Consistent training experience.</p>
                             </div>
                         </label>
                         <label class="selection-card">
                             <input type="radio" name="experience" value="advanced">
                             <div class="card-content">
                                 <h3>Advanced</h3>
-                                <p>3+ Years. High intensity.</p>
+                                <p>3+ Years. High-level performance.</p>
                             </div>
                         </label>
                     </div>
@@ -108,31 +159,45 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: GOAL -->
-                <div class="form-step" data-step="3">
-                    <h2>YOUR MISSION</h2>
-                    <p class="sub-text">What are we aiming for?</p>
+                <!-- STEP 4: EQUIPMENT ACCESS -->
+                <div class="form-step" data-step="4">
+                    <h2>EQUIPMENT ACCESS</h2>
+                    <p class="sub-text">What equipment do you have access to?</p>
 
                     <div class="card-selection">
                         <label class="selection-card">
-                            <input type="radio" name="goal" value="lose_fat" checked>
+                            <input type="radio" name="equipment" value="full_gym" checked>
                             <div class="card-content">
-                                <h3>Cut (Lose Fat)</h3>
-                                <p>Caloric Deficit. Get shredded.</p>
+                                <h3>🏋️ Full Gym Access</h3>
+                                <p>Barbells, dumbbells, machines, cables, etc.</p>
                             </div>
                         </label>
                         <label class="selection-card">
-                            <input type="radio" name="goal" value="build_muscle">
+                            <input type="radio" name="equipment" value="basic_equipment">
                             <div class="card-content">
-                                <h3>Bulk (Build Muscle)</h3>
-                                <p>Caloric Surplus. Get huge.</p>
+                                <h3>🔧 Basic Equipment</h3>
+                                <p>Dumbbells, bench, resistance bands.</p>
                             </div>
                         </label>
                         <label class="selection-card">
-                            <input type="radio" name="goal" value="recomp">
+                            <input type="radio" name="equipment" value="dumbbells_only">
                             <div class="card-content">
-                                <h3>Recomposition</h3>
-                                <p>Maintenance. Build & Burn simultaneously.</p>
+                                <h3>🏋️‍♂️ Dumbbells Only</h3>
+                                <p>Just a set of dumbbells.</p>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="equipment" value="cables_only">
+                            <div class="card-content">
+                                <h3>🔗 Cables Only</h3>
+                                <p>Cable machine access.</p>
+                            </div>
+                        </label>
+                        <label class="selection-card">
+                            <input type="radio" name="equipment" value="bodyweight_only">
+                            <div class="card-content">
+                                <h3>🤸 Bodyweight Only</h3>
+                                <p>No equipment, just your body.</p>
                             </div>
                         </label>
                     </div>
@@ -143,8 +208,8 @@
                     </div>
                 </div>
 
-                <!-- STEP 4: AVAILABILITY -->
-                <div class="form-step" data-step="4">
+                <!-- STEP 5: TRAINING FREQUENCY -->
+                <div class="form-step" data-step="5">
                     <h2>COMMITMENT</h2>
                     <p class="sub-text">How many days per week can you train?</p>
 
@@ -160,9 +225,9 @@
                     </div>
                 </div>
 
-                <!-- STEP 5: INJURIES / FINISH -->
-                <div class="form-step" data-step="5">
-                    <h2>LIMITATIONS</h2>
+                <!-- STEP 6: LIMITATIONS / INJURIES -->
+                <div class="form-step" data-step="6">
+                    <h2>LIMITATIONS & INJURIES</h2>
                     <p class="sub-text">Select areas we should be careful with.</p>
 
                     <div class="checkbox-grid">
@@ -182,15 +247,82 @@
                             <input type="checkbox" name="injury" value="wrist">
                             <span>Wrists</span>
                         </label>
-                    </div>
-
-                    <div class="summary-box hidden" id="finalSummary">
-                        <!-- JS will inject calculation results here -->
+                        <label class="check-card">
+                            <input type="checkbox" name="injury" value="elbow">
+                            <span>Elbows</span>
+                        </label>
+                        <label class="check-card">
+                            <input type="checkbox" name="injury" value="ankle">
+                            <span>Ankles</span>
+                        </label>
                     </div>
 
                     <div class="btn-row">
                         <button type="button" class="btn-back">Back</button>
-                        <button type="button" class="btn-finish" id="finishBtn">INITIALIZE PROTOCOL</button>
+                        <button type="button" class="btn-next">Next Step &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 7: PERSONAL INFO -->
+                <div class="form-step" data-step="7">
+                    <h2>PERSONAL INFORMATION</h2>
+                    <p class="sub-text">Let's personalize your experience.</p>
+
+                    <div class="input-grid">
+                        <div class="input-group full-width">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="input-group full-width">
+                            <label>Username</label>
+                            <input type="text" id="username" placeholder="Choose a username" required>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back">Back</button>
+                        <button type="button" class="btn-next">Next Step &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 8: PREVIEW SUMMARY -->
+                <div class="form-step" data-step="8">
+                    <h2>REVIEW YOUR PROFILE</h2>
+                    <p class="sub-text">Make sure everything looks good before creating your account.</p>
+
+                    <div class="summary-container" id="summaryContainer">
+                        <!-- Will be populated by JS -->
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back">Back</button>
+                        <button type="button" class="btn-next">Continue to Account Creation &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 9: ACCOUNT CREATION -->
+                <div class="form-step" data-step="9">
+                    <h2>CREATE YOUR ACCOUNT</h2>
+                    <p class="sub-text">One last step to unlock your personalized fitness journey.</p>
+
+                    <div class="input-grid">
+                        <div class="input-group full-width">
+                            <label>Email</label>
+                            <input type="email" id="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="input-group full-width">
+                            <label>Password</label>
+                            <input type="password" id="password" placeholder="Choose a strong password" required>
+                        </div>
+                        <div class="input-group full-width">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back">Back</button>
+                        <button type="button" class="btn-finish" id="finishBtn">CREATE ACCOUNT & START TRAINING</button>
                     </div>
                 </div>
 

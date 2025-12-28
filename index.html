@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/ai-coach.css">
+    <link rel="stylesheet" href="css/scheduler.css">
 
 
     <!-- Supabase & Scripts -->
@@ -40,7 +41,7 @@
 
 
         <nav class="nav-tabs" id="navContainer">
-            <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">SCHEDULER</button>
+            <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">WORKOUTS</button>
             <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
             <button class="tab-btn" onclick="switchTab('ai-coach')" id="tab-ai-coach">AI COACH</button>
 
@@ -69,9 +70,20 @@
             <div class="scheduler-container">
                 <h2>Weekly Routine</h2>
 
-                <!-- The 7-Day Grid -->
-                <div class="week-grid" id="weekGrid">
-                    <!-- Days will be injected here by JavaScript -->
+                <!-- NEW: Horizontal Calendar Strip -->
+                <div class="calendar-wrapper">
+                    <div class="calendar-header">
+                        <span id="currentMonthYear"></span>
+                        <!-- <span class="premium-badge">PREMIUM</span> -->
+                    </div>
+                    <div class="calendar-strip" id="calendarStrip">
+                        <!-- Days injected via JS -->
+                    </div>
+                </div>
+
+                <!-- NEW: Active Day Detail Card -->
+                <div class="active-day-view" id="activeDayView">
+                    <!-- Content injected via JS -->
                 </div>
             </div>
 

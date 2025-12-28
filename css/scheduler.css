@@ -1,0 +1,260 @@
+/* ==========================================
+   NEW SCHEDULER DESIGN (Calendar Strip)
+   ========================================== */
+
+.calendar-wrapper {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--text-main);
+    padding: 0 0.5rem;
+}
+
+.calendar-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    /* Allow scroll on small screens */
+    padding-bottom: 10px;
+    /* Space for scrollbar if needed */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Hide scrollbar for cleaner look */
+.calendar-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    /* Ensure minimum width */
+    height: 90px;
+    border-radius: 16px;
+    /* Smooth rounded corners */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: #666;
+    /* Inactive color */
+    position: relative;
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.calendar-day:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Current Day Highlight */
+.calendar-day.active {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+/* Today highlight (optional special styling) */
+.calendar-day.is-today .day-number {
+    color: var(--primary-accent);
+}
+
+.calendar-day .day-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: capitalize;
+}
+
+.calendar-day .day-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.calendar-day .workout-dot {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+    border-radius: 50%;
+    margin-top: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-day.has-workout .workout-dot {
+    background-color: var(--primary-accent);
+    /* Green/Orange dot */
+    box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* ==========================================
+   ACTIVE DAY VIEW (Workout Preview Card)
+   ========================================== */
+.active-day-view {
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+}
+
+.workout-preview-card {
+    background: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    max-width: 500px;
+    margin: 0 auto;
+    /* Center it */
+}
+
+/* Header inside card */
+.workout-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.workout-target-label {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Minus icon circle */
+.workout-icon-circle {
+    width: 24px;
+    height: 24px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+}
+
+.workout-target-list {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: #eee;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+/* Stats Row */
+.workout-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    flex: 1;
+}
+
+.stat-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: #666;
+    /* Default icon color */
+    transition: fill 0.3s ease;
+}
+
+.workout-preview-card:hover .stat-icon svg {
+    fill: #fff;
+}
+
+.stat-value {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 500;
+}
+
+/* Action Button */
+.preview-btn {
+    width: 100%;
+    background: var(--primary-accent);
+    /* Green/Turquoise in ref, but using our Orange */
+    color: #000;
+    /* Black text on bright button */
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1.2rem;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+}
+
+.preview-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 82, 0, 0.2);
+}
+
+/* Start Empty Workout Button */
+.btn-empty-workout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: #1e1e1e;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    transition: background 0.2s;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-empty-workout:hover {
+    background: #2a2a2a;
+}
+
+/* Empty State Card */
+.empty-card {
+    background: #151515;
+    border: 1px dashed #333;
+    border-radius: 24px;
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-card h3 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
