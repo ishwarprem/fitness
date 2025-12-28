@@ -370,31 +370,34 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
         if (formData.goal === 'lose_fat') targetCalories -= 500;
         if (formData.goal === 'build_muscle') targetCalories += 300;
 
-        // 3. Save Profile Data
+        // 3. Save Profile Data (using insert with onConflict to handle RLS properly)
+        const profileData = {
+            id: data.user.id,
+            username: formData.username,
+            email: email, // Save email for username login
+            'Full Name': formData.fullName,
+            gender: formData.gender,
+            age: formData.age,
+            height: formData.height,
+            weight: formData.weight,
+            date_of_birth: formData.dateOfBirth,
+            experience_level: formData.experience,
+            goal: formData.goal,
+            training_frequency: formData.frequency,
+            equipment_access: formData.equipment,
+            injuries: formData.injuries,
+            onboarding_completed: true,
+            stats: {
+                bmr: Math.round(bmr),
+                tdee: tdee,
+                target_calories: targetCalories
+            },
+            updated_at: new Date().toISOString()
+        };
+
         const { error: profileError } = await _supabase
             .from('profiles')
-            .upsert({
-                id: data.user.id,
-                username: formData.username,
-                'Full Name': formData.fullName,
-                gender: formData.gender,
-                age: formData.age,
-                height: formData.height,
-                weight: formData.weight,
-                date_of_birth: formData.dateOfBirth,
-                experience_level: formData.experience,
-                goal: formData.goal,
-                training_frequency: formData.frequency,
-                equipment_access: formData.equipment,
-                injuries: formData.injuries,
-                onboarding_completed: true,
-                stats: {
-                    bmr: Math.round(bmr),
-                    tdee: tdee,
-                    target_calories: targetCalories
-                },
-                updated_at: new Date()
-            });
+            .insert(profileData);
 
         if (profileError) {
             console.error("Profile Error:", profileError);

@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
     "updated_at" timestamp with time zone,
     "username" "text",
+    "email" "text",
     "gender" "text",
     "age" integer,
     "height" numeric,
