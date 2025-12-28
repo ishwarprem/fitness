@@ -341,16 +341,19 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
     const password = document.getElementById('password').value;
 
     try {
-        // 1. Create Auth Account
-        const { data: authData, error: authError } = await _supabase.auth.signUp({
-            email: email,
-            password: password
+        // 1. Create Auth Account (matching auth.html behavior)
+        const { data, error } = await _supabase.auth.signUp({
+            email,
+            password
         });
 
-        if (authError) throw authError;
+        if (error) {
+            throw error;
+        }
 
-        if (!authData.user) {
-            throw new Error('Account creation failed');
+        // Check if user was created
+        if (!data.user) {
+            throw new Error('Account creation failed. Please try again.');
         }
 
         // 2. Calculate BMR/TDEE
@@ -371,7 +374,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
         const { error: profileError } = await _supabase
             .from('profiles')
             .upsert({
-                id: authData.user.id,
+                id: data.user.id,
                 username: formData.username,
                 'Full Name': formData.fullName,
                 gender: formData.gender,
@@ -393,23 +396,53 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
                 updated_at: new Date()
             });
 
-        if (profileError) throw profileError;
+        if (profileError) {
+            console.error("Profile Error:", profileError);
+            throw new Error("Failed to save profile data: " + profileError.message);
+        }
 
-        // 4. Success!
-        btn.innerText = "ACCOUNT CREATED! REDIRECTING...";
+        // 4. Success! (matching auth.html success flow)
+        btn.innerText = "✓ ACCOUNT CREATED!";
         btn.style.backgroundColor = "#00C851";
 
         // Clear localStorage
         localStorage.removeItem('fitnotfat_onboarding');
 
+        // Save profile to localStorage for immediate use
+        localStorage.setItem('fitnotfat_profile', JSON.stringify({
+            username: formData.username,
+            name: formData.fullName,
+            age: formData.age,
+            height: formData.height,
+            weight: formData.weight,
+            gender: formData.gender,
+            experience: formData.experience,
+            frequency: formData.frequency,
+            goal: formData.goal
+        }));
+
+        // Redirect to main app (matching auth.html behavior)
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1500);
 
     } catch (error) {
         console.error("Error:", error);
-        alert("Error creating account: " + error.message);
+
+        // Better error messages (matching auth.html style)
+        let errorMessage = error.message;
+
+        if (error.message.includes('already registered')) {
+            errorMessage = 'This email is already registered. Please login instead.';
+        } else if (error.message.includes('Invalid email')) {
+            errorMessage = 'Please enter a valid email address.';
+        } else if (error.message.includes('Password')) {
+            errorMessage = 'Password must be at least 6 characters.';
+        }
+
+        alert("Error: " + errorMessage);
         btn.innerText = "TRY AGAIN";
+        btn.style.backgroundColor = "#FF5200";
         btn.disabled = false;
     }
 });
