@@ -412,51 +412,6 @@
                 class="exercise-video" loop muted playsinline style="display: none;"></video>
         </div>
     </div>
-    <div class="subsection-card">
-        <h3>BEGINNER LEG EXERCISES</h3>
-        <div class="exercise-item">
-            <h4>Bodyweight Squats</h4>
-            <p>3 sets of 12-15 reps. Fundamental lower body exercise for quads and glutes.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/bodyweight-squat.gif"
-                alt="Bodyweight Squats" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Box Squats</h4>
-            <p>3 sets of 10-12 reps. Squat to a box or bench to ensure proper depth and form.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/box-squat.gif" alt="Box Squats"
-                class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Reverse Lunges</h4>
-            <p>3 sets of 10-12 reps per leg. Easier on knees than forward lunges, great for balance.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/reverse-lunge.gif"
-                alt="Reverse Lunges" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Step-Ups</h4>
-            <p>3 sets of 10-12 reps per leg. Unilateral leg exercise using a box or bench.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/step-up.gif" alt="Step-Ups"
-                class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Glute Bridges</h4>
-            <p>3 sets of 15-20 reps. Isolates glutes and strengthens lower back.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/glute-bridge.gif"
-                alt="Glute Bridges" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Calf Raises</h4>
-            <p>3 sets of 15-20 reps. Bodyweight calf exercise, can be done on a step for extra range.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/calf-raise.gif" alt="Calf Raises"
-                class="exercise-video" style="display: none;">
-        </div>
-    </div>
 </div>
 
 <!-- Chest Detail Page -->
@@ -939,124 +894,9 @@
 <div id="neckDetail" class="detail-page">
     <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
     <h2 class="page-title">NECK MUSCLES</h2>
-
     <div class="subsection-card">
-        <h3>BEGINNER</h3>
-        <div class="exercise-item">
-            <h4>Neck Nods (Flexion & Extension)</h4>
-            <p>3 sets of 15-20 reps. Gently lowering chin to chest and looking up, focusing on range of motion.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Neck Nods" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Side-to-Side Neck Tilts</h4>
-            <p>3 sets of 15-20 reps. Tilting head towards each shoulder to stretch and strengthen lateral muscles.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Side-to-Side Neck Tilts" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Neck Rotations</h4>
-            <p>3 sets of 15-20 reps. Turning head side to side in a controlled manner.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Neck Rotations" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Neck Circles (Slow & Controlled)</h4>
-            <p>3 sets of 10-15 reps. Full circular motion to improve mobility. Keep it slow!</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Neck Circles" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Chin Tucks</h4>
-            <p>3 sets of 15-20 reps. Retracting the chin to align the cervical spine and strengthen deep neck flexors.
-            </p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Chin Tucks" class="exercise-video" style="display: none;">
-        </div>
-    </div>
-
-    <div class="subsection-card">
-        <h3>BODYWEIGHT</h3>
-        <div class="exercise-item">
-            <h4>Lying Neck Flexion</h4>
-            <p>3 sets of 15-20 reps. Lying on back, lifting head towards chest against gravity.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Lying Neck Flexion" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Prone Neck Extension</h4>
-            <p>3 sets of 15-20 reps. Lying on stomach, lifting head back to strengthen posterior neck muscles.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Prone Neck Extension" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Side-Lying Neck Raises</h4>
-            <p>3 sets of 15-20 reps per side. Lying on side, lifting head laterally.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Side-Lying Neck Raises" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Controlled Neck Rotations</h4>
-            <p>3 sets of 15-20 reps. Rotational movements while lying down or against mild manual resistance.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Controlled Neck Rotations" class="exercise-video" style="display: none;">
-        </div>
-    </div>
-
-    <div class="subsection-card">
-        <h3>RESISTANCE BAND & EQUIPMENT</h3>
-        <div class="exercise-item">
-            <h4>Neck Harness Flexion</h4>
-            <p>3 sets of 12-15 reps. Using a neck harness to add resistance to flexion.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Neck Harness Flexion" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Neck Harness Extension</h4>
-            <p>3 sets of 12-15 reps. Using a neck harness to add resistance to extension.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Neck Harness Extension" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Resistance-Band Neck Flexion/Extension</h4>
-            <p>3 sets of 15-20 reps. Anchored band work for neck strengthening.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Resistance-Band Neck Flexion/Extension" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Cable Neck Flexion/Extension</h4>
-            <p>3 sets of 12-15 reps. Using cable machine with strap adjustment for constant tension.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Cable Neck Flexion/Extension" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Plate-Loaded Neck Flexion</h4>
-            <p>3 sets of 10-12 reps. (Advanced) Lying on bench with weight plate on forehead (use towel).</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Plate-Loaded Neck Flexion" class="exercise-video" style="display: none;">
-        </div>
-    </div>
-
-    <div class="subsection-card">
-        <h3>ADVANCED NECK EXERCISES</h3>
-        <div class="exercise-item">
-            <h4>Wrestler Neck Bridges</h4>
-            <p>3 sets of 30-60 secs. High-level isometric hold for wrestler-like neck strength. Use caution!</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Wrestler Neck Bridges" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Back Bridges</h4>
-            <p>3 sets of 30-60 secs. Full posterior chain and neck bridge.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Back Bridges" class="exercise-video" style="display: none;">
-        </div>
-        <div class="exercise-item">
-            <h4>Partner-Resisted Neck Training</h4>
-            <p>3 sets of 15-20 reps. Manual resistance applied by a partner in various directions.</p>
-            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="" alt="Partner-Resisted Neck Training" class="exercise-video" style="display: none;">
-        </div>
+        <h3>COMING SOON</h3>
+        <p style="text-align: center; color: var(--text-secondary);">Neck exercises will be added soon.</p>
     </div>
 </div>
 
@@ -1065,13 +905,75 @@
     <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
     <h2 class="page-title">CORE STRENGTH</h2>
     <div class="subsection-card">
+        <h3>COMING SOON</h3>
+        <p style="text-align: center; color: var(--text-secondary);">Core exercises will be added soon.</p>
+    </div>
+</div>
+
+<!-- Rest Day Detail Page -->
+<div id="restDetail" class="detail-page">
+    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
+    <h2 class="page-title">REST & RECOVERY</h2>
+    <div class="subsection-card">
+        <h3>RECOVERY IS KEY</h3>
+        <p style="text-align: center; color: var(--text-secondary);">Take this time to rest, hydrate, and
+            sleep. Muscles grow while you rest, not while you train.</p>
+    </div>
+</div>
+    <div class="subsection-card">
+        <h3>BEGINNER LEG EXERCISES</h3>
+        <div class="exercise-item">
+            <h4>Bodyweight Squats</h4>
+            <p>3 sets of 12-15 reps. Fundamental lower body exercise for quads and glutes.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/bodyweight-squat.gif"
+                alt="Bodyweight Squats" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Box Squats</h4>
+            <p>3 sets of 10-12 reps. Squat to a box or bench to ensure proper depth and form.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/box-squat.gif"
+                alt="Box Squats" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Reverse Lunges</h4>
+            <p>3 sets of 10-12 reps per leg. Easier on knees than forward lunges, great for balance.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/reverse-lunge.gif"
+                alt="Reverse Lunges" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Step-Ups</h4>
+            <p>3 sets of 10-12 reps per leg. Unilateral leg exercise using a box or bench.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/step-up.gif"
+                alt="Step-Ups" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Glute Bridges</h4>
+            <p>3 sets of 15-20 reps. Isolates glutes and strengthens lower back.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/glute-bridge.gif"
+                alt="Glute Bridges" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Calf Raises</h4>
+            <p>3 sets of 15-20 reps. Bodyweight calf exercise, can be done on a step for extra range.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/calf-raise.gif"
+                alt="Calf Raises" class="exercise-video" style="display: none;">
+        </div>
+    </div>
+
+    <div class="subsection-card">
         <h3>BEGINNER CORE EXERCISES</h3>
         <div class="exercise-item">
             <h4>Plank</h4>
             <p>3 sets of 20-45 seconds. Fundamental core stability exercise.</p>
             <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/plank.gif" alt="Plank"
-                class="exercise-video" style="display: none;">
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/plank.gif"
+                alt="Plank" class="exercise-video" style="display: none;">
         </div>
         <div class="exercise-item">
             <h4>Knee Plank</h4>
@@ -1084,8 +986,8 @@
             <h4>Dead Bug</h4>
             <p>3 sets of 10-12 reps per side. Core stability exercise focusing on coordination.</p>
             <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
-            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dead-bug.gif" alt="Dead Bug"
-                class="exercise-video" style="display: none;">
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dead-bug.gif"
+                alt="Dead Bug" class="exercise-video" style="display: none;">
         </div>
         <div class="exercise-item">
             <h4>Lying Leg Raises (Bent Knees)</h4>
@@ -1108,16 +1010,5 @@
             <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/seated-knee-tuck.gif"
                 alt="Seated Knee Tucks" class="exercise-video" style="display: none;">
         </div>
-    </div>
-</div>
-
-<!-- Rest Day Detail Page -->
-<div id="restDetail" class="detail-page">
-    <button class="detail-btn back-btn" onclick="showMain()">← BACK TO MAIN</button>
-    <h2 class="page-title">REST & RECOVERY</h2>
-    <div class="subsection-card">
-        <h3>RECOVERY IS KEY</h3>
-        <p style="text-align: center; color: var(--text-secondary);">Take this time to rest, hydrate, and
-            sleep. Muscles grow while you rest, not while you train.</p>
     </div>
 </div>

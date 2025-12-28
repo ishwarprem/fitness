@@ -155,8 +155,11 @@ const EXERCISE_LIBRARY = {
     "Mid Chest": ["Flat Barbell Bench Press", "Flat Dumbbell Bench Press", "Machine Chest Press", "Cable Chest Fly (Mid Height)", "Smith Machine Flat Bench Press", "Dumbbell Squeeze Press (Hex Press)"],
     "Lower Chest": ["Decline Barbell Bench Press", "Decline Dumbbell Press", "Chest Dips (Lean Forward)", "High → Low Cable Fly", "Smith Machine Decline Bench Press", "Decline Machine Chest Press", "Reverse-Grip Bench Press (Slight Decline)"],
     "Cardio": ["Treadmill Running", "Incline Treadmill Running", "Elliptical Machine", "Rowing Machine", "Step Machine", "Step Mill", "Bicycle Recline Walk", "Battle Rope", "Running", "Brisk Walking", "Burpees", "Jumping Jacks", "Jump Rope", "High Knee Skips", "Marching on Spot", "Squat Burpees", "Side Kick Burpee", "Slow Burpee", "Mountain Climbers", "Side Mountain Climber", "Inchworm Mountain Climbers", "Criss Cross Elbow to Knee", "Touchdown", "Jack Step", "Low Lunge Twist", "Lunge with Leg Lift", "Twist Knee Thrust", "Bodyweight Knee Thrust", "Assault Run", "Split Jump to Box", "Alternate Heel Touch Side Kick Squat", "Skater Hop Tap", "Sky Bike", "Devil Press"],
+    "Calisthenics": ["Wall Push-Ups", "Incline Push-Ups", "Knee Push-Ups", "Standard Push-Ups", "Bench Dips (Knees Bent)", "Australian Rows (Inverted Rows)", "Ring Rows", "Resistance Band Assisted Pull-Ups", "Dead Hangs", "Scapular Pull-Ups"],
+    "Neck": ["Neck Nods", "Side-to-Side Neck Tilts", "Neck Rotations", "Neck Circles", "Chin Tucks", "Lying Neck Flexion", "Prone Neck Extension", "Side-Lying Neck Raises", "Controlled Neck Rotations", "Neck Harness Flexion", "Neck Harness Extension", "Resistance-Band Neck Flexion/Extension", "Cable Neck Flexion/Extension", "Plate-Loaded Neck Flexion", "Wrestler Neck Bridges", "Back Bridges", "Partner-Resisted Neck Training"],
     "Rest Day": ["Rest", "Stretching"]
 };
+
 
 function showDetail(muscle) {
     document.getElementById('mainPage').classList.add('hidden');

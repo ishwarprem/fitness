@@ -1,0 +1,92 @@
+
+    <div class="subsection-card">
+        <h3>BEGINNER LEG EXERCISES</h3>
+        <div class="exercise-item">
+            <h4>Bodyweight Squats</h4>
+            <p>3 sets of 12-15 reps. Fundamental lower body exercise for quads and glutes.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/bodyweight-squat.gif"
+                alt="Bodyweight Squats" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Box Squats</h4>
+            <p>3 sets of 10-12 reps. Squat to a box or bench to ensure proper depth and form.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/box-squat.gif"
+                alt="Box Squats" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Reverse Lunges</h4>
+            <p>3 sets of 10-12 reps per leg. Easier on knees than forward lunges, great for balance.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/reverse-lunge.gif"
+                alt="Reverse Lunges" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Step-Ups</h4>
+            <p>3 sets of 10-12 reps per leg. Unilateral leg exercise using a box or bench.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/step-up.gif"
+                alt="Step-Ups" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Glute Bridges</h4>
+            <p>3 sets of 15-20 reps. Isolates glutes and strengthens lower back.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/glute-bridge.gif"
+                alt="Glute Bridges" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Calf Raises</h4>
+            <p>3 sets of 15-20 reps. Bodyweight calf exercise, can be done on a step for extra range.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/calf-raise.gif"
+                alt="Calf Raises" class="exercise-video" style="display: none;">
+        </div>
+    </div>
+
+    <div class="subsection-card">
+        <h3>BEGINNER CORE EXERCISES</h3>
+        <div class="exercise-item">
+            <h4>Plank</h4>
+            <p>3 sets of 20-45 seconds. Fundamental core stability exercise.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2021/06/plank.gif"
+                alt="Plank" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Knee Plank</h4>
+            <p>3 sets of 30-60 seconds. Modified plank with knees on ground for beginners.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/11/kneeling-plank.gif"
+                alt="Knee Plank" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Dead Bug</h4>
+            <p>3 sets of 10-12 reps per side. Core stability exercise focusing on coordination.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dead-bug.gif"
+                alt="Dead Bug" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Lying Leg Raises (Bent Knees)</h4>
+            <p>3 sets of 10-15 reps. Lower ab exercise with bent knees for easier difficulty.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/bent-knee-lying-leg-raise.gif"
+                alt="Lying Leg Raises" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Standing Knee Raises</h4>
+            <p>3 sets of 12-15 reps per leg. Standing core exercise with balance component.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/11/standing-knee-to-chest.gif"
+                alt="Standing Knee Raises" class="exercise-video" style="display: none;">
+        </div>
+        <div class="exercise-item">
+            <h4>Seated Knee Tucks</h4>
+            <p>3 sets of 12-15 reps. Seated ab exercise focusing on lower abs.</p>
+            <button class="video-btn" onclick="toggleVideo(this)">WATCH FORM</button>
+            <img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/02/seated-knee-tuck.gif"
+                alt="Seated Knee Tucks" class="exercise-video" style="display: none;">
+        </div>
+    </div>

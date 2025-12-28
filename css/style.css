@@ -432,7 +432,7 @@ footer {
     margin: 0 auto;
     /* Start Mode: Centered */
     position: absolute;
-    top: 50%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, 0);
     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -441,18 +441,20 @@ footer {
 }
 
 .input-wrapper.chat-mode {
-    /* Chat Mode: Bottom */
-    position: relative;
+    /* Chat Mode: Fixed at Bottom */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     top: auto;
-    left: auto;
     transform: none;
     width: 100%;
-    max-width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
     padding: 1.5rem;
     background: var(--bg-surface);
     border-top: 1px solid var(--border-color);
-    margin-top: auto;
-    /* Push to bottom */
+    z-index: 100;
 }
 
 .input-box {
@@ -543,6 +545,8 @@ footer {
 #chatWindow.active {
     opacity: 1;
     visibility: visible;
+    padding-bottom: 120px;
+    /* Space for fixed input bar */
 }
 
 .message {
