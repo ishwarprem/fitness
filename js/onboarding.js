@@ -449,3 +449,18 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
         btn.disabled = false;
     }
 });
+
+// 10. Password Visibility Toggle
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.parentElement.querySelector('.toggle-password');
+    const icon = button.querySelector('.eye-icon');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = '🙈'; // Closed eye
+    } else {
+        input.type = 'password';
+        icon.textContent = '👁️'; // Open eye
+    }
+}

@@ -27,6 +27,8 @@ loginForm.addEventListener('submit', async (e) => {
 
         // Check if identifier is a username (doesn't contain @)
         if (!identifier.includes('@')) {
+            console.log('Looking up username:', identifier);
+
             // Look up email from username in profiles table
             const { data: profileData, error: profileError } = await _supabase
                 .from('profiles')
@@ -34,11 +36,15 @@ loginForm.addEventListener('submit', async (e) => {
                 .eq('username', identifier)
                 .single();
 
+            console.log('Profile lookup result:', { profileData, profileError });
+
             if (profileError || !profileData || !profileData.email) {
+                console.error('Username lookup failed:', profileError);
                 throw new Error('Username not found. Please check and try again.');
             }
 
             loginEmail = profileData.email;
+            console.log('Found email for username:', loginEmail);
         }
 
         // 1. Attempt Login with email
