@@ -258,3 +258,309 @@
     color: #fff;
     margin-bottom: 0.5rem;
 }
+
+/* ==========================================
+   CUSTOM PLAN CARD
+   ========================================== */
+.custom-plan-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-plan-card:hover {
+    border-color: var(--primary-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 82, 0, 0.15);
+}
+
+.custom-plan-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 82, 0, 0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-plan-content {
+    flex: 1;
+}
+
+.custom-plan-content h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0 0 4px 0;
+    font-weight: 600;
+}
+
+.custom-plan-content p {
+    color: #888;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.custom-plan-arrow {
+    font-size: 1.5rem;
+    color: var(--primary-accent);
+    transition: transform 0.2s;
+}
+
+.custom-plan-card:hover .custom-plan-arrow {
+    transform: translateX(4px);
+}
+
+/* ==========================================
+   CUSTOM PLAN MODAL
+   ========================================== */
+.custom-plan-modal {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 0;
+    max-width: 550px;
+    width: 90%;
+    max-height: 85vh;
+    overflow: hidden;
+    color: #fff;
+}
+
+.custom-plan-modal::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.custom-plan-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #333;
+    background: linear-gradient(135deg, #FF5200, #FF8C00);
+}
+
+.custom-plan-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.custom-plan-modal .modal-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.custom-plan-modal .modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.custom-plan-modal .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: calc(85vh - 160px);
+}
+
+.custom-plan-modal label {
+    display: block;
+    color: #999;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.custom-plan-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: #252525;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.custom-plan-input:focus {
+    border-color: var(--primary-accent);
+}
+
+.custom-plan-name-section {
+    margin-bottom: 24px;
+}
+
+.exercise-selector {
+    margin-bottom: 24px;
+}
+
+.selector-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.selector-row .modal-select {
+    flex: 1;
+    padding: 12px;
+    background: #252525;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.selector-row .modal-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-add-exercise {
+    width: 48px;
+    height: 48px;
+    background: var(--primary-accent);
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-add-exercise:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.selected-exercises-section {
+    margin-top: 8px;
+}
+
+.selected-exercises-list {
+    background: #252525;
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.selected-exercises-list .empty-state {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.selected-exercise-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.selected-exercise-item:last-child {
+    margin-bottom: 0;
+}
+
+.selected-exercise-item .exercise-name {
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.selected-exercise-item .remove-btn {
+    background: transparent;
+    border: none;
+    color: #ff4444;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.selected-exercise-item .remove-btn:hover {
+    background: rgba(255, 68, 68, 0.2);
+}
+
+.custom-plan-modal .modal-footer {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid #333;
+}
+
+.custom-plan-modal .btn-modal {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.custom-plan-modal .btn-cancel {
+    background: #333;
+    border: none;
+    color: #fff;
+}
+
+.custom-plan-modal .btn-cancel:hover {
+    background: #444;
+}
+
+.custom-plan-modal .btn-save {
+    background: var(--primary-accent);
+    border: none;
+    color: #000;
+}
+
+.custom-plan-modal .btn-save:hover {
+    filter: brightness(1.1);
+}
+
+/* Confirm Workout Button - Extra Prominent */
+.btn-confirm-workout {
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 82, 0, 0.4);
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgba(255, 82, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 25px rgba(255, 82, 0, 0.6);
+    }
+}

@@ -60,18 +60,115 @@ module.exports = async (req, res) => {
         ? userProfile.injuries.join(", ")
         : "None";
 
+      // Format equipment access for better readability
+      const equipmentMap = {
+        'full_gym': 'Full Gym Access (barbells, dumbbells, machines, cables)',
+        'basic_equipment': 'Basic Equipment (dumbbells, bench, resistance bands)',
+        'dumbbells_only': 'Dumbbells Only',
+        'cables_only': 'Cables Only',
+        'bodyweight_only': 'Bodyweight Only (no equipment)'
+      };
+      const equipment = equipmentMap[userProfile.equipment] || userProfile.equipment || 'Not specified';
+
+      // Format goal for better readability
+      const goalMap = {
+        'lose_fat': 'Lose Fat (caloric deficit)',
+        'build_muscle': 'Build Muscle (caloric surplus)',
+        'recomp': 'Body Recomposition (maintain calories, build muscle while losing fat)',
+        'general_fitness': 'General Fitness (stay healthy, active, and strong)',
+        'strength': 'Strength Training'
+      };
+      const goal = goalMap[userProfile.goal] || userProfile.goal || 'Not specified';
+
+      // Calculate age if date_of_birth is available
+      let ageInfo = userProfile.age ? `${userProfile.age} years old` : '';
+      if (userProfile.date_of_birth) {
+        const birthDate = new Date(userProfile.date_of_birth);
+        const today = new Date();
+        const calculatedAge = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+        ageInfo = `${calculatedAge} years old`;
+      }
+
       systemInstruction += `
-        USER PROFILE:
-        - Goal: ${userProfile.goal}
-        - Experience: ${userProfile.experience_level || 'Beginner'}
-        - Injuries: ${injuries} (AVOID exercises that hurt these!)
+        ═══════════════════════════════════════════════════════════
+        🏋️ USER PROFILE - ${userProfile.name || userProfile.username || 'Athlete'}
+        ═══════════════════════════════════════════════════════════
         
-        Tailor the weights/reps to their goal:
-        - Fat Loss: Higher intensity, lower rest.
-        - Muscle: Control, hypertrophy range (8-12 reps).
+        📊 PERSONAL INFO:
+        - Name: ${userProfile.name || 'Not provided'}
+        - Age: ${ageInfo || 'Not provided'}
+        - Gender: ${userProfile.gender || 'Not specified'}
+        
+        📏 BODY METRICS:
+        - Height: ${userProfile.height ? userProfile.height + ' cm' : 'Not provided'}
+        - Weight: ${userProfile.weight ? userProfile.weight + ' kg' : 'Not provided'}
+        ${userProfile.stats && userProfile.stats.bmr ? `- BMR (Basal Metabolic Rate): ${Math.round(userProfile.stats.bmr)} calories/day` : ''}
+        ${userProfile.stats && userProfile.stats.tdee ? `- TDEE (Total Daily Energy Expenditure): ${Math.round(userProfile.stats.tdee)} calories/day` : ''}
+        ${userProfile.stats && userProfile.stats.target_calories ? `- Target Calories: ${Math.round(userProfile.stats.target_calories)} calories/day` : ''}
+        
+        🎯 FITNESS PROFILE:
+        - Primary Goal: ${goal}
+        - Experience Level: ${userProfile.experience || userProfile.experience_level || 'Beginner'}
+        - Training Frequency: ${userProfile.frequency || userProfile.training_frequency || 'Not specified'} days per week
+        - Equipment Access: ${equipment}
+        
+        ⚠️ INJURIES/LIMITATIONS:
+        - ${injuries}
+        ${injuries !== 'None' ? '  ⚡ CRITICAL: Avoid or modify exercises that stress these areas!' : ''}
+        
+        ═══════════════════════════════════════════════════════════
+        
+        💡 COACHING INSTRUCTIONS:
+        Based on this profile, you MUST:
+        
+        1. **Goal-Specific Programming:**
+           ${userProfile.goal === 'lose_fat' || userProfile.goal === 'Lose Fat' ?
+          '   - Focus on higher intensity, shorter rest periods (30-60s)\n   - Include metabolic conditioning and cardio\n   - Emphasize compound movements for maximum calorie burn\n   - Mention their caloric deficit target if discussing nutrition' :
+          userProfile.goal === 'build_muscle' || userProfile.goal === 'Build Muscle' ?
+            '   - Focus on hypertrophy range (8-12 reps, 60-90s rest)\n   - Progressive overload is KEY\n   - Emphasize time under tension and controlled tempo\n   - Mention their caloric surplus target if discussing nutrition' :
+            userProfile.goal === 'recomp' ?
+              '   - Balance strength training with some conditioning\n   - Focus on progressive overload while maintaining calories\n   - Emphasize protein intake (high protein at maintenance calories)' :
+              '   - Provide balanced programming for overall health and fitness'}
+        
+        2. **Equipment-Appropriate Exercises:**
+           - ONLY recommend exercises they can do with: ${equipment}
+           ${userProfile.equipment === 'bodyweight_only' ? '   - Focus on calisthenics, progressive overload through variations' : ''}
+           ${userProfile.equipment === 'dumbbells_only' ? '   - Get creative with dumbbell variations, unilateral work' : ''}
+        
+        3. **Experience-Appropriate Complexity:**
+           ${userProfile.experience === 'beginner' || userProfile.experience_level === 'beginner' ?
+          '   - Keep it SIMPLE. Focus on fundamental movement patterns\n   - Emphasize form over weight\n   - Avoid overly complex programming' :
+          userProfile.experience === 'advanced' || userProfile.experience_level === 'advanced' ?
+            '   - Can handle advanced techniques (drop sets, supersets, etc.)\n   - Assume good mind-muscle connection\n   - Can discuss periodization and advanced concepts' :
+            '   - Moderate complexity, can introduce some advanced techniques'}
+        
+        4. **Injury Considerations:**
+           ${injuries !== 'None' ?
+          `   - ALWAYS consider their ${injuries} when recommending exercises\n   - Suggest modifications or alternatives for problematic movements\n   - Prioritize joint-friendly variations` :
+          '   - No specific injury concerns, but always emphasize proper form'}
+        
+        5. **Training Frequency Context:**
+           - They train ${userProfile.frequency || userProfile.training_frequency || 3} days/week
+           ${(userProfile.frequency || userProfile.training_frequency) <= 3 ?
+          '   - Recommend full-body or upper/lower splits\n   - Focus on compound movements for efficiency' :
+          (userProfile.frequency || userProfile.training_frequency) >= 5 ?
+            '   - Can handle body part splits or push/pull/legs\n   - More volume and frequency per muscle group' :
+            '   - Upper/lower or push/pull/legs works well'}
+        
+        6. **Personalization:**
+           - Address them by name when appropriate: ${userProfile.name || userProfile.username || 'champ'}
+           - Reference their specific stats when relevant (age, weight, etc.)
+           - Make recommendations feel tailored to THEIR situation
+        
+        ═══════════════════════════════════════════════════════════
         `;
     } else {
-      systemInstruction += " Ask them to complete their profile in the Onboarding section for better advice.";
+      systemInstruction += `
+      
+      ⚠️ NO PROFILE DATA AVAILABLE
+      Ask them to complete their profile in the Onboarding section for personalized advice.
+      Without their stats, you can only give general recommendations.
+      `;
     }
 
     // 3. Connect to Gemini

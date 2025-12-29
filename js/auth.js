@@ -1,16 +1,13 @@
-// =======================================================
-// IMPORTANT: Replace with your actual Supabase credentials
-// =======================================================
 const SUPABASE_URL = 'https://jffbruoevfvlbjjvtzsz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmZmJydW9ldmZ2bGJqanZ0enN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMzIxODcsImV4cCI6MjA3ODcwODE4N30.HeG418JSBmzK2bUjnFIbw99V2G7n284isFbbcjZCeS8';
 
 const { createClient } = supabase;
 const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// DOM Elements
 const loginForm = document.getElementById('loginForm');
 
-// --- LOGIN LOGIC (with Username or Email support) ---
+// ... (Your Supabase URL and Key at the top) ...
+
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const identifier = document.getElementById('loginIdentifier').value.trim();
@@ -23,70 +20,52 @@ loginForm.addEventListener('submit', async (e) => {
     btn.disabled = true;
 
     try {
+        // We start by assuming the user typed an email
         let loginEmail = identifier;
 
-        // Check if identifier is a username (doesn't contain @)
+        // --- NEW SECURE LOOKUP CODE STARTS HERE ---
         if (!identifier.includes('@')) {
-            console.log('Looking up username:', identifier);
+            console.log('Searching for username securely...');
 
-            // Look up email from username in profiles table
-            const { data: profileData, error: profileError } = await _supabase
-                .from('profiles')
-                .select('id, email')
-                .eq('username', identifier)
-                .single();
+            // Call the SQL function we created in the Supabase Dashboard
+            const { data: foundEmail, error: rpcError } = await _supabase
+                .rpc('get_email_from_username', { input_username: identifier });
 
-            console.log('Profile lookup result:', { profileData, profileError });
-
-            if (profileError || !profileData || !profileData.email) {
-                console.error('Username lookup failed:', profileError);
+            if (rpcError || !foundEmail || foundEmail.length === 0) {
+                console.error('Username not found:', rpcError);
                 throw new Error('Username not found. Please check and try again.');
             }
 
-            loginEmail = profileData.email;
-            console.log('Found email for username:', loginEmail);
+            // The function returns an array, so we take the first row's email
+            loginEmail = foundEmail[0].found_email;
+            console.log('Email retrieved securely.');
         }
+        // --- NEW SECURE LOOKUP CODE ENDS HERE ---
 
-        // 1. Attempt Login with email
-        const { data: { user }, error } = await _supabase.auth.signInWithPassword({
+        // 1. Now we attempt to login with the email (either typed or found)
+        const { data: { user }, error: authError } = await _supabase.auth.signInWithPassword({
             email: loginEmail,
-            password
+            password: password
         });
 
-        if (error) {
-            throw error;
-        }
+        if (authError) throw authError;
 
-        // 2. Login Success! Now Check for Profile
-        const { data: profile, error: profileError } = await _supabase
+        // 2. Success! Check if they need to finish onboarding
+        const { data: profile } = await _supabase
             .from('profiles')
             .select('onboarding_completed')
             .eq('id', user.id)
             .single();
 
-        // 3. Route Logic
         if (profile && profile.onboarding_completed) {
-            // Profile exists and onboarding completed -> Go to Dashboard
             window.location.href = 'index.html';
         } else {
-            // No profile or onboarding not completed -> Go to Onboarding
             window.location.href = 'onboarding.html';
         }
 
     } catch (error) {
         console.error('Login error:', error);
-
-        let errorMessage = 'Invalid credentials. Please try again.';
-
-        if (error.message.includes('Invalid login credentials')) {
-            errorMessage = 'Invalid username/email or password.';
-        } else if (error.message.includes('Username not found')) {
-            errorMessage = error.message;
-        } else if (error.message.includes('Email not confirmed')) {
-            errorMessage = 'Please confirm your email before logging in.';
-        }
-
-        errorEl.textContent = errorMessage;
+        errorEl.textContent = error.message;
         errorEl.style.display = 'block';
         btn.textContent = "LOGIN";
         btn.disabled = false;

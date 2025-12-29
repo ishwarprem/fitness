@@ -85,7 +85,58 @@
                 <div class="active-day-view" id="activeDayView">
                     <!-- Content injected via JS -->
                 </div>
+
+                <!-- NEW: Make a Custom Plan Card -->
+                <div class="custom-plan-card" onclick="openCustomPlanBuilder()">
+                    <div class="custom-plan-icon">✏️</div>
+                    <div class="custom-plan-content">
+                        <h3>Make a Custom Plan</h3>
+                        <p>Create your own daily routine from scratch</p>
+                    </div>
+                    <div class="custom-plan-arrow">→</div>
+                </div>
             </div>
+
+            <!-- Custom Plan Builder Modal -->
+            <dialog id="customPlanModal" class="custom-plan-modal">
+                <div class="modal-header">
+                    <h3>Build Your Workout</h3>
+                    <button class="modal-close-btn" onclick="closeCustomPlanModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-plan-name-section">
+                        <label>Workout Name</label>
+                        <input type="text" id="customPlanName" placeholder="e.g., Upper Body Day"
+                            class="custom-plan-input">
+                    </div>
+
+                    <div class="exercise-selector">
+                        <label>Add Exercises</label>
+                        <div class="selector-row">
+                            <select id="customMuscleSelect" class="modal-select">
+                                <option value="">Select Muscle Group</option>
+                                <!-- Populated by JS -->
+                            </select>
+                            <select id="customExerciseSelect" class="modal-select" disabled>
+                                <option value="">Select Exercise</option>
+                            </select>
+                            <button class="btn-add-exercise" onclick="addExerciseToCustomPlan()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="selected-exercises-section">
+                        <label>Selected Exercises (<span id="selectedExerciseCount">0</span>)</label>
+                        <div id="selectedExercisesList" class="selected-exercises-list">
+                            <p class="empty-state">No exercises selected yet</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal btn-cancel" onclick="closeCustomPlanModal()">Cancel</button>
+                    <button class="btn-modal btn-save btn-confirm-workout" onclick="saveCustomPlan()">✓ CONFIRM
+                        WORKOUT</button>
+                </div>
+            </dialog>
 
             <!-- Simple Modal to Add Exercise -->
             <dialog id="addExerciseModal">
@@ -473,9 +524,15 @@
                         weight: data.weight,
                         gender: data.gender,
                         experience: data.experience_level,
+                        experience_level: data.experience_level, // Include both for compatibility
                         frequency: data.training_frequency,
+                        training_frequency: data.training_frequency, // Include both for compatibility
                         goal: data.goal,
-                        avatar_url: data.avatar_url
+                        avatar_url: data.avatar_url,
+                        equipment: data.equipment_access, // Equipment access from wizard
+                        injuries: data.injuries || [], // Injuries array
+                        date_of_birth: data.date_of_birth, // Date of birth
+                        stats: data.stats || {} // BMR, TDEE, target_calories
                     };
                     localStorage.setItem('fitnotfat_profile', JSON.stringify(profile));
                     renderProfileUI(profile);
@@ -663,9 +720,12 @@
                 if (error) throw error;
             }
 
-            // Preserve Avatar
+            // Preserve Avatar and other wizard fields
             const currentLocal = JSON.parse(localStorage.getItem('fitnotfat_profile') || '{}');
             if (currentLocal.avatar_url) updates.avatar_url = currentLocal.avatar_url;
+            if (currentLocal.equipment) updates.equipment = currentLocal.equipment;
+            if (currentLocal.injuries) updates.injuries = currentLocal.injuries;
+            if (currentLocal.date_of_birth) updates.date_of_birth = currentLocal.date_of_birth;
 
             localStorage.setItem('fitnotfat_profile', JSON.stringify(updates));
 
