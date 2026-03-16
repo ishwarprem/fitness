@@ -30,7 +30,7 @@ function switchTab(tabName) {
         document.getElementById('tab-ai-coach').classList.add('active');
     } else if (tabName === 'profile') {
         if (profileSec) profileSec.classList.remove('hidden');
-        // We call loadProfile() from index.html, not here
+        document.getElementById('tab-profile').classList.add('active');
     }
 }
 
@@ -51,7 +51,11 @@ function getMonday(d) {
     return new Date(d.setDate(diff));
 }
 
-function initScheduler() {
+async function initScheduler() {
+    // Load personalized plan if not already loaded
+    if (!PERSONALIZED_PLAN && !PLAN_LOADING) {
+        await loadPersonalizedPlan();
+    }
     renderCalendarStrip();
     renderActiveDay(selectedDate);
 }
@@ -99,7 +103,16 @@ function renderCalendarStrip() {
     }
 }
 
-const WEEKLY_PLAN = {
+// ==========================================
+// PERSONALIZED WORKOUT PLAN SYSTEM
+// ==========================================
+
+// Active personalized plan (loaded from workout-generator.js)
+let PERSONALIZED_PLAN = null;
+let PLAN_LOADING = false;
+
+// Fallback static plan (used if personalization fails)
+const FALLBACK_WEEKLY_PLAN = {
     "Monday": "Push",
     "Tuesday": "Pull",
     "Wednesday": "Legs",
@@ -109,8 +122,8 @@ const WEEKLY_PLAN = {
     "Sunday": "Rest"
 };
 
-// Exercise database with video/gif URLs for each routine
-const ROUTINE_EXERCISES = {
+// Fallback exercises
+const FALLBACK_ROUTINE_EXERCISES = {
     "Push": [
         { name: "Flat Barbell Bench Press", videoUrl: "https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/2001.mp4", type: "video" },
         { name: "Incline Dumbbell Press", videoUrl: "https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/2013.mp4", type: "video" },
@@ -134,8 +147,90 @@ const ROUTINE_EXERCISES = {
         { name: "Leg Curls", videoUrl: "https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4004.mp4", type: "video" },
         { name: "Leg Extensions", videoUrl: "https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4007.mp4", type: "video" },
         { name: "Standing Calf Raises", videoUrl: "https://d2m0n84d5tgmh1.cloudfront.net/training-videos-watermarked/4053.mp4", type: "video" }
-    ]
+    ],
+    "Rest": []
 };
+
+/**
+ * Get the current weekly plan (personalized or fallback)
+ */
+function getWeeklyPlan() {
+    if (PERSONALIZED_PLAN && PERSONALIZED_PLAN.weeklyPlan) {
+        return PERSONALIZED_PLAN.weeklyPlan;
+    }
+    return FALLBACK_WEEKLY_PLAN;
+}
+
+/**
+ * Get exercises for a specific routine (personalized or fallback)
+ */
+function getRoutineExercises(routineName) {
+    if (routineName === "Rest") return [];
+
+    if (PERSONALIZED_PLAN && PERSONALIZED_PLAN.routineExercises && PERSONALIZED_PLAN.routineExercises[routineName]) {
+        return PERSONALIZED_PLAN.routineExercises[routineName];
+    }
+
+    // Check fallback
+    if (FALLBACK_ROUTINE_EXERCISES[routineName]) {
+        return FALLBACK_ROUTINE_EXERCISES[routineName];
+    }
+
+    return [];
+}
+
+/**
+ * Load personalized workout plan
+ */
+async function loadPersonalizedPlan() {
+    if (PLAN_LOADING) return;
+    PLAN_LOADING = true;
+
+    try {
+        // Check if workout generator is available
+        if (typeof initializePersonalizedPlan === 'function') {
+            PERSONALIZED_PLAN = await initializePersonalizedPlan();
+            console.log("✅ Personalized plan loaded:", PERSONALIZED_PLAN?.splitName);
+        } else {
+            // Try loading from localStorage
+            const cached = localStorage.getItem('fitnotfat_personalized_plan');
+            if (cached) {
+                PERSONALIZED_PLAN = JSON.parse(cached);
+                console.log("📦 Loaded cached plan:", PERSONALIZED_PLAN?.splitName);
+            } else {
+                console.log("⚠️ Using fallback plan");
+            }
+        }
+    } catch (error) {
+        console.error("Error loading personalized plan:", error);
+    } finally {
+        PLAN_LOADING = false;
+    }
+}
+
+/**
+ * Get plan info for display
+ */
+function getPlanInfo() {
+    if (PERSONALIZED_PLAN) {
+        return {
+            splitName: PERSONALIZED_PLAN.splitName,
+            goal: PERSONALIZED_PLAN.userProfile?.goal || 'general_fitness',
+            equipment: PERSONALIZED_PLAN.userProfile?.equipment || 'full_gym',
+            frequency: PERSONALIZED_PLAN.userProfile?.frequency || 4
+        };
+    }
+    return {
+        splitName: "Push/Pull/Legs",
+        goal: 'general_fitness',
+        equipment: 'full_gym',
+        frequency: 6
+    };
+}
+
+// Legacy compatibility - keep these for existing code that might reference them
+const WEEKLY_PLAN = FALLBACK_WEEKLY_PLAN;
+const ROUTINE_EXERCISES = FALLBACK_ROUTINE_EXERCISES;
 
 function renderActiveDay(date) {
     const container = document.getElementById('activeDayView');
@@ -143,7 +238,8 @@ function renderActiveDay(date) {
 
     const dayIndex = (date.getDay() + 6) % 7; // 0=Mon, 6=Sun
     const dayName = daysOfWeek[dayIndex];
-    const routineName = WEEKLY_PLAN[dayName] || "Rest";
+    const weeklyPlan = getWeeklyPlan();
+    const routineName = weeklyPlan[dayName] || "Rest";
 
     // Check if it's a rest day
     if (routineName === "Rest") {
@@ -156,22 +252,33 @@ function renderActiveDay(date) {
         return;
     }
 
-    const exercises = ROUTINE_EXERCISES[routineName] || [];
+    const exercises = getRoutineExercises(routineName);
     const exerciseCount = exercises.length;
+
+    // Get plan info for personalization display
+    const planInfo = getPlanInfo();
+    const goalEmoji = planInfo.goal === 'lose_fat' ? '🔥' :
+        planInfo.goal === 'build_muscle' ? '💪' :
+            planInfo.goal === 'recomp' ? '⚡' : '🎯';
+    const goalLabel = planInfo.goal === 'lose_fat' ? 'Fat Loss' :
+        planInfo.goal === 'build_muscle' ? 'Muscle Building' :
+            planInfo.goal === 'recomp' ? 'Strength Training' : 'General Fitness';
 
     // It is a workout day
     container.innerHTML = `
         <div class="workout-preview-card">
             <div class="workout-card-header">
                 <div class="workout-target-label">
-                    <div class="workout-icon-circle">💪</div>
+                    <div class="workout-icon-circle">${goalEmoji}</div>
                     ${routineName} Day
                 </div>
+                <span class="personalized-badge" title="Personalized for your ${goalLabel} goal">${planInfo.splitName}</span>
             </div>
 
-            <div class="workout-info-body" style="padding: 20px; text-align: center;">
-                <h2 style="margin: 10px 0; font-size: 2rem;">${routineName}</h2>
-                <p style="color: #888;">${exerciseCount} exercises • ~60 mins</p>
+            <div class="workout-info-body">
+                <h2>${routineName}</h2>
+                <p class="workout-meta">${exerciseCount} exercises • ~60 mins</p>
+                <p class="workout-goal-focus">${goalEmoji} ${goalLabel} Focus</p>
             </div>
 
             <div class="action-buttons">
@@ -183,7 +290,7 @@ function renderActiveDay(date) {
 
 // Open workout preview modal
 function openWorkoutPreview(routineName) {
-    const exercises = ROUTINE_EXERCISES[routineName] || [];
+    const exercises = getRoutineExercises(routineName);
 
     // Check if modal already exists, if not create it
     let modal = document.getElementById('workoutPreviewModal');
@@ -482,7 +589,10 @@ const EXERCISE_LIBRARY = {
     "Back": [
         "Pull-Ups (Wide Grip)", "Face Pulls", "High Cable Rows",
         "Barbell Rows", "T-Bar Rows", "Seated Cable Rows",
-        "Deadlifts", "Hyperextensions", "Good Mornings", "Lat Pulldown"
+        "Deadlifts", "Hyperextensions", "Good Mornings", "Lat Pulldown",
+        "Resistance Band Pull-Aparts", "Assisted Pull-Ups", "T-Bar Row (Chest Supported)",
+        "Meadows Row", "Inverted Row", "Weighted Pull-Ups", "Pendlay Rows",
+        "Snatch-Grip Deadlift", "Wide-Grip Muscle-Ups", "Explosive High Pulls"
     ],
     "Biceps": [
         "Incline Dumbbell Curls", "Wide Grip Barbell Curls",

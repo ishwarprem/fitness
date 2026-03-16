@@ -110,6 +110,14 @@ body {
     }
 }
 
+
+@media (max-width: 480px) {
+    .form-header h2 {
+        font-size: 1.8rem;
+    }
+}
+
+
 .form-header {
     margin-bottom: 1rem;
 }

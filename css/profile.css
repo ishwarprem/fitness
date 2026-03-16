@@ -83,9 +83,8 @@
     background: transparent;
     border-color: transparent;
     color: var(--text-main);
-    padding-left: 0;
+    padding: 0.2rem 0; /* Tighten significantly when disabled */
     cursor: default;
-    /* Look like plain text */
 }
 
 .input-group input:focus,
@@ -106,7 +105,7 @@
     width: 100%;
 }
 
-.btn-save {
+.profile-container .btn-save {
     display: none;
     /* Only for the main profile save button */
     background-color: #FF5200;
@@ -129,8 +128,61 @@
 }
 
 @media (max-width: 768px) {
-    .metrics-grid {
+    .profile-container {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .profile-grid {
         grid-template-columns: 1fr;
+        gap: 0.5rem; /* Even tighter for mobile */
+        margin-bottom: 1rem;
+    }
+
+    .avatar-upload-section {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        text-align: left;
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem; /* Slightly larger but clean */
+        margin-bottom: 0.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.75rem;
+        color: #666; /* Subtler labels */
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 0.5rem 0.2rem;
+        font-size: 1.1rem; /* Values should be prominent */
+    }
+
+    .avatar-preview {
+        width: 80px;
+        height: 80px;
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 0.8rem;
+    }
+
+    .btn-save {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .logout-section {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
     }
 }
 

@@ -23,6 +23,10 @@
     --radius-sm: 8px;
     --radius-lg: 16px;
     --container-width: 1200px;
+
+    /* --- Mobile Tweakable --- */
+    --header-height: 80px;
+    --nav-height: 70px;
 }
 
 * {
@@ -83,14 +87,17 @@ h4 {
 }
 
 /* --- Header & Marquee --- */
-header {
-    position: relative;
-    padding: 4rem 2rem 2rem;
-    text-align: center;
+header, .main-header {
+    position: sticky;
+    top: 0;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid var(--border-color);
-    background: rgba(5, 5, 5, 0.8);
-    backdrop-filter: blur(10px);
-    z-index: 10;
+    background: rgba(5, 5, 5, 0.9);
+    backdrop-filter: blur(15px);
+    z-index: 1000;
 }
 
 .marquee-container {
@@ -149,6 +156,34 @@ header {
     color: var(--primary-accent);
     transform: none;
     text-shadow: 0 0 20px var(--primary-glow);
+}
+
+.nav-icon {
+    display: none; /* Hidden on desktop */
+}
+
+.nav-label {
+    display: none; /* Hidden on desktop */
+}
+
+/* Profile Icon Nav (Global) */
+.profile-icon-nav {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid #666;
+    transition: border-color 0.3s;
+}
+
+.tab-btn.active .profile-icon-nav {
+    border-color: var(--primary-accent);
+}
+
+.profile-icon-nav img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* --- Layout Container --- */
@@ -636,51 +671,200 @@ footer {
 
 /* --- Mobile Responsive --- */
 @media (max-width: 768px) {
-    header {
-        padding: 2rem 1rem;
-        text-align: left;
+    :root {
+        --header-height: 60px;
     }
 
-    #logoBtn {
-        font-size: 2.5rem;
+    body {
+        padding-bottom: var(--nav-height); /* Space for bottom nav */
     }
 
-    #logoutBtn {
-        top: 2.5rem;
-        right: 1rem;
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
+    header.main-header {
+        padding: 0 1rem;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start !important; /* Force to LEFT */
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        background: rgba(5, 5, 5, 0.95);
+        backdrop-filter: blur(15px);
     }
 
-    .marquee-text span {
-        font-size: 4rem;
+    .logo-container {
+        gap: 6px;
+    }
+
+    .brand-name {
+        font-size: 1.4rem;
+        color: var(--primary-accent); /* Make it pop */
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(255, 82, 0, 0.2);
+    }
+
+
+    .brand-name {
+        font-size: 1.5rem !important;
+        color: var(--primary-accent) !important;
+        font-weight: 800 !important;
+        display: block !important;
+    }
+
+    /* Bottom Navigation Styling */
+    .mobile-nav-active .nav-tabs {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 65px !important; /* Fixed height for better control */
+        background: #000 !important;
+        backdrop-filter: blur(15px) !important;
+        border-top: 1px solid var(--border-color) !important;
+        border-radius: 0 !important; /* REMOVE OVAL */
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.5) !important;
+        gap: 0 !important;
+    }
+
+    .nav-tabs .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 0.7rem;
+        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 8px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-tabs .tab-btn.active {
+        color: var(--primary-accent);
+    }
+
+    .nav-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin-bottom: 2px;
+    }
+
+    .nav-label {
+        display: block;
+        font-size: 0.65rem;
+    }
+
+
+    /* Remove the old hovering glow from desktop styles */
+    .profile-icon-container:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .profile-icon-container .nav-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .marquee-container {
+        display: none; /* Marquee is too busy for mobile */
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .muscle-groups {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile */
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
     .muscle-card {
-        padding: 2rem;
+        padding: 1.5rem 1rem;
+        min-height: 140px;
+        border-radius: var(--radius-sm);
     }
 
     .muscle-card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+        text-align: center;
+    }
+
+    .detail-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    .page-title {
         font-size: 2rem;
+        margin: 1rem 0 1.5rem;
     }
 
-    #gymCoachSidebar {
+    .subsection-card {
+        margin-bottom: 2rem;
+    }
+
+    .subsection-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .exercise-item {
+        padding: 1.2rem;
+    }
+
+    .exercise-item h4 {
+        font-size: 1.2rem;
+    }
+
+    .exercise-video {
+        max-width: 100%;
+    }
+
+    /* AI Coach specific mobile tweaks */
+    #aiCoachSection {
+        padding: 0.5rem;
+        height: calc(100vh - var(--header-height) - var(--nav-height));
+    }
+
+    .ai-greeting {
+        top: 30%;
+    }
+
+    .ai-hero-text {
+        font-size: 1.5rem;
+    }
+
+    .ai-header-logo h1 {
+        font-size: 1.8rem;
+    }
+
+    .input-wrapper {
+        top: 75%;
         width: 100%;
-        height: 100%;
-        bottom: 0;
-        right: 0;
-        border-radius: 0;
-        max-height: 100vh;
-        transform: translateY(100%);
+        padding: 0 1rem;
     }
 
-    #gymCoachSidebar.active {
-        transform: translateY(0);
-    }
-
-    #coachToggleBtn {
-        bottom: 20px;
-        right: 20px;
+    .input-wrapper.chat-mode {
+        padding: 1rem;
+        bottom: var(--nav-height);
     }
 }
 
@@ -690,34 +874,8 @@ footer {
     padding: 0;
 }
 
-.main-header {
-    display: flex;
-    justify-content: space-between;
-    /* Pushes Logo Left, Nav Right */
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* The main-header block was unified with header above */
 
-    /* Stick to top (optional, keeps header visible when scrolling) */
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-
-.main-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-    position: relative;
-    z-index: 100;
-    background: rgba(5, 5, 5, 0.9);
-    /* Dark background */
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-}
 
 /* Fix Logo Area */
 .logo-container {
@@ -735,10 +893,13 @@ footer {
 
 .brand-name {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    color: var(--text-main);
-    letter-spacing: 1px;
+    color: var(--primary-accent); /* Orange by default now */
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 82, 0, 0.2);
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 /* Fix Navigation Tabs */

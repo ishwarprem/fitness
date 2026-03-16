@@ -1,0 +1,125 @@
+[
+  {
+    "exercise_id": "back_001",
+    "name": "Pull-Ups (Wide Grip)",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "bodyweight"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.0,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "high",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "shoulder"
+    ]
+  },
+  {
+    "exercise_id": "back_002",
+    "name": "Face Pulls",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "rear_delts",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "cable"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "low",
+    "bodyweight_load_factor": 0.0,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_003",
+    "name": "Lat Pulldown",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats"
+    ],
+    "equipment_required": [
+      "machine"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.4,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_004",
+    "name": "Seated Cable Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "cable"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.35,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_005",
+    "name": "Deadlifts",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "lower_back",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.2,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "high",
+      "knee": "medium",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  }
+]

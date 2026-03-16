@@ -467,10 +467,24 @@ button {
     border-color: white;
 }
 
+/* Special styling for existing users' finish button */
+.btn-finish-existing {
+    background: linear-gradient(135deg, #FF5200 0%, #FF7A00 100%);
+    box-shadow: 0 4px 15px rgba(255, 82, 0, 0.4);
+    font-size: 1rem;
+}
+
+.btn-finish-existing:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    color: #FF5200;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .wizard-card {
-        padding: 20px;
+        padding: 24px 20px;
+        border-radius: 12px;
     }
 
     .input-grid {
@@ -486,6 +500,28 @@ button {
     }
 
     h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .sub-text {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .slider-value {
+        font-size: 2.2rem;
+    }
+
+    .summary-container {
+        padding: 16px;
+    }
+
+    .summary-value {
+        font-size: 1rem;
     }
 }

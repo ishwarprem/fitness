@@ -125,8 +125,24 @@
 /* Header inside card */
 .workout-card-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
+}
+
+/* Personalized Badge */
+.personalized-badge {
+    background: linear-gradient(135deg, rgba(255, 82, 0, 0.2), rgba(255, 140, 0, 0.2));
+    border: 1px solid rgba(255, 82, 0, 0.4);
+    color: #FF8C00;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .workout-target-label {
@@ -190,6 +206,31 @@
     font-size: 1rem;
     color: #888;
     font-weight: 500;
+}
+
+/* Workout Info Body */
+.workout-info-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.workout-info-body h2 {
+    margin: 10px 0;
+    font-size: 2.5rem;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.workout-meta {
+    color: #888;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.workout-goal-focus {
+    color: var(--primary-accent);
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 /* Action Button */
@@ -562,5 +603,144 @@
 
     50% {
         box-shadow: 0 4px 25px rgba(255, 82, 0, 0.6);
+    }
+}
+
+/* ==========================================
+   MOBILE SCHEDULER TWEAKS
+   ========================================== */
+@media (max-width: 768px) {
+    .calendar-wrapper {
+        margin-bottom: 1rem;
+    }
+
+    .calendar-header {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .calendar-day {
+        min-width: 50px;
+        height: 75px;
+        border-radius: 12px;
+    }
+
+    .calendar-day .day-name {
+        font-size: 0.75rem;
+    }
+
+    .calendar-day .day-number {
+        font-size: 1.1rem;
+    }
+
+    .workout-preview-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+        max-width: 100%;
+        gap: 1.2rem;
+    }
+
+    .workout-card-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .workout-info-body {
+        padding: 10px;
+    }
+
+    .workout-preview-card {
+        padding: 15px;
+        border-radius: 20px;
+    }
+
+    .workout-info-body {
+        padding: 10px 0;
+    }
+
+    .workout-info-body h2 {
+        font-size: 1.5rem;
+        margin: 5px 0;
+        letter-spacing: 1px;
+    }
+
+    .workout-meta {
+        font-size: 0.85rem;
+        margin-bottom: 4px;
+    }
+
+    .workout-goal-focus {
+        font-size: 0.8rem;
+    }
+
+    .workout-target-list {
+        font-size: 0.9rem;
+    }
+
+    .stat-item {
+        gap: 5px;
+    }
+
+    .stat-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .stat-value {
+        font-size: 0.8rem;
+    }
+
+    .preview-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    .btn-empty-workout {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 12px;
+    }
+
+    .empty-card {
+        padding: 2rem;
+        border-radius: 16px;
+    }
+
+    .custom-plan-card {
+        padding: 15px;
+        max-width: 100%;
+        gap: 12px;
+    }
+
+    .custom-plan-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+
+    .custom-plan-content h3 {
+        font-size: 1rem;
+    }
+
+    .custom-plan-modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .custom-plan-modal .modal-footer {
+        flex-direction: column-reverse; /* Confirm on top, Cancel on bottom */
+        gap: 10px;
+        padding: 20px;
+    }
+
+    .custom-plan-modal .btn-modal {
+        width: 100%;
+        display: block;
+    }
+
+    .btn-confirm-workout {
+        background: var(--primary-accent) !important;
+        color: black !important;
+        display: block !important;
     }
 }

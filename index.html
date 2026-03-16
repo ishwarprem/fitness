@@ -28,39 +28,80 @@
     <!-- Supabase & Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/main.js"></script>
+    <style>
+        /* CRITICAL MOBILE OVERRIDES */
+        @media (max-width: 768px) {
+            .brand-name {
+                color: #FF5200 !important;
+                display: block !important;
+                visibility: visible !important;
+                font-size: 1.5rem !important;
+                font-weight: 800 !important;
+                opacity: 1 !important;
+            }
+            .main-header {
+                justify-content: flex-start !important;
+                padding-left: 1rem !important;
+                background: #050505 !important;
+            }
+            .nav-tabs {
+                position: fixed !important;
+                bottom: 0 !important;
+                top: auto !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 65px !important;
+                background: #000 !important;
+                display: flex !important;
+                z-index: 99999 !important;
+                border-radius: 0 !important; /* KILL OVAL */
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.5) !important;
+            }
+            .tab-btn.active {
+                background: transparent !important; /* KILL OVAL */
+                box-shadow: none !important; /* KILL OVAL */
+                color: #FF5200 !important;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="mobile-nav-active">
     <script>document.body.style.visibility = 'hidden'; document.body.style.opacity = '0';</script>
 
     <header class="main-header">
         <!-- Left: Logo (Acts as Home Button) -->
         <div class="logo-container" onclick="switchTab('exercises')" style="cursor: pointer;">
-            <span class="brand-name">FITNOTFAT.</span>
+            <span class="brand-name">WHYNOTFIT?</span>
         </div>
-
 
         <nav class="nav-tabs" id="navContainer">
-            <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">WORKOUTS</button>
-            <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">EXERCISES</button>
-            <button class="tab-btn" onclick="switchTab('ai-coach')" id="tab-ai-coach">AI COACH</button>
+            <button class="tab-btn" onclick="switchTab('scheduler')" id="tab-scheduler">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>WORKOUTS</span>
+            </button>
+            <button class="tab-btn active" onclick="switchTab('exercises')" id="tab-exercises">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v8H2z"></path><line x1="10" y1="8" x2="10" y2="16"></line></svg>
+                <span>EXERCISES</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('ai-coach')" id="tab-ai-coach">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 12L2.7 7.3"></path><path d="M12 12V22"></path><path d="M12 12l9.3 4.7"></path></svg>
+                <span>AI COACH</span>
+            </button>
 
             <!-- NEW: Profile Image Icon (Clicking this opens the Profile Tab) -->
-            <div class="profile-icon-container" onclick="switchTab('profile')">
-                <img id="headerProfileImg"
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
-                    alt="Profile">
-            </div>
+            <button class="tab-btn" onclick="switchTab('profile')" id="tab-profile">
+                <div class="profile-icon-nav">
+                    <img id="headerProfileImg"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"
+                        alt="Profile">
+                </div>
+                <span class="nav-label">PROFILE</span>
+            </button>
         </nav>
-
-        <!-- Marquee Background -->
-        <div class="marquee-container">
-            <div class="marquee-text">
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-                <span>UNLEASH YOUR POTENTIAL.&nbsp;&nbsp;&nbsp;</span>
-            </div>
-        </div>
     </header>
+
+
 
 
 
@@ -235,7 +276,7 @@
                             <select id="p_goal" disabled>
                                 <option value="lose_fat">Lose Fat</option>
                                 <option value="build_muscle">Build Muscle</option>
-                                <option value="strength">Strength</option>
+                                <option value="recomp">Strength Training</option>
                             </select>
                         </div>
                     </div>
@@ -452,13 +493,7 @@
             </div>
 
         </div>
-        </div>
-        </div>
     </section>
-
-
-
-</html> <!-- ... sections above ... -->
 
 <footer>
     <p>© 2025 FITNOTFAT | NO PAIN, NO GAIN</p>
@@ -478,6 +513,8 @@
 </dialog>
 
 <!-- 2. EXTERNAL SCRIPTS -->
+<script src="js/rule-engine.js"></script>
+<script src="js/ai-workout-generator.js"></script>
 <script src="js/script.js"></script>
 <script src="js/exercises-loader.js"></script>
 
@@ -728,6 +765,12 @@
             if (currentLocal.date_of_birth) updates.date_of_birth = currentLocal.date_of_birth;
 
             localStorage.setItem('fitnotfat_profile', JSON.stringify(updates));
+
+            // Regenerate personalized workout plan with new settings
+            if (typeof regeneratePersonalizedPlan === 'function') {
+                await regeneratePersonalizedPlan();
+                console.log("✅ Workout plan regenerated with new settings");
+            }
 
             btn.innerText = "SAVED!";
             btn.style.backgroundColor = "#00C851";

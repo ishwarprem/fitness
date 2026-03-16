@@ -7,12 +7,18 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const { createClient } = supabase;
 const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 2. Check if user should skip wizard
-async function checkWizardSkip() {
+// 2. Check if user is logged in (existing user vs new user)
+let isExistingUser = false;
+let existingUserId = null;
+
+async function checkUserStatus() {
     try {
         const { data: { session } } = await _supabase.auth.getSession();
         if (session) {
-            // User is logged in, check if they completed onboarding
+            // User is already logged in
+            existingUserId = session.user.id;
+
+            // Check if they completed onboarding
             const { data, error } = await _supabase
                 .from('profiles')
                 .select('onboarding_completed')
@@ -20,23 +26,43 @@ async function checkWizardSkip() {
                 .single();
 
             if (data && data.onboarding_completed) {
-                // Redirect to main app
+                // Already completed - redirect to main app
                 window.location.href = 'index.html';
-                return true;
+                return;
             }
+
+            // User is logged in but hasn't completed onboarding
+            // This is a returning user - they should skip account creation
+            isExistingUser = true;
+            setupExistingUserWizard();
         }
     } catch (err) {
         console.log('No existing session or profile');
     }
-    return false;
+}
+
+// Setup wizard for existing users (skip step 9)
+function setupExistingUserWizard() {
+    // Update the total steps display to show 8 instead of 9
+    const stepText = document.querySelector('.step-text');
+    if (stepText) {
+        stepText.innerHTML = 'Step <span id="currentStepNum">1</span> of 8';
+    }
+
+    // Change Step 8 button text from "Continue to Account Creation" to "FINISH & START TRAINING"
+    const step8NextBtn = document.querySelector('.form-step[data-step="8"] .btn-next');
+    if (step8NextBtn) {
+        step8NextBtn.textContent = 'FINISH & START TRAINING';
+        step8NextBtn.classList.add('btn-finish-existing');
+    }
 }
 
 // Run check on page load
-checkWizardSkip();
+checkUserStatus();
 
 // 3. State Management
 let currentStep = 1;
-const totalSteps = 9;
+let totalSteps = 9; // Will be changed to 8 for existing users
 let formData = {};
 
 // 4. DOM Elements
@@ -130,7 +156,7 @@ freqSlider.addEventListener('input', (e) => {
 
 // 7. Navigation Logic
 document.querySelectorAll('.btn-next').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         if (validateStep(currentStep)) {
             saveStepData(currentStep);
 
@@ -139,10 +165,110 @@ document.querySelectorAll('.btn-next').forEach(btn => {
                 generateSummary();
             }
 
+            // For EXISTING users: Step 8 is the final step
+            // When they click the "FINISH" button, save profile and redirect
+            if (isExistingUser && currentStep === 8) {
+                await finishExistingUserOnboarding(btn);
+                return;
+            }
+
             changeStep(currentStep + 1);
         }
     });
 });
+
+// Handle existing user finishing onboarding (no account creation needed)
+async function finishExistingUserOnboarding(btn) {
+    btn.textContent = "SAVING...";
+    btn.disabled = true;
+
+    try {
+        // Calculate BMR/TDEE
+        let bmr = (10 * formData.weight) + (6.25 * formData.height) - (5 * formData.age);
+        bmr += (formData.gender === 'male') ? 5 : -161;
+
+        let activityMult = 1.2;
+        if (formData.frequency >= 3) activityMult = 1.375;
+        if (formData.frequency >= 5) activityMult = 1.55;
+        if (formData.frequency >= 6) activityMult = 1.725;
+
+        let tdee = Math.round(bmr * activityMult);
+        let targetCalories = tdee;
+        if (formData.goal === 'lose_fat') targetCalories -= 500;
+        if (formData.goal === 'build_muscle') targetCalories += 300;
+        if (formData.goal === 'recomp') targetCalories += 250; // Strength Training (Slight Surplus)
+
+        // Get current session to get email
+        const { data: { session } } = await _supabase.auth.getSession();
+        const userEmail = session.user.email;
+
+        // Update existing profile (use upsert to handle both insert/update)
+        const profileData = {
+            id: existingUserId,
+            username: formData.username,
+            email: userEmail,
+            'Full Name': formData.fullName,
+            gender: formData.gender,
+            age: formData.age,
+            height: formData.height,
+            weight: formData.weight,
+            date_of_birth: formData.dateOfBirth,
+            experience_level: formData.experience,
+            goal: formData.goal,
+            training_frequency: formData.frequency,
+            equipment_access: formData.equipment,
+            injuries: formData.injuries,
+            onboarding_completed: true,
+            stats: {
+                bmr: Math.round(bmr),
+                tdee: tdee,
+                target_calories: targetCalories
+            },
+            updated_at: new Date().toISOString()
+        };
+
+        const { error: profileError } = await _supabase
+            .from('profiles')
+            .upsert(profileData, { onConflict: 'id' });
+
+        if (profileError) {
+            console.error("Profile Error:", profileError);
+            throw new Error("Failed to save profile data: " + profileError.message);
+        }
+
+        // Success!
+        btn.textContent = "✓ PROFILE SAVED!";
+        btn.style.backgroundColor = "#00C851";
+
+        // Clear localStorage onboarding data
+        localStorage.removeItem('fitnotfat_onboarding');
+
+        // Save profile to localStorage for immediate use
+        localStorage.setItem('fitnotfat_profile', JSON.stringify({
+            username: formData.username,
+            name: formData.fullName,
+            age: formData.age,
+            height: formData.height,
+            weight: formData.weight,
+            gender: formData.gender,
+            experience: formData.experience,
+            frequency: formData.frequency,
+            goal: formData.goal
+        }));
+
+        // Redirect to main app
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+        btn.textContent = "TRY AGAIN";
+        btn.style.backgroundColor = "#FF5200";
+        btn.disabled = false;
+    }
+}
 
 document.querySelectorAll('.btn-back').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -151,6 +277,12 @@ document.querySelectorAll('.btn-back').forEach(btn => {
 });
 
 function changeStep(newStep) {
+    // For existing users, total steps is 8
+    const maxSteps = isExistingUser ? 8 : totalSteps;
+
+    // Prevent going past the max step
+    if (newStep > maxSteps) return;
+
     // Hide current
     document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
 
@@ -161,8 +293,9 @@ function changeStep(newStep) {
     currentStep = newStep;
 
     // Update UI
-    stepNum.innerText = currentStep;
-    const percentage = (currentStep / totalSteps) * 100;
+    const stepNumEl = document.getElementById('currentStepNum');
+    if (stepNumEl) stepNumEl.innerText = currentStep;
+    const percentage = (currentStep / maxSteps) * 100;
     progressBar.style.width = `${percentage}%`;
 
     // Scroll to top
@@ -246,7 +379,7 @@ function generateSummary() {
     const goalLabels = {
         'lose_fat': '🔥 Lose Fat',
         'build_muscle': '💪 Build Muscle',
-        'recomp': '⚡ Recomposition',
+        'recomp': '⚡ Gain Strength',
         'general_fitness': '🎯 General Fitness'
     };
 
@@ -369,6 +502,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
         let targetCalories = tdee;
         if (formData.goal === 'lose_fat') targetCalories -= 500;
         if (formData.goal === 'build_muscle') targetCalories += 300;
+        if (formData.goal === 'recomp') targetCalories += 250; // Strength Training (Slight Surplus)
 
         // 3. Save Profile Data (using insert with onConflict to handle RLS properly)
         const profileData = {

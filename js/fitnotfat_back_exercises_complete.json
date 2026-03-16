@@ -1,0 +1,525 @@
+[
+  {
+    "exercise_id": "back_001",
+    "name": "Pull-Ups (Wide Grip)",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "bodyweight"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.0,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "high",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "shoulder"
+    ]
+  },
+  {
+    "exercise_id": "back_002",
+    "name": "Face Pulls",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "rear_delts",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "cable"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "low",
+    "bodyweight_load_factor": 0.0,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_003",
+    "name": "Lat Pulldown",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats"
+    ],
+    "equipment_required": [
+      "machine"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.4,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_004",
+    "name": "Seated Cable Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "cable"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.35,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_005",
+    "name": "Deadlifts",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "lower_back",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.2,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "high",
+      "knee": "medium",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  },
+  {
+    "exercise_id": "back_006",
+    "name": "Romanian Deadlifts",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "hamstrings",
+      "glutes"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.1,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "high",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  },
+  {
+    "exercise_id": "back_007",
+    "name": "High Cable Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "upper_back"
+    ],
+    "equipment_required": [
+      "cable"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.35,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_008",
+    "name": "Resistance Band Pull-Aparts",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "upper_back",
+      "rear_delts"
+    ],
+    "equipment_required": [
+      "resistance_band"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "low",
+    "bodyweight_load_factor": 0.0,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_009",
+    "name": "Assisted Pull-Ups",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "machine"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.6,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_010",
+    "name": "T-Bar Row (Chest Supported)",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "machine"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.6,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_011",
+    "name": "Meadows Row",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "lats",
+      "mid_back"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 0.7,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "medium",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_012",
+    "name": "Inverted Row",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "upper_back",
+      "lats"
+    ],
+    "equipment_required": [
+      "bodyweight"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.7,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_013",
+    "name": "Weighted Pull-Ups",
+    "movement_pattern": "vertical_pull",
+    "muscle_groups": [
+      "lats",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "bodyweight",
+      "weight_plate"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.2,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "high",
+      "lower_back": "low",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "shoulder"
+    ]
+  },
+  {
+    "exercise_id": "back_014",
+    "name": "Pendlay Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 0.9,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "high",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  },
+  {
+    "exercise_id": "back_015",
+    "name": "Snatch-Grip Deadlift",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "lower_back",
+      "upper_back",
+      "glutes"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 1.3,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "low",
+      "shoulder": "high",
+      "lower_back": "high",
+      "knee": "medium",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back",
+      "shoulder"
+    ]
+  },
+  {
+    "exercise_id": "back_016",
+    "name": "Wide-Grip Muscle-Ups",
+    "movement_pattern": "explosive_pull",
+    "muscle_groups": [
+      "lats",
+      "upper_back"
+    ],
+    "equipment_required": [
+      "bodyweight"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "very_high",
+    "bodyweight_load_factor": 1.1,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "high",
+      "shoulder": "high",
+      "lower_back": "medium",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "shoulder",
+      "elbow"
+    ]
+  },
+  {
+    "exercise_id": "back_017",
+    "name": "Explosive High Pulls",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "upper_back",
+      "traps"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "very_high",
+    "bodyweight_load_factor": 1.1,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "high",
+      "lower_back": "high",
+      "knee": "medium",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back",
+      "shoulder"
+    ]
+  },
+  {
+    "exercise_id": "back_018",
+    "name": "Barbell Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 0.8,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "high",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  },
+  {
+    "exercise_id": "back_019",
+    "name": "T-Bar Rows",
+    "movement_pattern": "horizontal_pull",
+    "muscle_groups": [
+      "mid_back"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "intermediate",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 0.85,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "medium",
+      "shoulder": "medium",
+      "lower_back": "medium",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_020",
+    "name": "Hyperextensions",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "lower_back",
+      "glutes"
+    ],
+    "equipment_required": [
+      "bodyweight"
+    ],
+    "min_experience_level": "beginner",
+    "intensity_level": "moderate",
+    "bodyweight_load_factor": 0.4,
+    "joint_load": {
+      "wrist": "low",
+      "elbow": "low",
+      "shoulder": "low",
+      "lower_back": "medium",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": []
+  },
+  {
+    "exercise_id": "back_021",
+    "name": "Good Mornings",
+    "movement_pattern": "hinge",
+    "muscle_groups": [
+      "lower_back",
+      "hamstrings"
+    ],
+    "equipment_required": [
+      "barbell"
+    ],
+    "min_experience_level": "advanced",
+    "intensity_level": "high",
+    "bodyweight_load_factor": 0.9,
+    "joint_load": {
+      "wrist": "medium",
+      "elbow": "low",
+      "shoulder": "medium",
+      "lower_back": "high",
+      "knee": "low",
+      "ankle": "low"
+    },
+    "contraindications": [
+      "lower_back"
+    ]
+  }
+]
